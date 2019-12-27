@@ -1,7 +1,13 @@
+body {
+    margin: 0px;
+}
+
 .cropper {
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow: hidden;
+    width: 1024px;
 }
 
 .cropper #loader {
@@ -11,7 +17,7 @@
 
 /* 캔버스 비율 유지시 height auto 필요(정사각형 비율로 증가) */
 .cropper #canvas, #canvas-worker {
-    width: 100%;
+    width: calc(100% - 2px);
     height: auto;
     border: 1px solid #e1e1e1;
 }
@@ -19,4 +25,8 @@
 .cropper #canvas-worker {
     position: absolute;
     z-index: 1;
+}
+
+.cropper #edit-div.active {
+    border: 1px solid #000000;
 }
