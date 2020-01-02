@@ -16,7 +16,7 @@ body {
 }
 
 /* 캔버스 비율 유지시 height auto 필요(정사각형 비율로 증가) */
-.cropper #canvas, #canvas-worker {
+.cropper #canvas, #canvas-worker, #canvas-design {
     width: calc(100% - 2px);
     height: auto;
     border: 1px solid #e1e1e1;
@@ -27,6 +27,45 @@ body {
     z-index: 1;
 }
 
+.cropper #canvas-design {
+    
+}
+
 .cropper #edit-div.active {
-    border: 1px solid #000000;
+    border: 1px solid #4286f4;
+    cursor: grab;
+}
+
+/* 리사이저 */
+.cropper #edit-div.active #edit-resizer.resizer {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #4286f4;
+    position: absolute;
+}
+
+.cropper #edit-div.active #edit-resizer.resizer.top-left {
+    left: -5px;
+    top: -5px;
+    cursor: nwse-resize;
+}
+
+.cropper #edit-div.active #edit-resizer.resizer.top-right {
+    right: -5px;
+    top: -5px;
+    cursor: nesw-resize;
+}
+
+.cropper #edit-div.active #edit-resizer.resizer.bottom-left {
+    left: -5px;
+    bottom: -5px;
+    cursor: nesw-resize;
+}
+
+.cropper #edit-div.active #edit-resizer.resizer.bottom-right {
+    right: -5px;
+    bottom: -5px;
+    cursor: nwse-resize;
 }
