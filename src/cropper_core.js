@@ -5,9 +5,7 @@ const cropper = (function() {
     // 캔버스, 컨텍스트
     let canvas, canvas_design, canvas_worker, context, context_design, context_worker;
 
-    // 디자인 관련 캔버스, 컨텍스트
-    // 셋팅, 목업 진행()
-    // 정배율 축소, 
+    // 정배율 축소,
 
     // 이미지
     let mock_img, area_img, design_mock_img, design_area_img, upload_img, composed_img;
@@ -18,8 +16,8 @@ const cropper = (function() {
         right: 0,
         bottom: 0,
         left: 0,
-        width: 400,
-        height: 400
+        width: 500,
+        height: 500
     }
 
     // 편집영역 변수
@@ -65,17 +63,24 @@ const cropper = (function() {
 
     // [목업 이미지] 상품이미지 셋팅
     const _handleMockImage = function() {
-        // [생성] mock image tag
-        mock_img = document.createElement("img");
-        mock_img.src = "./mock_img/phone_case.png";
-        mock_img.id = "mock-img";
-        mock_img.width = 0;
-        target.appendChild(mock_img);
+        if(typeof mock_img === "undefined") {
+            // [생성] mock image tag
+            mock_img = document.createElement("img");
+            mock_img.src = "./mock_img/phone_case.png";
+            mock_img.id = "mock-img";
+            mock_img.width = 0;
+            target.appendChild(mock_img);
 
-        mock_img.onload = function() {
-            canvas.width = mock_img.naturalWidth;
-            canvas.height = mock_img.naturalHeight;
+            mock_img.onload = function() {
+                canvas.width = mock_img.naturalWidth;
+                canvas.height = mock_img.naturalHeight;
 
+                const centerX = (canvas.scrollWidth/2) - (canvas_worker.scrollWidth/2);
+                const centerY = (canvas.scrollHeight/2) - (canvas.scrollHeight/2);
+                
+                context.drawImage(mock_img, centerX, centerY, mock_img.naturalWidth, mock_img.naturalHeight);
+            }
+        } else {
             const centerX = (canvas.scrollWidth/2) - (canvas_worker.scrollWidth/2);
             const centerY = (canvas.scrollHeight/2) - (canvas.scrollHeight/2);
             
@@ -85,43 +90,59 @@ const cropper = (function() {
 
     // [영역 이미지] 상품이미지 셋팅
     const _handleAreaImage = function(e) {
-        // [생성] area image tag
-        area_img = document.createElement("img");
-        area_img.src = "./mock_img/phone_case_area.png";
-        area_img.id = "area-img";
-        area_img.width = 0;
-        target.appendChild(area_img);
+        if(typeof area_img === "undefined") {
+            // [생성] area image tag
+            area_img = document.createElement("img");
+            area_img.src = "./mock_img/phone_case_area.png";
+            area_img.id = "area-img";
+            area_img.width = 0;
+            target.appendChild(area_img);
 
-        area_img.onload = function() {
-            canvas_worker.width = area_img.naturalWidth;
-            canvas_worker.height = area_img.naturalHeight;
+            area_img.onload = function() {
+                canvas_worker.width = area_img.naturalWidth;
+                canvas_worker.height = area_img.naturalHeight;
 
+                const centerX = (canvas_worker.scrollWidth/2) - (canvas_worker.scrollWidth/2);
+                const centerY = (canvas_worker.scrollHeight/2) - (canvas_worker.scrollHeight/2);
+        
+                // [모드 변환]
+                context_worker.globalCompositeOperation = "source-over";
+                context_worker.drawImage(area_img, centerX, centerY, area_img.naturalWidth, area_img.naturalHeight);
+                
+                if(typeof e === "object") {
+                    _handleAreaImageDesign(e);
+                }
+            }
+        } else {
             const centerX = (canvas_worker.scrollWidth/2) - (canvas_worker.scrollWidth/2);
             const centerY = (canvas_worker.scrollHeight/2) - (canvas_worker.scrollHeight/2);
-    
+
             // [모드 변환]
             context_worker.globalCompositeOperation = "source-over";
             context_worker.drawImage(area_img, centerX, centerY, area_img.naturalWidth, area_img.naturalHeight);
-
-            if(typeof e === "object") {
-                _handleAreaImageDesign(e);
-            }
         }
     }
 
     // [도안 - 목업 이미지]
     const _handleMockImageDesign = function(e) {
-        // [생성] design mock image tag
-        design_mock_img = document.createElement("img");
-        design_mock_img.src = "./mock_img/guidline.png";
-        design_mock_img.id = "design-mock-img";
-        design_mock_img.width = 0;
-        target.appendChild(design_mock_img);
+        if(typeof design_mock_img === "undefined") {
+            // [생성] design mock image tag
+            design_mock_img = document.createElement("img");
+            design_mock_img.src = "./mock_img/guidline.png";
+            design_mock_img.id = "design-mock-img";
+            design_mock_img.width = 0;
+            target.appendChild(design_mock_img);
 
-        design_mock_img.onload = function() {
-            canvas_design.width = design_mock_img.naturalWidth;
-            canvas_design.height = design_mock_img.naturalHeight;
+            design_mock_img.onload = function() {
+                canvas_design.width = design_mock_img.naturalWidth;
+                canvas_design.height = design_mock_img.naturalHeight;
 
+                const centerX = (canvas_design.scrollWidth/2) - (canvas_design.scrollWidth/2);
+                const centerY = (canvas_design.scrollHeight/2) - (canvas_design.scrollHeight/2);
+
+                context_design.drawImage(design_mock_img, centerX, centerY, design_mock_img.naturalWidth, design_mock_img.naturalHeight);
+            }
+        } else {
             const centerX = (canvas_design.scrollWidth/2) - (canvas_design.scrollWidth/2);
             const centerY = (canvas_design.scrollHeight/2) - (canvas_design.scrollHeight/2);
 
@@ -131,27 +152,36 @@ const cropper = (function() {
 
     // [도안 - 영역 이미지]
     const _handleAreaImageDesign = function(e) {
-        // [생성] design area image tag
-        design_area_img = document.createElement("img");
-        design_area_img.src = "./mock_img/guidline_area.png";
-        design_area_img.id = "design-area-img";
-        design_area_img.width = 0;
-        target.appendChild(design_area_img);
+        if(typeof design_area_img === "undefined") {
+            // [생성] design area image tag
+            design_area_img = document.createElement("img");
+            design_area_img.src = "./mock_img/guidline_area.png";
+            design_area_img.id = "design-area-img";
+            design_area_img.width = 0;
+            target.appendChild(design_area_img);
 
-        design_area_img.onload = function() {
-            canvas_design.width = design_area_img.naturalWidth;
-            canvas_design.height = design_area_img.naturalHeight;
+            design_area_img.onload = function() {
+                canvas_design.width = design_area_img.naturalWidth;
+                canvas_design.height = design_area_img.naturalHeight;
 
+                const centerX = (canvas_design.scrollWidth/2) - (canvas_design.scrollWidth/2);
+                const centerY = (canvas_design.scrollHeight/2) - (canvas_design.scrollHeight/2);
+
+                // [모드 변환]
+                context_design.globalCompositeOperation = "source-over";
+                context_design.drawImage(design_area_img, centerX, centerY, design_area_img.naturalWidth, design_area_img.naturalHeight);
+
+                if(typeof e === "object") {
+                    _handleDraw(e);
+                }
+            }
+        } else {
             const centerX = (canvas_design.scrollWidth/2) - (canvas_design.scrollWidth/2);
             const centerY = (canvas_design.scrollHeight/2) - (canvas_design.scrollHeight/2);
 
             // [모드 변환]
             context_design.globalCompositeOperation = "source-over";
             context_design.drawImage(design_area_img, centerX, centerY, design_area_img.naturalWidth, design_area_img.naturalHeight);
-
-            if(typeof e === "object") {
-                _handleDraw(e);
-            }
         }
     }
 
@@ -167,23 +197,23 @@ const cropper = (function() {
 
                 // [저장]
                 // _handleSave();
-                const centerX = (canvas_worker.scrollWidth/2) - (400/2);
-                const centerY = (canvas_worker.scrollHeight/2) - (400/2);
+                const centerX = (canvas_worker.scrollWidth/2) - (edit_image.width/2);
+                const centerY = (canvas_worker.scrollHeight/2) - (edit_image.height/2);
 
-                edit_image.top = centerY;
-                edit_image.right = centerX + upload_img.width;
-                edit_image.bottom = centerY + upload_img.height;
-                edit_image.left = centerX;
+                edit_image.top = edit_image.top === 0 ? centerY : edit_image.top;
+                edit_image.right = edit_image.right === 0 ? centerX + upload_img.width : edit_image.right;
+                edit_image.bottom = edit_image.bottom === 0 ? centerY + upload_img.height : edit_image.bottom;
+                edit_image.left = edit_image.left === 0 ? centerX : edit_image.left;
                 edit_image.width = upload_img.width;
                 edit_image.height = upload_img.height;
 
                 // [모드 변환]
                 context_worker.globalCompositeOperation = "source-atop";
-                context_worker.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, 400 * ratio, 400 * ratio);
+                context_worker.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, edit_image.width * ratio, edit_image.height * ratio);
 
                 // [모드 변환]
                 context_design.globalCompositeOperation = "source-atop";
-                context_design.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, 400 * ratio, 400 * ratio);
+                context_design.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, edit_image.width * ratio, edit_image.height * ratio);
 
                 // [편집 영역]
                 _handleEditDiv();
@@ -193,20 +223,6 @@ const cropper = (function() {
             upload_img.height = edit_image.height;
         }
         reader.readAsDataURL(e.target.files[0]);
-    }
-
-    // [저장] 최종 이미지 저장
-    const _handleSave = function() {
-        const data = canvas_worker.toDataURL('image/png');
-        composed_img = document.createElement("img");
-        composed_img.src = data;
-        composed_img.id = "composed-img";
-        composed_img.width = 0;
-        target.appendChild(composed_img);
-
-        composed_img.onload = function() {
-            context.drawImage(composed_img, centerX, centerX, 500, 500);
-        }
     }
 
     // [에디터 선택자]
@@ -413,7 +429,11 @@ const cropper = (function() {
         }
     }
 
+    // [리사이즈]
     const _handleResizableCanvas = function(top, left, width, height) {
+        // [비율]
+        const ratio =  (canvas_worker.width / canvas_worker.scrollWidth);
+
         _handleClearCanvas(context_worker, canvas_worker);
         
         if(typeof top !== "undefined") {
@@ -430,10 +450,10 @@ const cropper = (function() {
         }
 
         context_worker.globalCompositeOperation = "source-atop";
-        context_worker.drawImage(upload_img, edit_image.left, edit_image.top, edit_image.width, edit_image.height);
+        context_worker.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, edit_image.width * ratio, edit_image.height * ratio);
 
         context_design.globalCompositeOperation = "source-atop";
-        context_design.drawImage(upload_img, edit_image.left, edit_image.top, edit_image.width, edit_image.height);
+        context_design.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, edit_image.width * ratio, edit_image.height * ratio);
     }
 
     // [캔버스 클리어]
@@ -441,9 +461,11 @@ const cropper = (function() {
         // 배경색으로 다시 색칠
         // context.fillStyle = "rgba(255, 255, 255, 1)";
         // context.fillRect(0, 0, canvas.width, canvas.height);
+        _handleAreaImage();
 
         // context_design.fillStyle = "rgba(255, 255, 255, 1)";
         // context_design.fillRect(0, 0, canvas_design.width, canvas_design.height);
+        _handleAreaImageDesign();
 
         // context.clearRect(0, 0, canvas.width, canvas.height);
         // IE9 대응
@@ -452,7 +474,70 @@ const cropper = (function() {
         // canvas.width = w;
     }
 
+    // [저장] 최종 상품 이미지 저장
+    const download_product = function() {
+        const data = canvas_worker.toDataURL('image/png');
+        composed_img = document.createElement("img");
+        composed_img.src = data;
+        composed_img.id = "composed-img";
+        composed_img.width = 0;
+        target.appendChild(composed_img);
+
+        composed_img.onload = function() {
+            const centerX = (canvas.scrollWidth/2) - (canvas.scrollWidth/2);
+            const centerY = (canvas.scrollHeight/2) - (canvas.scrollHeight/2);
+
+            // [모드 변환]
+            context.globalCompositeOperation = "source-over";
+            context.drawImage(composed_img, centerX, centerY, composed_img.naturalWidth, composed_img.naturalHeight);
+        
+            _handleMakeFile(canvas);
+        }
+    }
+
+    // [저장] 최종 도안 이미지 저장
+    const download_design = function() {
+        _handleMakeFile(canvas_design);
+    }
+
+    // [파일 생성]
+    const _handleMakeFile = function(canvas) {
+        const result = canvas.toDataURL('image/png');
+        const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
+        const array = [];
+        for (let i = 0; i < blob_bin.length; i++) {
+            array.push(blob_bin.charCodeAt(i));
+        }
+        const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+        
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement("a")
+        a.style = "display: none"
+        a.href = url
+        a.download = "new_file_name.png"
+
+        document.body.appendChild(a)
+        a.click()
+
+        setTimeout(function() {
+            document.body.removeChild(a)
+            window.URL.revokeObjectURL(url) // 메모리 해제
+        }, 100);
+
+        // 서버 전송 테스트
+        // console.log(blob);
+
+        
+        // edit_image의 변수값들도 함께 전송
+        // console.log(edit_image);
+
+        // var data = new FormData();	// formData 생성
+        // data.append("file", blob);	// file data 추가
+    }
+
     return {
-        init: init
+        init: init,
+        download_product: download_product,
+        download_design: download_design
     }
 })();
