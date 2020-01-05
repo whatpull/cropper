@@ -54,23 +54,23 @@ body {
 .cropper #edit-div.active #edit-resizer.resizer.top-left {
     left: -5px;
     top: -5px;
-    cursor: nwse-resize;
+    cursor: nw-resize;
 }
 
 .cropper #edit-div.active #edit-resizer.resizer.top-right {
     right: -5px;
     top: -5px;
-    cursor: nesw-resize;
+    cursor: ne-resize;
 }
 
 .cropper #edit-div.active #edit-resizer.resizer.bottom-left {
     left: -5px;
     bottom: -5px;
-    cursor: nesw-resize;
+    cursor: sw-resize;
 }
 
 .cropper #edit-div.active #edit-resizer.resizer.bottom-right {
     right: -5px;
     bottom: -5px;
-    cursor: nwse-resize;
+    cursor: se-resize;
 }
