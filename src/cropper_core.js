@@ -7,15 +7,16 @@ const cropper = (function() {
 
     // 이미지
     let mock_img, area_img, design_mock_img, design_area_img, upload_img, composed_img;
-    
-    // TODO. 초기화, 
+
+    // 모드(autopacking, editor, design)
+    let mode;
 
     // 편집이미지 변수
     let edit_image = {
         top: 0,
         left: 0,
-        width: 500,
-        height: 500
+        width: 600,
+        height: 600
     }
 
     // 편집영역 변수
@@ -25,20 +26,30 @@ const cropper = (function() {
     let isDown = false;
 
     // [자원]
-    const init = function() {
+    const init = function(mode_param) {
+        mode = mode_param;
         window.onload = function() {
             target = document.querySelector(".cropper");
+
+            // [모드 설정] 캔버스
+            let visibility = "initial";
+            // [모드] autopacking
+            if(mode === "autopacking") {
+                // visibility = "hidden";
+            }
 
             // [생성] input tag
             input = document.createElement("input");
             input.type = "file";
             input.id = "loader";
+            input.style.visibility = visibility;
             input.name = "loader";
             target.appendChild(input);
 
             // [생성] canvas tag
             canvas = document.createElement("canvas");
             canvas.id = "canvas";
+            canvas.style.visibility = visibility;
             canvas.style.backgroundImage = 'url("./mock_img/guidline.png")';
             canvas.style.backgroundRepeat = 'no-repeat';
             canvas.style.backgroundPosition = 'center';
@@ -48,17 +59,32 @@ const cropper = (function() {
 
             canvas_worker = document.createElement("canvas");
             canvas_worker.id = "canvas-worker";
+            canvas_worker.style.visibility = visibility;
             target.appendChild(canvas_worker);
             context_worker = canvas_worker.getContext('2d');
 
             canvas_design = document.createElement("canvas");
             canvas_design.id = "canvas-design";
+            canvas_design.style.visibility = visibility;
             target.appendChild(canvas_design);
             context_design = canvas_design.getContext('2d');
-            
-            _handleMockImage();
-            _handleMockImageDesign();
-            // _handleAreaImage(area_img);
+
+            start_packing();
+        }
+    }
+
+    // [패킹 시작]
+    const start_packing = function() {
+        // TODO. [상품 목업 / 도안 목업 / 에셋]
+        _handleMockImage();
+        _handleMockImageDesign();
+        // _handleAreaImage(area_img);
+        
+        // [모드 설정] 이벤트
+        if(mode === "autopacking") {
+            _handleAreaImage();
+            _handleAreaImageDesign();
+        } else if(mode === "editor") {
             input.addEventListener('change', _handleAreaImage, false);
         }
     }
@@ -173,8 +199,11 @@ const cropper = (function() {
                 context_design.globalCompositeOperation = "source-over";
                 context_design.drawImage(design_area_img, centerX, centerY, design_area_img.naturalWidth, design_area_img.naturalHeight);
 
-                if(typeof e === "object") {
+                console.log(mode);
+                if(typeof e === "object" && mode === "editor") {
                     _handleDraw(e);
+                } else if(mode === "autopacking") {
+                    _handleAssetDraw("./mock_img/pattern.jpg");
                 }
             }
         } else {
@@ -184,6 +213,61 @@ const cropper = (function() {
             // [모드 변환]
             context_design.globalCompositeOperation = "source-over";
             context_design.drawImage(design_area_img, centerX, centerY, design_area_img.naturalWidth, design_area_img.naturalHeight);
+        }
+    }
+
+    // [자산] 파일
+    const _handleAssetDraw = function(url) {
+        // [비율]
+        const ratio =  (canvas_worker.width / canvas_worker.scrollWidth);
+
+        if(typeof upload_img === "undefined") {
+            // [생성] design area image tag
+            upload_img = document.createElement("img");
+            upload_img.src = url;
+            upload_img.id = "upload-img";
+            upload_img.width = 0;
+            target.appendChild(upload_img);
+
+            upload_img.onload = function() {
+                const pop_ratio = (upload_img.naturalWidth / upload_img.naturalHeight) > 1 ? (upload_img.naturalHeight / upload_img.naturalWidth) : (upload_img.naturalWidth / upload_img.naturalHeight);
+                const width_ratio = (upload_img.naturalWidth / upload_img.naturalHeight) > 1 ? edit_image.width : (edit_image.width * pop_ratio);
+                const height_ratio = (upload_img.naturalWidth / upload_img.naturalHeight) > 1 ? (edit_image.height * pop_ratio) : edit_image.height;
+
+                // [저장]
+                // _handleSave();
+                const centerX = (canvas_worker.scrollWidth/2) - (width_ratio/2);
+                const centerY = (canvas_worker.scrollHeight/2) - (height_ratio/2);
+
+                edit_image.top = edit_image.top === 0 ? centerY : edit_image.top;
+                edit_image.left = edit_image.left === 0 ? centerX : edit_image.left;
+                edit_image.width = width_ratio;
+                edit_image.height = height_ratio;
+
+                // [모드 변환]
+                context_worker.globalCompositeOperation = "source-atop";
+                context_worker.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, edit_image.width * ratio, edit_image.height * ratio);
+
+                // [모드 변환]
+                context_design.globalCompositeOperation = "source-atop";
+                context_design.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, edit_image.width * ratio, edit_image.height * ratio);
+            
+                download_product();
+                download_design();
+            }
+        } else {
+            // 이미지가 존재해도 계속 변경되면서 적용이 되어야 합니다.(계속 새로 생성)
+
+            // [모드 변환]
+            context_worker.globalCompositeOperation = "source-atop";
+            context_worker.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, edit_image.width * ratio, edit_image.height * ratio);
+
+            // [모드 변환]
+            context_design.globalCompositeOperation = "source-atop";
+            context_design.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, edit_image.width * ratio, edit_image.height * ratio);
+        
+            download_product();
+            download_design();
         }
     }
 
@@ -569,7 +653,9 @@ const cropper = (function() {
             array.push(blob_bin.charCodeAt(i));
         }
         const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
-        
+
+        // [다운로드 방식]
+        console.log(blob);
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.style = "display: none"
@@ -586,18 +672,33 @@ const cropper = (function() {
 
         // 서버 전송 테스트
         // console.log(blob);
-
         
         // edit_image의 변수값들도 함께 전송
         // console.log(edit_image);
 
         // var data = new FormData();	// formData 생성
-        // data.append("file", blob);	// file data 추가
+        // for(var i = 0; i < 60; i++) {
+        //     data.append("files", blob, 'new_file.png');	// file data 추가
+        // }
+
+        // var xhr = new XMLHttpRequest();
+        // xhr.onreadystatechange = function (e) {
+        //     if (xhr.readyState == 4) {
+        //         if(xhr.status == 200) {
+        //             console.log(xhr.responseText);
+        //         } else {
+        //             console.log("Error loading page\n");
+        //         }
+        //     }
+        // };
+        // xhr.open("POST", "http://192.168.0.150:3000/upload", true);
+        // xhr.send(data);
     }
 
     return {
         init: init,
         download_product: download_product,
-        download_design: download_design
+        download_design: download_design,
+        start_packing: start_packing
     }
 })();
