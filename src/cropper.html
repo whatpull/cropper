@@ -1,10 +1,38 @@
 <html>
     <head>
         <title>cropper</title>
-        <script type="text/javascript" src="cropper_core.js"></script>
+        <!-- <script type="text/javascript" src="cropper_core.js"></script> -->
+        <script type="text/javascript" src="cropper_core_class.js"></script>
         <link rel="stylesheet" type="text/css" href="cropper.css"/>
         <script>
-            cropper.init("autopacking");
+            // 1. 캔버스만 셋팅
+            // cropper.init({
+                // mode: "autopacking",
+                // mock_img: "./mock_img/phone_case.png",
+                // area_img: "./mock_img/phone_case_area.png",
+                // design_mock_img: "./mock_img/guidline.png",
+                // design_area_img: "./mock_img/guidline_area.png"
+            // });
+            window.onload = function() {
+                // target 분리 생성 여부
+                let cropper = new Cropper({
+                    mode: "autopacking",
+                    mock_img: "./mock_img/phone_case.png",
+                    area_img: "./mock_img/phone_case_area.png",
+                    design_mock_img: "./mock_img/guidline.png",
+                    design_area_img: "./mock_img/guidline_area.png"
+                });
+                cropper.init();
+
+                let cropper2 = new Cropper({
+                    mode: "autopacking",
+                    mock_img: "./mock_img/phone_case2.png",
+                    area_img: "./mock_img/phone_case_area.png",
+                    design_mock_img: "./mock_img/guidline.png",
+                    design_area_img: "./mock_img/guidline_area.png"
+                });
+                cropper2.init();
+            }
         </script>
     </head>
     <body>

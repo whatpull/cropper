@@ -8,8 +8,14 @@ const cropper = (function() {
     // 이미지
     let mock_img, area_img, design_mock_img, design_area_img, upload_img, composed_img;
 
-    // 모드(autopacking, editor, design)
-    let mode;
+    // 이미지 셋(원하는 디자인 이미지)
+    let data_set = {
+        mode: "",
+        mock_img: "",
+        area_img: "",
+        design_mock_img: "",
+        design_area_img: ""
+    }
 
     // 편집이미지 변수
     let edit_image = {
@@ -26,15 +32,20 @@ const cropper = (function() {
     let isDown = false;
 
     // [자원]
-    const init = function(mode_param) {
-        mode = mode_param;
+    const init = function(image_set_data) {
+        data_set.mode = image_set_data.mode;
+        data_set.mock_img = image_set_data.mock_img;
+        data_set.area_img = image_set_data.area_img;
+        data_set.design_mock_img = image_set_data.design_mock_img;
+        data_set.design_area_img = image_set_data.design_area_img;
+
         window.onload = function() {
             target = document.querySelector(".cropper");
 
             // [모드 설정] 캔버스
             let visibility = "initial";
             // [모드] autopacking
-            if(mode === "autopacking") {
+            if(data_set.mode === "autopacking") {
                 // visibility = "hidden";
             }
 
@@ -50,7 +61,7 @@ const cropper = (function() {
             canvas = document.createElement("canvas");
             canvas.id = "canvas";
             canvas.style.visibility = visibility;
-            canvas.style.backgroundImage = 'url("./mock_img/guidline.png")';
+            canvas.style.backgroundImage = 'url("'+ data_set.design_mock_img +'")';
             canvas.style.backgroundRepeat = 'no-repeat';
             canvas.style.backgroundPosition = 'center';
             canvas.style.backgroundSize = '600px auto';
@@ -73,19 +84,18 @@ const cropper = (function() {
         }
     }
 
-    // [패킹 시작]
+    // [패킹 시작] 원하는 상품 셋팅
     const start_packing = function() {
-        // TODO. [상품 목업 / 도안 목업 / 에셋]
         _handleMockImage();
         _handleMockImageDesign();
         // _handleAreaImage(area_img);
         
         // [모드 설정] 이벤트
-        if(mode === "autopacking") {
+        if(data_set.mode === "autopacking") {
             _handleAreaImage();
             _handleAreaImageDesign();
-        } else if(mode === "editor") {
-            input.addEventListener('change', _handleAreaImage, false);
+        } else if(data_set.mode === "editor") {
+            input.addEventListener("change", _handleAreaImage, false);
         }
     }
 
@@ -94,7 +104,7 @@ const cropper = (function() {
         if(typeof mock_img === "undefined") {
             // [생성] mock image tag
             mock_img = document.createElement("img");
-            mock_img.src = "./mock_img/phone_case.png";
+            mock_img.src = data_set.mock_img;
             mock_img.id = "mock-img";
             mock_img.width = 0;
             target.appendChild(mock_img);
@@ -121,7 +131,7 @@ const cropper = (function() {
         if(typeof area_img === "undefined") {
             // [생성] area image tag
             area_img = document.createElement("img");
-            area_img.src = "./mock_img/phone_case_area.png";
+            area_img.src = data_set.area_img;
             area_img.id = "area-img";
             area_img.width = 0;
             target.appendChild(area_img);
@@ -156,7 +166,7 @@ const cropper = (function() {
         if(typeof design_mock_img === "undefined") {
             // [생성] design mock image tag
             design_mock_img = document.createElement("img");
-            design_mock_img.src = "./mock_img/guidline.png";
+            design_mock_img.src = data_set.design_mock_img;
             design_mock_img.id = "design-mock-img";
             design_mock_img.width = 0;
             target.appendChild(design_mock_img);
@@ -183,7 +193,7 @@ const cropper = (function() {
         if(typeof design_area_img === "undefined") {
             // [생성] design area image tag
             design_area_img = document.createElement("img");
-            design_area_img.src = "./mock_img/guidline_area.png";
+            design_area_img.src = data_set.design_area_img;
             design_area_img.id = "design-area-img";
             design_area_img.width = 0;
             target.appendChild(design_area_img);
@@ -199,10 +209,9 @@ const cropper = (function() {
                 context_design.globalCompositeOperation = "source-over";
                 context_design.drawImage(design_area_img, centerX, centerY, design_area_img.naturalWidth, design_area_img.naturalHeight);
 
-                console.log(mode);
-                if(typeof e === "object" && mode === "editor") {
+                if(typeof e === "object" && data_set.mode === "editor") {
                     _handleDraw(e);
-                } else if(mode === "autopacking") {
+                } else if(data_set.mode === "autopacking") {
                     _handleAssetDraw("./mock_img/pattern.jpg");
                 }
             }
