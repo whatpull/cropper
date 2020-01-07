@@ -252,6 +252,7 @@ const cropper = (function() {
                 context_design.globalCompositeOperation = "source-atop";
                 context_design.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, edit_image.width * ratio, edit_image.height * ratio);
             
+                // [타이밍 테스트] (draw 타임을 측정해서 다운로드가 진행되야함 // 빈 이미지가 다운로드 되는 케이스가 존재)
                 download_product();
                 download_design();
             }
@@ -266,6 +267,7 @@ const cropper = (function() {
             context_design.globalCompositeOperation = "source-atop";
             context_design.drawImage(upload_img, edit_image.left * ratio, edit_image.top * ratio, edit_image.width * ratio, edit_image.height * ratio);
         
+            // [타이밍 테스트] (draw 타임을 측정해서 다운로드가 진행되야함 // 빈 이미지가 다운로드 되는 케이스가 존재)
             download_product();
             download_design();
         }
