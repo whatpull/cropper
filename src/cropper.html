@@ -2,42 +2,54 @@
     <head>
         <title>cropper</title>
         <!-- <script type="text/javascript" src="cropper_core.js"></script> -->
-        <script type="text/javascript" src="cropper_core_class.js"></script>
+        <script type="text/javascript" src="cropper_core_module.js"></script>
         <link rel="stylesheet" type="text/css" href="cropper.css"/>
         <script>
-            // 1. 캔버스만 셋팅
-            // cropper.init({
-                // mode: "autopacking",
-                // mock_img: "./mock_img/phone_case.png",
-                // area_img: "./mock_img/phone_case_area.png",
-                // design_mock_img: "./mock_img/guidline.png",
-                // design_area_img: "./mock_img/guidline_area.png"
-            // });
             window.onload = function() {
-                // target 분리 생성 여부
-                let cropper = new Cropper({
+                const a = new Cropper({
                     mode: "autopacking",
-                    mock_img: "./mock_img/phone_case.png",
-                    area_img: "./mock_img/phone_case_area.png",
-                    design_mock_img: "./mock_img/guidline.png",
-                    design_area_img: "./mock_img/guidline_area.png"
+                    mock_img: "./mock_img/iphone_11pro.png",
+                    area_img: "./mock_img/iphone_11pro_area.png",
+                    asset_img: "./mock_img/도안.jpg",
+                    effect_img: "./mock_img/effect.png"
+                }, {
+                    top: 0,
+                    left: 0,
+                    width: 700,
+                    height: 700
                 });
-                cropper.init();
+                a.init();
 
-                let cropper2 = new Cropper({
+                const b = new Cropper({
                     mode: "autopacking",
-                    mock_img: "./mock_img/phone_case2.png",
-                    area_img: "./mock_img/phone_case_area.png",
-                    design_mock_img: "./mock_img/guidline.png",
-                    design_area_img: "./mock_img/guidline_area.png"
+                    mock_img: "./mock_img/iphone_11pro.png",
+                    area_img: "./mock_img/iphone_11pro_area.png",
+                    asset_img: "./mock_img/pattern01.jpeg",
+                    effect_img: "./mock_img/effect_02.png"
+                }, {
+                    top: 0,
+                    left: 0,
+                    width: 200,
+                    height: 200
                 });
-                cropper2.init();
+                b.init();
+
+                const c = new Cropper({
+                    mode: "autopacking",
+                    mock_img: "./mock_img/iphone_11pro.png",
+                    area_img: "./mock_img/iphone_11pro_area.png",
+                    asset_img: "./mock_img/test.png",
+                    effect_img: "./mock_img/effect_02.png"
+                }, {
+                    top: 0,
+                    left: 0,
+                    width: 200,
+                    height: 200
+                });
+                c.init();
             }
         </script>
     </head>
     <body>
-        <div class="cropper">
-
-        </div>
     </body>
 </html>
