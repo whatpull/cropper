@@ -4,42 +4,45 @@
         <!-- <script type="text/javascript" src="cropper_core.js"></script> -->
         <script type="text/javascript" src="cropper_core_module.js"></script>
         <link rel="stylesheet" type="text/css" href="cropper.css"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
         <script>
             window.onload = function() {
-                const a = new Cropper({
-                    mode: "autopacking",
-                    mock_img: "./mock_img/iphone_11pro.png",
-                    area_img: "./mock_img/iphone_11pro_area.png",
-                    asset_img: "./mock_img/도안.jpg",
-                    effect_img: "./mock_img/effect.png"
-                }, {
-                    top: 0,
-                    left: 0,
-                    width: 700,
-                    height: 700
-                });
-                a.init();
+                // const a = new Cropper({
+                //     mode: "autopacking",
+                //     mock_img: "./mock_img/iphone_11pro.png",
+                //     area_img: "./mock_img/iphone_11pro_area.png",
+                //     asset_img: "./mock_img/도안.jpg",
+                //     effect_img: "./mock_img/effect.png"
+                // }, {
+                //     top: 0,
+                //     left: 0,
+                //     width: 700,
+                //     height: 700
+                // });
+                // a.init();
 
-                const b = new Cropper({
-                    mode: "autopacking",
-                    mock_img: "./mock_img/iphone_11pro.png",
-                    area_img: "./mock_img/iphone_11pro_area.png",
-                    asset_img: "./mock_img/pattern01.jpeg",
-                    effect_img: "./mock_img/effect_02.png"
-                }, {
-                    top: 0,
-                    left: 0,
-                    width: 200,
-                    height: 200
-                });
-                b.init();
+                // const b = new Cropper({
+                //     mode: "autopacking",
+                //     mock_img: "./mock_img/iphone_11pro.png",
+                //     area_img: "./mock_img/iphone_11pro_area.png",
+                //     asset_img: "./mock_img/pattern01.jpeg",
+                //     effect_img: "./mock_img/effect_02.png"
+                // }, {
+                //     top: 0,
+                //     left: 0,
+                //     width: 200,
+                //     height: 200
+                // });
+                // b.init();
 
                 const c = new Cropper({
-                    mode: "autopacking",
+                    mode: "editor",
                     mock_img: "./mock_img/iphone_11pro.png",
                     area_img: "./mock_img/iphone_11pro_area.png",
                     asset_img: "./mock_img/test.png",
-                    effect_img: "./mock_img/effect_02.png"
+                    effect_img: "./mock_img/effect.png",
+                    is_design: false
                 }, {
                     top: 0,
                     left: 0,

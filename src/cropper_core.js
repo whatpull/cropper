@@ -1,3 +1,4 @@
+// 모듈패턴
 const cropper = (function() {
     // 전역변수
     let target, input;
