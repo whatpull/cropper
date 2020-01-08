@@ -8,6 +8,7 @@ body {
     position: relative;
     overflow: hidden;
     width: 600px;
+    border: 1px solid #e1e1e1;
 }
 
 .cropper #loader {
@@ -19,9 +20,8 @@ body {
 .cropper #canvas, #canvas-worker, #canvas-design {
     /* width: calc(100% - 2px); */
     /* height: auto; */
-    width: calc(600px - 2px);
+    width: 600px;
     height: 600px;
-    border: 1px solid #e1e1e1;
     /* background-color: #e2e2e2; */
 }
 
