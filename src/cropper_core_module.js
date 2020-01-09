@@ -113,14 +113,10 @@ Cropper.prototype.init = function() {
 // 패킹을 위한 셋업 진행
 Cropper.prototype._handleStartPacking = function() {
     this._handleMockImage();
-    // this._handleMockImageDesign();
-    // _handleAreaImage(area_img);
     
-    // // [모드 설정] 이벤트
+    // [모드 설정] 이벤트
     if(this.data_set.mode === "autopacking") {
-        
-        this._handleAreaImage();
-        // this._handleAreaImageDesign();
+        // TODO. 설정
     } else if(this.data_set.mode === "editor") {
         this.input.addEventListener('change', this._handleAreaImage.bind(this), false);
     }
@@ -236,13 +232,13 @@ Cropper.prototype._handleFunction = function(visibility) {
 
     // 모드별 기능 버튼 설정
     if(this.data_set.mode === "autopacking") {
-        this.button_palette.style.top = "10px";
-        this.palette_div.style.top = "70px";
+        // this.button_palette.style.top = "10px";
+        // this.palette_div.style.top = "70px";
     } else if(this.data_set.mode === "editor") {
         this.target.appendChild(this.button_upload);
+        this.target.appendChild(this.button_palette);
+        this.target.appendChild(this.palette_div);
     }
-    this.target.appendChild(this.button_palette);
-    this.target.appendChild(this.palette_div);
 }
 
 // [생성] 상품 이미지
@@ -381,7 +377,7 @@ Cropper.prototype._handleAssetDraw = function(url) {
     this.target.appendChild(this.upload_img);
     this.upload_img.onload = function() {
         // [비율]
-        const ratio =  (this.canvas_worker.width / this.canvas_worker.scrollWidth);
+        const ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
         
         const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
         const width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
@@ -403,10 +399,11 @@ Cropper.prototype._handleAssetDraw = function(url) {
         
         this._handleEffectDraw(this.data_set.effect_img);
 
-        // [모드 변환]
-        this.context_design.globalCompositeOperation = "source-atop";
-        this.context_design.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
-    
+        if(this.data_set.is_design) {
+            // [모드 변환]
+            this.context_design.globalCompositeOperation = "source-atop";
+            this.context_design.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
+        }
         // [타이밍 테스트] (draw 타임을 측정해서 다운로드가 진행되야함 // 빈 이미지가 다운로드 되는 케이스가 존재)
         // download_product();
         // download_design();
@@ -485,7 +482,7 @@ Cropper.prototype._handleDraw = function(e) {
             this.upload_img.src = event.target.result;
         }.bind(this);
         if(typeof e === "undefined") {
-
+            
         } else {
             reader.readAsDataURL(e.target.files[0]);
         }
@@ -803,12 +800,20 @@ Cropper.prototype._handleResizableCanvas = function(top, left, width, height) {
 // [이벤트] 캔버스 색칠
 Cropper.prototype._handleColorDraw = function(context, canvas, color) {
     // 색상 코드 존재유무 확인
-    if(typeof this.selected_color === "string") { 
+    if(typeof color === "string") { 
         context.globalCompositeOperation = "source-atop";
         context.fillStyle = color;
         context.fillRect(0, 0, canvas.width, canvas.height);
 
-        this._handleDraw();
+        if(this.data_set.mode === "autopacking") {
+            this._handleAssetDraw(this.data_set.asset_img);
+        } else if(this.data_set.mode === "editor") {
+            if(this.data_set.is_design) {
+                this._handleAreaImageDesign();
+            } else {
+                this._handleDraw();
+            }
+        }
         this._handleEffectDraw(this.data_set.effect_img);
     }
 }
