@@ -8,34 +8,6 @@
       rel="stylesheet">
         <script>
             window.onload = function() {
-                // const a = new Cropper({
-                //     mode: "autopacking",
-                //     mock_img: "./mock_img/iphone_11pro.png",
-                //     area_img: "./mock_img/iphone_11pro_area.png",
-                //     asset_img: "./mock_img/도안.jpg",
-                //     effect_img: "./mock_img/iphone_11effect.png"
-                // }, {
-                //     top: 0,
-                //     left: 0,
-                //     width: 700,
-                //     height: 700
-                // });
-                // a.init();
-
-                // const b = new Cropper({
-                //     mode: "autopacking",
-                //     mock_img: "./mock_img/iphone_11pro.png",
-                //     area_img: "./mock_img/iphone_11pro_area.png",
-                //     asset_img: "./mock_img/pattern01.jpeg",
-                //     effect_img: "./mock_img/iphone_11effect_02.png"
-                // }, {
-                //     top: 0,
-                //     left: 0,
-                //     width: 200,
-                //     height: 200
-                // });
-                // b.init();
-
                 palette_color = {
                     color01: "#ffffff",
                     color02: "#B6B5B5",
@@ -51,8 +23,7 @@
                     area_img: "./mock_img/iphone_11pro_area.png",
                     asset_img: "./mock_img/test.png",
                     effect_img: "./mock_img/iphone_11effect.png",
-                    is_design: false,
-                    color_code: "#ffffff"
+                    is_design: false
                 }, {
                     top: 0,
                     left: 0,
@@ -68,13 +39,13 @@
                     asset_img: "./mock_img/test.png",
                     effect_img: "./mock_img/iphone_11effect.png",
                     is_design: false,
-                    color_code: "#ffffff"
+                    color_code: "#54B689"
                 }, {
                     top: 0,
                     left: 0,
                     width: 200,
                     height: 200
-                });
+                }, palette_color);
                 e.init();
 
                 const d = new Cropper({
@@ -83,14 +54,13 @@
                     area_img: "./mock_img/pouch_area.png",
                     asset_img: "./mock_img/test.png",
                     effect_img: "./mock_img/pouch_effect.png",
-                    is_design: false,
-                    color_code: "#ffffff"
+                    is_design: false
                 }, {
                     top: 0,
                     left: 0,
                     width: 600,
                     height: 600
-                });
+                }, palette_color);
                 d.init();
 
                 const f = new Cropper({
@@ -99,14 +69,13 @@
                     area_img: "./mock_img/cushion_area.png",
                     asset_img: "./mock_img/test.png",
                     effect_img: "./mock_img/cushion_effect.png",
-                    is_design: false,
-                    color_code: "#ffffff"
+                    is_design: false
                 }, {
                     top: 200,
                     left: 0,
                     width: 400,
                     height: 400
-                });
+                }, palette_color);
                 f.init();
             }
         </script>
