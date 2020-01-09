@@ -1,5 +1,5 @@
 // 생성자 프로토타입 체이닝
-function Cropper(data_set, edit_image) {
+function Cropper(data_set, edit_image, palette_color) {
     // 시스템
     this.target;
     this.input;
@@ -39,6 +39,16 @@ function Cropper(data_set, edit_image) {
     this.offset = [0,0];
     this.isDown = false;
     this.isResize = false;
+
+    // 팔레트
+    this.palette_div;
+    this.palette_color = palette_color;
+    this.palette_color_div_01;
+    this.palette_color_div_02;
+    this.palette_color_div_03;
+    this.palette_color_div_04;
+    this.palette_color_div_05;
+    this.palette_color_div_06;
 }
 
 Cropper.prototype.init = function() {
@@ -91,9 +101,57 @@ Cropper.prototype.init = function() {
     button_palette_icon.innerText = "palette";
     this.button_palette.appendChild(button_palette_icon);
 
+    // [팔레트]
+    this.palette_div = document.createElement("div");
+    this.palette_div.id = "palette-div";
+
     if(this.data_set.mode === "editor") {
         this.target.appendChild(this.button_upload);
         this.target.appendChild(this.button_palette);
+        this.target.appendChild(this.palette_div);
+
+        // [팔레트] 1번 색상
+        this.palette_color_div_01 = document.createElement("div");
+        this.palette_color_div_01.classList.add("palette-color-div");
+        this.palette_color_div_01.style.backgroundColor = this.palette_color.color01;
+        this.palette_color_div_01.addEventListener("click", function(e) {
+            // e.defaultPrevented();
+        });
+        this.palette_div.appendChild(this.palette_color_div_01);
+
+        // [팔레트] 2번 색상
+        this.palette_color_div_02 = document.createElement("div");
+        this.palette_color_div_02.classList.add("palette-color-div");
+        this.palette_color_div_02.style.backgroundColor = this.palette_color.color02;
+        this.palette_color_div_02.addEventListener("click", function(e) {
+            // e.defaultPrevented();
+            this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color02);
+        }.bind(this));
+        this.palette_div.appendChild(this.palette_color_div_02);
+
+        // [팔레트] 3번 색상
+        this.palette_color_div_03 = document.createElement("div");
+        this.palette_color_div_03.classList.add("palette-color-div");
+        this.palette_color_div_03.style.backgroundColor = this.palette_color.color03;
+        this.palette_div.appendChild(this.palette_color_div_03);
+
+        // [팔레트] 4번 색상
+        this.palette_color_div_04 = document.createElement("div");
+        this.palette_color_div_04.classList.add("palette-color-div");
+        this.palette_color_div_04.style.backgroundColor = this.palette_color.color04;
+        this.palette_div.appendChild(this.palette_color_div_04);
+
+        // [팔레트] 5번 색상
+        this.palette_color_div_05 = document.createElement("div");
+        this.palette_color_div_05.classList.add("palette-color-div");
+        this.palette_color_div_05.style.backgroundColor = this.palette_color.color05;
+        this.palette_div.appendChild(this.palette_color_div_05);
+
+        // [팔레트] 6번 색상
+        this.palette_color_div_06 = document.createElement("div");
+        this.palette_color_div_06.classList.add("palette-color-div");
+        this.palette_color_div_06.style.backgroundColor = this.palette_color.color06;
+        this.palette_div.appendChild(this.palette_color_div_06);
     }
 
     // [생성] 상품 캔버스
@@ -659,6 +717,14 @@ Cropper.prototype._handleResizableCanvas = function(top, left, width, height) {
         this.context_design.globalCompositeOperation = "source-atop";
         this.context_design.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
     }
+}
+
+// [이벤트] 캔버스 색칠
+Cropper.prototype._handleColorDraw = function(context, canvas, color) {
+    console.log(color);
+    context.globalCompositeOperation = "source-atop";
+    context.fillStyle = color;
+    context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 // [이벤트] 캔버스 클리어
