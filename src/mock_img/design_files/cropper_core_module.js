@@ -169,7 +169,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.palette_color_div_01.classList.add("palette-color-div");
     this.palette_color_div_01.style.backgroundColor = this.palette_color.color01;
     this.palette_color_div_01.addEventListener("click", function(e) {
-        e.preventDefault();
+        // e.defaultPrevented();
         this.selected_color = this.palette_color.color01;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color01);
     }.bind(this));
@@ -180,7 +180,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.palette_color_div_02.classList.add("palette-color-div");
     this.palette_color_div_02.style.backgroundColor = this.palette_color.color02;
     this.palette_color_div_02.addEventListener("click", function(e) {
-        e.preventDefault();
+        // e.defaultPrevented();
         this.selected_color = this.palette_color.color02;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color02);
     }.bind(this));
@@ -191,7 +191,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.palette_color_div_03.classList.add("palette-color-div");
     this.palette_color_div_03.style.backgroundColor = this.palette_color.color03;
     this.palette_color_div_03.addEventListener("click", function(e) {
-        e.preventDefault();
+        // e.defaultPrevented();
         this.selected_color = this.palette_color.color03;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color03);
     }.bind(this));
@@ -202,7 +202,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.palette_color_div_04.classList.add("palette-color-div");
     this.palette_color_div_04.style.backgroundColor = this.palette_color.color04;
     this.palette_color_div_04.addEventListener("click", function(e) {
-        e.preventDefault();
+        // e.defaultPrevented();
         this.selected_color = this.palette_color.color04;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color04);
     }.bind(this));
@@ -213,7 +213,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.palette_color_div_05.classList.add("palette-color-div");
     this.palette_color_div_05.style.backgroundColor = this.palette_color.color05;
     this.palette_color_div_05.addEventListener("click", function(e) {
-        e.preventDefault();
+        // e.defaultPrevented();
         this.selected_color = this.palette_color.color05;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color05);
     }.bind(this));
@@ -224,7 +224,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.palette_color_div_06.classList.add("palette-color-div");
     this.palette_color_div_06.style.backgroundColor = this.palette_color.color06;
     this.palette_color_div_06.addEventListener("click", function(e) {
-        e.preventDefault();
+        // e.defaultPrevented();
         this.selected_color = this.palette_color.color06;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color06);
     }.bind(this));
@@ -232,14 +232,13 @@ Cropper.prototype._handleFunction = function(visibility) {
 
     // 모드별 기능 버튼 설정
     if(this.data_set.mode === "autopacking") {
-        this.button_palette.style.top = "10px";
-        this.palette_div.style.top = "70px";
+        // this.button_palette.style.top = "10px";
+        // this.palette_div.style.top = "70px";
     } else if(this.data_set.mode === "editor") {
         this.target.appendChild(this.button_upload);
+        this.target.appendChild(this.button_palette);
+        this.target.appendChild(this.palette_div);
     }
-
-    this.target.appendChild(this.button_palette);
-    this.target.appendChild(this.palette_div);
 }
 
 // [생성] 상품 이미지
@@ -413,7 +412,6 @@ Cropper.prototype._handleAssetDraw = function(url) {
 
 // [생성] 효과
 Cropper.prototype._handleEffectDraw = function(url) {
-    console.log("effect");
     if(typeof this.effect_img === "undefined") {
         this.effect_img = document.createElement("img");
         this.effect_img.src = url;
@@ -816,6 +814,7 @@ Cropper.prototype._handleColorDraw = function(context, canvas, color) {
                 this._handleDraw();
             }
         }
+        this._handleEffectDraw(this.data_set.effect_img);
     }
 }
 

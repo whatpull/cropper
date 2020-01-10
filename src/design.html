@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>design</title>
+        <!-- <script type="text/javascript" src="cropper_core.js"></script> -->
+        <script type="text/javascript" src="design_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="design.css"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+        <script>
+            window.onload = function() {
+                const a = new Design({
+                    mode: "autopacking",
+                    mock_img: "./mock_img/cushion.png",
+                    area_img: "./mock_img/cushion_area.png",
+                    asset_img: "./mock_img/test.png",
+                    effect_img: "./mock_img/cushion_effect.png",
+                    is_design: false,
+                    color_code: "#D34249"
+                }, {
+                    top: 200,
+                    left: 0,
+                    width: 400,
+                    height: 400
+                });
+                a.init()
+            }
+        </script>
+    </head>
+    <body>
+        <div class="nav">
+            <div class="nav-item title">MENU</div>
+            <a href="./cropper.html">
+                <div class="nav-item item">
+                    <i class="material-icons" style="font-size: 13px; margin-right: 10px;">
+                        crop
+                    </i>
+                    CROPPER
+                </div>
+            </a>
+            <a href="./design.html">
+                <div class="nav-item item active">
+                    <i class="material-icons" style="font-size: 13px; margin-right: 10px;">
+                        select_all
+                    </i>
+                    DESIGN
+                </div>
+            </a>
+        </div>
+    </body>
+</html>
