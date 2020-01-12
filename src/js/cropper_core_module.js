@@ -36,6 +36,7 @@ function Cropper(data_set, edit_image, palette_color) {
     this.input;
     
     // 버튼
+    this.button_download;
     this.button_upload;
     this.button_palette;
 
@@ -183,6 +184,22 @@ Cropper.prototype._handleStartPacking = function() {
 
 // [생성] 편집 기능
 Cropper.prototype._handleFunction = function(visibility) {
+    // [생성] 파일 다운로드 버튼
+    this.button_download = document.createElement("button");
+    this.button_download.id = "btn-download";
+    this.button_download.addEventListener("click", function(e) {
+        e.preventDefault();
+        this._handleMakeFile(this.canvas);
+    }.bind(this));
+    const button_download_icon = document.createElement("i");
+    button_download_icon.classList.add("material-icons");
+    button_download_icon.innerText = "vertical_align_bottom";
+    button_download_icon.style.fontSize = "20px";
+    this.button_download.appendChild(button_download_icon);
+    if(this.data_set.mode === "autopacking") {
+        this.target.appendChild(this.button_download);
+    }
+
     // [생성] 파일 업로드 태그
     this.input = document.createElement("input");
     this.input.type = "file";
@@ -993,61 +1010,61 @@ Cropper.prototype._handleComposeImage = function() {
             // this._handleMakeFile(this.canvas_design);
         }
     }.bind(this);
+}
 
-    // [다운로드] 파일 다운로드
-    Cropper.prototype._handleMakeFile = function(canvas) {
-        const result = canvas.toDataURL('image/png');
-        const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
-        const array = [];
-        for (let i = 0; i < blob_bin.length; i++) {
-            array.push(blob_bin.charCodeAt(i));
-        }
-        const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+// [다운로드] 파일 다운로드
+Cropper.prototype._handleMakeFile = function(canvas) {
+    const result = canvas.toDataURL('image/png');
+    const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
+    const array = [];
+    for (let i = 0; i < blob_bin.length; i++) {
+        array.push(blob_bin.charCodeAt(i));
+    }
+    const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
 
-        // [다운로드 방식]
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement("a")
-        a.style = "display: none"
-        a.href = url
-        a.download = "new_file_name.png"
+    // [다운로드 방식]
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.style = "display: none"
+    a.href = url
+    a.download = "new_file_name.png"
 
-        document.body.appendChild(a)
-        a.click()
+    document.body.appendChild(a)
+    a.click()
 
-        setTimeout(function() {
-            document.body.removeChild(a)
-            window.URL.revokeObjectURL(url) // 메모리 해제
-        }, 100);
+    setTimeout(function() {
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url) // 메모리 해제
+    }, 100);
+}
+
+// [파일전송] 파일 서버전송
+Cropper.prototype._handleSendFile = function(canvas) {
+    const result = canvas.toDataURL('image/png');
+    const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
+    const array = [];
+    for (let i = 0; i < blob_bin.length; i++) {
+        array.push(blob_bin.charCodeAt(i));
+    }
+    const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+
+    var data = new FormData();	// formData 생성
+    for(var i = 0; i < 60; i++) {
+        data.append("files", blob, 'new_file.png');	// file data 추가
     }
 
-    // [파일전송] 파일 서버전송
-    Cropper.prototype._handleSendFile = function(canvas) {
-        const result = canvas.toDataURL('image/png');
-        const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
-        const array = [];
-        for (let i = 0; i < blob_bin.length; i++) {
-            array.push(blob_bin.charCodeAt(i));
-        }
-        const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
-
-        var data = new FormData();	// formData 생성
-        for(var i = 0; i < 60; i++) {
-            data.append("files", blob, 'new_file.png');	// file data 추가
-        }
-
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(e) {
-            if (xhr.readyState == 4) {
-                if(xhr.status == 200) {
-                    console.log(xhr.responseText);
-                } else {
-                    console.log("Error loading page\n");
-                }
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(e) {
+        if (xhr.readyState == 4) {
+            if(xhr.status == 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.log("Error loading page\n");
             }
-        };
-        xhr.open("POST", "http://192.168.0.150:3000/upload", true);
-        xhr.send(data);
-    }
+        }
+    };
+    xhr.open("POST", "http://192.168.0.150:3000/upload", true);
+    xhr.send(data);
 }
 
 Cropper.prototype.destroy = function() {
