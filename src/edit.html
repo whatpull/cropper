@@ -48,8 +48,6 @@
                 editor.init();
 
                 const product = new SelectBox("selectbox-product", function(value) {
-                    console.log(value);
-
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function(e) {
                         if (xhr.readyState == 4) {
@@ -60,7 +58,7 @@
                                 editor = new Cropper(data.data_set, data.edit_image, palette_color);
                                 editor.init();
                             } else {
-                                console.log("Error loading page\n");
+                                console.log("xhr error");
                             }
                         }
                     };

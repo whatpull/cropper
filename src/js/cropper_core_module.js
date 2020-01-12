@@ -227,7 +227,6 @@ Cropper.prototype._handleFunction = function(visibility) {
         document.querySelector("#palette-div").classList.toggle("visible");
     });
     this._handleAreaImage();
-    this._handleEffectDraw(this.data_set.effect_img);
 
     // [팔레트] 1번 색상
     this.palette_color_div_01 = document.createElement("div");
@@ -413,6 +412,8 @@ Cropper.prototype._handleAreaImage = function(e) {
                 } else {
                     this._handleDraw(e);
                 }
+            } else {
+                this._handleEffectDraw(this.data_set.effect_img);
             }
         }.bind(this);
     } else {
@@ -430,6 +431,8 @@ Cropper.prototype._handleAreaImage = function(e) {
             } else {
                 this._handleDraw(e);
             }
+        } else {
+            this._handleEffectDraw(this.data_set.effect_img);
         }
     }
 }

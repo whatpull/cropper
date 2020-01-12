@@ -104,8 +104,6 @@
                 preview();
 
                 const product = new SelectBox("selectbox-product", function(value) {
-                    console.log(value);
-
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function(e) {
                         if (xhr.readyState == 4) {
@@ -114,7 +112,7 @@
                                 data = result.data[value];
                                 // 준비
                             } else {
-                                console.log("Error loading page\n");
+                                console.log("xhr error");
                             }
                         }
                     };
