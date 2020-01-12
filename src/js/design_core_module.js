@@ -25,7 +25,6 @@ function Design(data_set, asset_data) {
  
 Design.prototype.init = function() {
     this.target = document.createElement("div");
-    this.target.style.marginBottom = "10px";
     this.target.classList.add("design");
     document.body.appendChild(this.target);
 }

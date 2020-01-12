@@ -51,7 +51,7 @@ a {
     position: relative;
     overflow: hidden;
     width: calc(100% - 220px);
-    height: 100px;
+    height: calc(100vh - 2px);
     border: 1px solid #e1e1e1;
-    padding: 0px 50px 0px 0px;
+    padding: 0px 0px 0px 0px;
 }

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Auto Cropper</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet" />
+        <link href="./css/common.css" rel="stylesheet" />
+
+        <!-- 공통 -->
+        <script type="text/javascript" src="./js/common.js"></script>
+
+        <!-- 오토크로퍼 모듈 -->
+        <script type="text/javascript" src="./js/cropper_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/cropper.css" />
+
+        <!-- 셀렉트박스 모듈 -->
+        <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" />
+
+        <script>
+            window.onload = function() {
+                common.menu();
+
+                const editor = document.querySelector(".editor");
+                editor.style.justifyContent = "flex-start";
+                editor.style.alignItems = "flex-start";
+                editor.style.height = "initial";
+                editor.style.width = "calc(100% - 20px)";
+                editor.style.maxHeight = "calc(100vh - 20px)";
+                editor.style.padding = "10px";
+
+                palette_color = {
+                    color01: "#ffffff",
+                    color02: "#B6B5B5",
+                    color03: "#54B689",
+                    color04: "#A093D6",
+                    color05: "#7BB2E3",
+                    color06: "#D34249",
+                }
+
+                function preview() {
+                    const iphone_11pro = new Cropper({
+                        mode: "autopacking",
+                        mock_img: "./mock_img/iphone_11pro.png",
+                        area_img: "./mock_img/iphone_11pro_area.png",
+                        asset_img: "./mock_img/test.png",
+                        effect_img: "./mock_img/iphone_11effect.png",
+                        is_design: false
+                    }, {
+                        top: 0,
+                        left: 0,
+                        width: 200,
+                        height: 200
+                    }, palette_color);
+                    iphone_11pro.init();
+
+                    const pouch = new Cropper({
+                        mode: "autopacking",
+                        mock_img: "./mock_img/pouch.png",
+                        area_img: "./mock_img/pouch_area.png",
+                        asset_img: "./mock_img/test.png",
+                        effect_img: "./mock_img/pouch_effect.png",
+                        is_design: false
+                    }, {
+                        top: 0,
+                        left: 0,
+                        width: 600,
+                        height: 600
+                    }, palette_color);
+                    pouch.init();
+
+                    const cushion = new Cropper({
+                        mode: "autopacking",
+                        mock_img: "./mock_img/cushion.png",
+                        area_img: "./mock_img/cushion_area.png",
+                        asset_img: "./mock_img/test.png",
+                        effect_img: "./mock_img/cushion_effect.png",
+                        is_design: false
+                    }, {
+                        top: 0,
+                        left: 0,
+                        width: 400,
+                        height: 400
+                    }, palette_color);
+                    cushion.init();
+
+                    const blanket = new Cropper({
+                        mode: "autopacking",
+                        mock_img: "./mock_img/blanket.png",
+                        area_img: "./mock_img/blanket_area.png",
+                        asset_img: "./mock_img/test.png",
+                        effect_img: "./mock_img/blanket_effect.png",
+                        is_design: false
+                    }, {
+                        top: 120,
+                        left: 0,
+                        width: 400,
+                        height: 400
+                    }, palette_color);
+                    blanket.init()
+                }
+                // 실행
+                preview();
+
+                const product = new SelectBox("selectbox-product", function(value) {
+                    console.log(value);
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function(e) {
+                        if (xhr.readyState == 4) {
+                            if(xhr.status == 200) {
+                                result = JSON.parse(xhr.responseText);
+                                data = result.data[value];
+                                // 준비
+                            } else {
+                                console.log("Error loading page\n");
+                            }
+                        }
+                    };
+                    xhr.open("GET", "data/editor_item.json", true);
+                    xhr.send();
+                });
+                product.init();
+            }
+        </script>
+    </head>
+    <body class="ac">
+        <div class="wrapper">
+            <div class="content">
+                <div class="editor">
+
+                </div>
+            </div>
+            <div class="nav">
+                <div class="nav-head">
+                    <div class="nav-head-expander">
+
+                    </div>
+                    <div class="nav-head-logo">
+                        Auto Cropper
+                    </div>
+                </div>
+                <div class="nav-body">
+                    <div class="nav-body-menu">
+                        <div class="menu-item" data-page="edit">
+                            <i class="material-icons">
+                                crop_free
+                            </i>
+                            edit
+                        </div>
+                        <div class="menu-item active" data-page="auto">
+                            <i class="material-icons">
+                                style
+                            </i>
+                            auto
+                        </div>
+                    </div>
+                    <div class="nav-body-content">
+                        <div class="ap-selector selectbox-product">
+                            <select>
+                                <option value="">크리에이터</option>
+                                <option value="0">BJ이상호</option>
+                                <option value="1">와꾸대장봉준</option>
+                                <option value="2">항상#킴성태</option>
+                                <option value="3">감스트</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

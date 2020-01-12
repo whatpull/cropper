@@ -1,4 +1,35 @@
 // 생성자 프로토타입 체이닝
+/**
+ * 
+ * @param {*} data_set 
+ * @param {*} edit_image 
+ * @param {*} palette_color 
+ * 
+ * 변수 데이터 구조
+ * "data_set": {
+    "mode": "editor",
+    "mock_img": "./mock_img/iphone_11pro.png",
+    "area_img": "./mock_img/iphone_11pro_area.png",
+        "asset_img": "./mock_img/test.png",
+        "effect_img": "./mock_img/iphone_11effect.png",
+        "is_design": false
+    },
+    "edit_image": {
+        "top": 0,
+        "left": 0,
+        "width": 200,
+        "height": 200
+    },
+    palette_color = {
+        color01: "#ffffff",
+        color02: "#B6B5B5",
+        color03: "#54B689",
+        color04: "#A093D6",
+        color05: "#7BB2E3",
+        color06: "#D34249",
+    }
+ * 
+ */
 function Cropper(data_set, edit_image, palette_color) {
     // 시스템
     this.target;
@@ -53,31 +84,53 @@ function Cropper(data_set, edit_image, palette_color) {
 
     // 모드 표시[타이틀]
     this.mode_div;
+
+    // 리사이즈 이벤트
+    window.onresize = function() {
+        if(typeof this.edit_div === "object") {
+            const centerX = ((this.target.scrollWidth - this.canvas_worker.scrollWidth)/2);
+            this.edit_div.style.left = (this.edit_image.left + centerX) + "px";
+        }
+    }.bind(this);
 }
 
 Cropper.prototype.init = function() {
-    this.target = document.createElement("div");
-    this.target.style.marginBottom = "10px";
-    this.target.classList.add("cropper");
-    document.body.appendChild(this.target);
-
     // [모드 설정] 캔버스
     let visibility = "initial";
     let mode_title = "-";
+    let canvas_style_length = "600px";
+    
     // [모드] autopacking
     if(this.data_set.mode === "autopacking") {
         // visibility = "hidden";
-        mode_title = "auto packing mode";
+        mode_title = "PREVIEW";
+        canvas_style_length = "300px";
     } else if (this.data_set.mode === "editor") {
         visibility = "inital";
-        mode_title = "editor mode";
+        mode_title = "EDITOR";
+        canvas_style_length = "600px";
     }
+
+    // [생성] cropper(wrapper) 태그
+    this.target = document.createElement("div");
+    this.target.style.marginBottom = "10px";
+    this.target.style.minWidth = canvas_style_length;
+    if(this.data_set.mode === "autopacking") {
+        this.target.style.marginRight = "10px";
+        this.target.style.width = canvas_style_length;
+        this.target.style.border = "1px solid #e2e2e2";
+        this.target.style.alignItems = "flex-start";
+    }
+    this.target.classList.add("cropper");
+    document.querySelector(".editor").appendChild(this.target);
 
     // [생성] 모드 표시 태그
     this.mode_div = document.createElement("div");
     this.mode_div.id = "mode-div";
     this.mode_div.innerText = mode_title;
-    this.target.appendChild(this.mode_div);
+    if(this.data_set.mode === "autopacking") {
+        this.target.appendChild(this.mode_div);
+    }
 
     // [생성] 편집 기능
     this._handleFunction(visibility);
@@ -86,10 +139,12 @@ Cropper.prototype.init = function() {
     this.canvas = document.createElement("canvas");
     this.canvas.id = "canvas";
     this.canvas.style.visibility = visibility;
+    this.canvas.style.width = canvas_style_length;
+    this.canvas.style.height = canvas_style_length;
     // this.canvas.style.backgroundImage = 'url("'+ this.data_set.design_mock_img +'")';
-    this.canvas.style.backgroundRepeat = 'no-repeat';
-    this.canvas.style.backgroundPosition = 'center';
-    this.canvas.style.backgroundSize = '600px auto';
+    // this.canvas.style.backgroundRepeat = 'no-repeat';
+    // this.canvas.style.backgroundPosition = 'center';
+    // this.canvas.style.backgroundSize = '600px auto';
     this.target.appendChild(this.canvas);
     this.context = this.canvas.getContext('2d');
 
@@ -97,6 +152,8 @@ Cropper.prototype.init = function() {
     this.canvas_worker = document.createElement("canvas");
     this.canvas_worker.id = "canvas-worker";
     this.canvas_worker.style.visibility = visibility;
+    this.canvas_worker.style.width = canvas_style_length;
+    this.canvas_worker.style.height = canvas_style_length;
     this.target.appendChild(this.canvas_worker);
     this.context_worker = this.canvas_worker.getContext('2d');
 
@@ -104,6 +161,8 @@ Cropper.prototype.init = function() {
     this.canvas_design = document.createElement("canvas");
     this.canvas_design.id = "canvas-design";
     this.canvas_design.style.visibility = visibility;
+    this.canvas_design.style.width = canvas_style_length;
+    this.canvas_design.style.height = canvas_style_length;
     this.target.appendChild(this.canvas_design);
     this.context_design = this.canvas_design.getContext('2d');
 
@@ -145,6 +204,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     const button_upload_icon = document.createElement("i");
     button_upload_icon.classList.add("material-icons");
     button_upload_icon.innerText = "attach_file";
+    button_upload_icon.style.transform = "rotate( 45deg )";
     this.button_upload.appendChild(button_upload_icon);
 
     // [생성] 팔레트 버튼
@@ -162,7 +222,12 @@ Cropper.prototype._handleFunction = function(visibility) {
     // [팔레트]
     this.palette_div = document.createElement("div");
     this.palette_div.id = "palette-div";
+    this.button_palette.addEventListener("click", function(e) {
+        e.preventDefault();
+        document.querySelector("#palette-div").classList.toggle("visible");
+    });
     this._handleAreaImage();
+    this._handleEffectDraw(this.data_set.effect_img);
 
     // [팔레트] 1번 색상
     this.palette_color_div_01 = document.createElement("div");
@@ -172,6 +237,16 @@ Cropper.prototype._handleFunction = function(visibility) {
         e.preventDefault();
         this.selected_color = this.palette_color.color01;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color01);
+        
+        if(this.data_set.mode === "autopacking") {
+            this._handleAssetDraw(this.data_set.asset_img);
+        } else if(this.data_set.mode === "editor") {
+            if(this.data_set.is_design) {
+                this._handleAreaImageDesign();
+            } else {
+                this._handleDraw();
+            }
+        }
     }.bind(this));
     this.palette_div.appendChild(this.palette_color_div_01);
 
@@ -183,6 +258,16 @@ Cropper.prototype._handleFunction = function(visibility) {
         e.preventDefault();
         this.selected_color = this.palette_color.color02;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color02);
+        
+        if(this.data_set.mode === "autopacking") {
+            this._handleAssetDraw(this.data_set.asset_img);
+        } else if(this.data_set.mode === "editor") {
+            if(this.data_set.is_design) {
+                this._handleAreaImageDesign();
+            } else {
+                this._handleDraw();
+            }
+        }
     }.bind(this));
     this.palette_div.appendChild(this.palette_color_div_02);
 
@@ -194,6 +279,16 @@ Cropper.prototype._handleFunction = function(visibility) {
         e.preventDefault();
         this.selected_color = this.palette_color.color03;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color03);
+    
+        if(this.data_set.mode === "autopacking") {
+            this._handleAssetDraw(this.data_set.asset_img);
+        } else if(this.data_set.mode === "editor") {
+            if(this.data_set.is_design) {
+                this._handleAreaImageDesign();
+            } else {
+                this._handleDraw();
+            }
+        }
     }.bind(this));
     this.palette_div.appendChild(this.palette_color_div_03);
 
@@ -205,6 +300,16 @@ Cropper.prototype._handleFunction = function(visibility) {
         e.preventDefault();
         this.selected_color = this.palette_color.color04;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color04);
+    
+        if(this.data_set.mode === "autopacking") {
+            this._handleAssetDraw(this.data_set.asset_img);
+        } else if(this.data_set.mode === "editor") {
+            if(this.data_set.is_design) {
+                this._handleAreaImageDesign();
+            } else {
+                this._handleDraw();
+            }
+        }
     }.bind(this));
     this.palette_div.appendChild(this.palette_color_div_04);
 
@@ -216,6 +321,16 @@ Cropper.prototype._handleFunction = function(visibility) {
         e.preventDefault();
         this.selected_color = this.palette_color.color05;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color05);
+    
+        if(this.data_set.mode === "autopacking") {
+            this._handleAssetDraw(this.data_set.asset_img);
+        } else if(this.data_set.mode === "editor") {
+            if(this.data_set.is_design) {
+                this._handleAreaImageDesign();
+            } else {
+                this._handleDraw();
+            }
+        }
     }.bind(this));
     this.palette_div.appendChild(this.palette_color_div_05);
 
@@ -227,19 +342,28 @@ Cropper.prototype._handleFunction = function(visibility) {
         e.preventDefault();
         this.selected_color = this.palette_color.color06;
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color06);
+    
+        if(this.data_set.mode === "autopacking") {
+            this._handleAssetDraw(this.data_set.asset_img);
+        } else if(this.data_set.mode === "editor") {
+            if(this.data_set.is_design) {
+                this._handleAreaImageDesign();
+            } else {
+                this._handleDraw();
+            }
+        }
     }.bind(this));
     this.palette_div.appendChild(this.palette_color_div_06);
 
     // 모드별 기능 버튼 설정
     if(this.data_set.mode === "autopacking") {
-        this.button_palette.style.top = "10px";
-        this.palette_div.style.top = "70px";
+        // this.button_palette.style.top = "10px";
+        // this.palette_div.style.top = "70px";
     } else if(this.data_set.mode === "editor") {
         this.target.appendChild(this.button_upload);
+        this.target.appendChild(this.button_palette);
+        this.target.appendChild(this.palette_div);
     }
-
-    this.target.appendChild(this.button_palette);
-    this.target.appendChild(this.palette_div);
 }
 
 // [생성] 상품 이미지
@@ -280,10 +404,7 @@ Cropper.prototype._handleAreaImage = function(e) {
             // [모드 변환]
             this.context_worker.globalCompositeOperation = "source-over";
             this.context_worker.drawImage(this.area_img, centerX, centerY, this.area_img.naturalWidth, this.area_img.naturalHeight);
-
-            // [색상 지정]
             this._handleColorDraw(this.context_worker, this.canvas_worker, this.selected_color);
-
             if(this.data_set.mode === "autopacking") {
                 this._handleAssetDraw(this.data_set.asset_img);
             } else if(typeof e === "object" && this.data_set.mode === "editor") {
@@ -300,10 +421,7 @@ Cropper.prototype._handleAreaImage = function(e) {
         // [모드 변환]
         this.context_worker.globalCompositeOperation = "source-over";
         this.context_worker.drawImage(this.area_img, centerX, centerY, this.area_img.naturalWidth, this.area_img.naturalHeight);
-
-        // [색상 지정]
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.selected_color);
-
         if(this.data_set.mode === "autopacking") {
             this._handleAssetDraw(this.data_set.asset_img);
         } else if(typeof e === "object" && this.data_set.mode === "editor") {
@@ -378,19 +496,27 @@ Cropper.prototype._handleAssetDraw = function(url) {
     this.target.appendChild(this.upload_img);
     this.upload_img.onload = function() {
         // [비율]
-        const ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
-        
+        let ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
+
         const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
-        const width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
-        const height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
+        let width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
+        let height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
+
+        // [축소]
+        let scale_down = 1;
+        if(this.canvas_worker.width > this.canvas_worker.scrollWidth) {
+            scale_down = (this.canvas_worker.scrollWidth / this.canvas_worker.width);
+            width_ratio = width_ratio * scale_down;
+            height_ratio = height_ratio * scale_down;
+        }
 
         // [저장]
         // _handleSave();
         const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
         const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
 
-        this.edit_image.top = this.edit_image.top <= 0 ? centerY : this.edit_image.top;
-        this.edit_image.left = this.edit_image.left <= 0 ? centerX : this.edit_image.left;
+        this.edit_image.top = this.edit_image.top <= 0 ? centerY : this.edit_image.top * scale_down;
+        this.edit_image.left = this.edit_image.left <= 0 ? centerX : this.edit_image.left * scale_down;
         this.edit_image.width = width_ratio;
         this.edit_image.height = height_ratio;
 
@@ -413,7 +539,6 @@ Cropper.prototype._handleAssetDraw = function(url) {
 
 // [생성] 효과
 Cropper.prototype._handleEffectDraw = function(url) {
-    console.log("effect");
     if(typeof this.effect_img === "undefined") {
         this.effect_img = document.createElement("img");
         this.effect_img.src = url;
@@ -444,48 +569,48 @@ Cropper.prototype._handleEffectDraw = function(url) {
 // [생성] 디지털 자원(파일 업로드) - 에디터 전용
 Cropper.prototype._handleDraw = function(e) {
     if(typeof this.upload_img === "undefined") {
-        // [패턴 이미지] selection
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            this.upload_img = new Image();
-            this.upload_img.onload = function() {
-                // [비율]
-                const ratio =  (this.canvas_worker.width / this.canvas_worker.scrollWidth);
-
-                const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
-                const width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
-                const height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
-
-                // [저장]
-                // _handleSave();
-                const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
-                const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
-
-                this.edit_image.top = this.edit_image.top === 0 ? centerY : this.edit_image.top;
-                this.edit_image.left = this.edit_image.left === 0 ? centerX : this.edit_image.left;
-                this.edit_image.width = width_ratio;
-                this.edit_image.height = height_ratio;
-
-                // [모드 변환]
-                this.context_worker.globalCompositeOperation = "source-atop";
-                this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
-
-                this._handleEffectDraw(this.data_set.effect_img);
-
-                if(this.data_set.is_design) {
-                    // [모드 변환]
-                    this.context_design.globalCompositeOperation = "source-atop";
-                    this.context_design.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
-                }
-
-                // [편집 영역]
-                this._handleEditDiv();
-            }.bind(this);
-            this.upload_img.src = event.target.result;
-        }.bind(this);
         if(typeof e === "undefined") {
-            
+            this._handleEffectDraw(this.data_set.effect_img);
         } else {
+            // [패턴 이미지] selection
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                this.upload_img = new Image();
+                this.upload_img.onload = function() {
+                    // [비율] - 소수점 차이가 심한 경우 제대로 된 비율 계산이 어렵다. 왠만하면 캔버스와 해상도는 정사이즈 배율
+                    const ratio =  (this.canvas_worker.width / this.canvas_worker.scrollWidth);
+
+                    const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
+                    const width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
+                    const height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
+
+                    // [저장]
+                    // _handleSave();
+                    const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
+                    const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
+
+                    this.edit_image.top = this.edit_image.top === 0 ? centerY : this.edit_image.top;
+                    this.edit_image.left = this.edit_image.left === 0 ? centerX : this.edit_image.left;
+                    this.edit_image.width = width_ratio;
+                    this.edit_image.height = height_ratio;
+
+                    // [모드 변환]
+                    this.context_worker.globalCompositeOperation = "source-atop";
+                    this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
+
+                    this._handleEffectDraw(this.data_set.effect_img);
+
+                    if(this.data_set.is_design) {
+                        // [모드 변환]
+                        this.context_design.globalCompositeOperation = "source-atop";
+                        this.context_design.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
+                    }
+
+                    // [편집 영역]
+                    this._handleEditDiv();
+                }.bind(this);
+                this.upload_img.src = event.target.result;
+            }.bind(this);
             reader.readAsDataURL(e.target.files[0]);
         }
     } else {
@@ -508,14 +633,17 @@ Cropper.prototype._handleDraw = function(e) {
 
 // [생성] 편집영역
 Cropper.prototype._handleEditDiv = function() {
+    // 가운데 정렬 테스트
+    const centerX = ((this.target.scrollWidth - this.canvas_worker.scrollWidth)/2);
+
     this.edit_div = document.createElement("div");
     this.edit_div.id = "edit-div";
     this.edit_div.style.zIndex = 3;
     this.edit_div.style.width = this.edit_image.width + "px";
     this.edit_div.style.height = this.edit_image.height + "px";
     this.edit_div.style.position = "absolute";
-    this.edit_div.style.top = this.edit_image.top + "px";
-    this.edit_div.style.left = this.edit_image.left + "px";
+    this.edit_div.style.top =  this.edit_image.top + "px";
+    this.edit_div.style.left = (this.edit_image.left + centerX) + "px";
     this.target.appendChild(this.edit_div);
 
     // [선택]
@@ -533,7 +661,7 @@ Cropper.prototype._handleEditDiv = function() {
         e.preventDefault();
         if(this.edit_div.classList.contains("active") === true) {
             this.edit_div.classList.remove("active");
-            this._handleEffectDraw(this.data_set.effect_img);
+            // this._handleEffectDraw(this.data_set.effect_img);
         }
     }.bind(this), true);
 
@@ -569,7 +697,7 @@ Cropper.prototype._handleEditDiv = function() {
                 };
     
                 const x = this.mousePosition.x + this.offset[0];
-                const y = this.mousePosition.y + this.offset[1]
+                const y = this.mousePosition.y + this.offset[1];
     
                 this.edit_div.style.left = x + 'px';
                 this.edit_div.style.top  = y + 'px';
@@ -614,7 +742,9 @@ Cropper.prototype._handleMoveCanvasEditImage = function(x, y) {
     const ratio =  (this.canvas_worker.width / this.canvas_worker.scrollWidth);
     this._handleClearCanvas();
 
-    this.edit_image.left = x;
+    // 가운데 정렬 테스트
+    const centerX = ((this.target.scrollWidth - this.canvas_worker.scrollWidth)/2);
+    this.edit_image.left = x - centerX;
     this.edit_image.top = y;
 
     this.context_worker.globalCompositeOperation = "source-atop";
@@ -686,14 +816,14 @@ Cropper.prototype._handleResizableDiv = function(div) {
 
             original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
             original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
-            original_x = element.getBoundingClientRect().left;
-            original_y = element.getBoundingClientRect().top;
+            window.pageYOffset + element.getBoundingClientRect().top;
+            // original_x = element.getBoundingClientRect().left;
+            // original_y = element.getBoundingClientRect().top;
+            // 부모를 기준으로 한 상대좌표[절대 좌표의 연산 공식]
+            original_x = (window.pageYOffset + element.getBoundingClientRect().left) - (window.pageYOffset + this.target.getBoundingClientRect().left)
+            original_y = (window.pageYOffset + element.getBoundingClientRect().top) - (window.pageYOffset + this.target.getBoundingClientRect().top)
             original_mouse_x = e.pageX;
             original_mouse_y = e.pageY;
-
-            // 문제발생 original_y 위치값이 일치하지 않습니다.(top); 실제 맞지 않는 원인 파악
-            // 최상단 좌표가 아닌경우 오차 발생(원인 마진여부 파악)
-            console.log(element.getBoundingClientRect());
 
             window.addEventListener("mousemove", event_resize, true);
             window.addEventListener("mouseup", function() {
@@ -806,16 +936,6 @@ Cropper.prototype._handleColorDraw = function(context, canvas, color) {
         context.globalCompositeOperation = "source-atop";
         context.fillStyle = color;
         context.fillRect(0, 0, canvas.width, canvas.height);
-
-        if(this.data_set.mode === "autopacking") {
-            this._handleAssetDraw(this.data_set.asset_img);
-        } else if(this.data_set.mode === "editor") {
-            if(this.data_set.is_design) {
-                this._handleAreaImageDesign();
-            } else {
-                this._handleDraw();
-            }
-        }
     }
 }
 
@@ -925,4 +1045,9 @@ Cropper.prototype._handleComposeImage = function() {
         xhr.open("POST", "http://192.168.0.150:3000/upload", true);
         xhr.send(data);
     }
+}
+
+Cropper.prototype.destroy = function() {
+    // 이벤트 제거 방법 고민
+    this.target.remove();
 }
