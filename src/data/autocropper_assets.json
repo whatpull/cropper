@@ -7,6 +7,10 @@
         {
             "asset_id": 1,
             "asset_path": "./mock_img/test2.png"
+        },
+        {
+            "asset_id": 2,
+            "asset_path": "./mock_img/도안.jpg"
         }
     ]
 }

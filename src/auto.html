@@ -128,11 +128,17 @@
                             if(xhr.status == 200) {
                                 result = JSON.parse(xhr.responseText);
                                 assets = result.data;
-                                for(asset of assets) {
-                                    const assets_div = document.querySelector("#ac-assets");
+
+                                const assets_div = document.querySelector("#ac-assets");
+                                assets_div.innerHTML = "";
+                                for(index in assets) {
+                                    const asset = assets[index];
                                     const asset_div = document.createElement("div");
                                     asset_div.id = "asset-div-" + asset.asset_id;
                                     asset_div.classList.add("asset-item");
+                                    if(index == 0) {
+                                        asset_div.classList.add("active");
+                                    }
                                     asset_div.setAttribute("data-asset", asset.asset_path);
                                     asset_div.addEventListener("click", function(e) {
                                         // UI 선택
@@ -143,8 +149,6 @@
                                             }
                                         }
                                         this.classList.add("active");
-
-                                        console.log(this.getAttribute("data-asset"));
 
                                         preview_destroy();
                                         preview(this.getAttribute("data-asset"));
