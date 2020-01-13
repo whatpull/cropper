@@ -105,7 +105,7 @@ Cropper.prototype.init = function() {
     if(this.data_set.mode === "autopacking") {
         // visibility = "hidden";
         mode_title = "PREVIEW";
-        canvas_style_length = "300px";
+        canvas_style_length = "600px";
     } else if (this.data_set.mode === "editor") {
         visibility = "inital";
         mode_title = "EDITOR";
