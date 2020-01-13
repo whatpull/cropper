@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Auto Cropper</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="./css/common.css" rel="stylesheet" />
+        <link href="./css/table.css" rel="stylesheet" />
+        <link href="./afreecatv/css/creator.css" rel="stylesheet" />
+
+        <!-- 공통 -->
+        <script type="text/javascript" src="./js/common.js"></script>
+
+        <!-- 오토크로퍼 모듈 -->
+        <script type="text/javascript" src="./js/cropper_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/cropper.css" />
+
+        <!-- 셀렉트박스 모듈 -->
+        <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" />
+
+        <script>
+            window.onload = function() {
+                common.menu();
+                common.expander();
+
+                function fetch() {
+                    const target = document.querySelector("#ac-table");
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function(e) {
+                        if (xhr.readyState == 4) {
+                            if(xhr.status == 200) {
+                                result = JSON.parse(xhr.responseText);
+                                data = result.content;
+                                const tag = new StringBuffer();
+                                tag.append('<div></div>');
+
+                                // DIV ROW 생성
+                                const row = document.createElement("div");
+                                row.classList.add("ac-table-row");
+
+                                // DIV COLUM 생성, 데이터를 어떻게 파싱할지
+                                const column_01 = document.createElement("div");
+                                column_01.id = "ac-creator-name";
+                                column_01.classList.add("ac-table-column");
+
+                                row.appendChild(column_01);
+
+                                // target.innerHTML = tag.toString();
+                                target.appendChild(row);
+                            } else {
+                                console.log("xhr error");
+                            }
+                        }
+                    }
+                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators", true);
+                    xhr.send();
+                }
+                fetch();
+            }
+        </script>
+    </head>
+    <body class="ac">
+        <div class="wrapper">
+            <div class="content">
+                <div id="ac-table" class="ac-table">
+
+                </div>
+            </div>
+            <div class="nav reduction">
+                <div class="nav-head">
+                    <div class="nav-head-expander">
+                        <i class="material-icons">
+                            first_page
+                        </i>
+                    </div>
+                    <div class="nav-head-logo">
+                        Auto Cropper
+                    </div>
+                </div>
+                <div class="nav-body">
+                    <div class="nav-body-menu">
+                        <div class="menu-item" data-page="edit">
+                            <i class="material-icons">
+                                crop_free
+                            </i>
+                            edit
+                        </div>
+                        <div class="menu-item" data-page="auto">
+                            <i class="material-icons">
+                                style
+                            </i>
+                            auto
+                        </div>
+                        <div class="menu-item active" data-page="creator">
+                            <i class="material-icons">
+                                people
+                            </i>
+                            bj
+                        </div>
+                    </div>
+                    <div class="nav-body-content">
+                        1
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,13 @@
+.ac-table {
+    width: 1024px;
+    border: 1px solid #e2e2e2;
+}
+
+.ac-table .ac-table-row {
+    height: 80px;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.ac-table .ac-table-row:last-child {
+    border-bottom: none;
+}

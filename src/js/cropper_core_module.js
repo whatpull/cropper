@@ -241,7 +241,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.palette_div.id = "palette-div";
     this.button_palette.addEventListener("click", function(e) {
         e.preventDefault();
-        document.querySelector("#palette-div").classList.toggle("visible");
+        this.nextSibling.classList.toggle("visible");
     });
     this._handleAreaImage();
 
@@ -373,13 +373,14 @@ Cropper.prototype._handleFunction = function(visibility) {
 
     // 모드별 기능 버튼 설정
     if(this.data_set.mode === "autopacking") {
-        // this.button_palette.style.top = "10px";
-        // this.palette_div.style.top = "70px";
+        this.button_palette.style.top = "50px";
+        this.palette_div.style.top = "110px";
     } else if(this.data_set.mode === "editor") {
         this.target.appendChild(this.button_upload);
-        this.target.appendChild(this.button_palette);
-        this.target.appendChild(this.palette_div);
     }
+
+    this.target.appendChild(this.button_palette);
+    this.target.appendChild(this.palette_div);
 }
 
 // [생성] 상품 이미지
