@@ -1067,6 +1067,16 @@ Cropper.prototype._handleSendFile = function(canvas) {
     xhr.send(data);
 }
 
+Cropper.prototype.info = function() {
+    return {
+        top: this.edit_image.top,
+        left: this.edit_image.left,
+        width: this.edit_image.width,
+        height: this.edit_image.height,
+        color: this.selected_color
+    }
+}
+
 Cropper.prototype.destroy = function() {
     // 이벤트 제거 방법 고민
     this.target.remove();

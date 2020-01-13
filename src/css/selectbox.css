@@ -1,10 +1,10 @@
-.ap-selector {
+.ac-selector {
     position: relative;
     font-family: Arial;
     border: 1px solid #e2e2e2;
 }
 
-.ap-selector select {
+.ac-selector select {
     display: none;
 }
 

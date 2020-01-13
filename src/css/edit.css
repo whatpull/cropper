@@ -1,0 +1,30 @@
+.ac .nav .nav-body .nav-body-content .ac-info {
+    margin-top: 10px;
+    border: 1px solid #e2e2e2;
+}
+
+.ac .nav .nav-body .nav-body-content .ac-info-button {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #e2e2e2;
+    text-align: center;
+    cursor: pointer;
+}
+
+.ac .nav .nav-body .nav-body-content .ac-info .ac-info-item {
+    border-bottom: 1px solid #e2e2e2;
+    font-size: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.ac .nav .nav-body .nav-body-content .ac-info .ac-info-item .value {
+    flex: 1;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.ac .nav .nav-body .nav-body-content .ac-info .ac-info-item:last-child {
+    border-bottom: none;
+}

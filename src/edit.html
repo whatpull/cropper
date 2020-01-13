@@ -6,6 +6,7 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet" />
         <link href="./css/common.css" rel="stylesheet" />
+        <link href="./css/edit.css" rel="stylesheet" />
 
         <!-- 공통 -->
         <script type="text/javascript" src="./js/common.js"></script>
@@ -46,6 +47,16 @@
                     height: 200
                 }, palette_color);
                 editor.init();
+
+                // [이벤트] 버튼 클릭 - 정보 조회
+                document.querySelector("#btn-ac-info").addEventListener("click", function(e) {
+                    const info = editor.info();
+                    document.querySelector("#ac-info-top").innerText = info.top;
+                    document.querySelector("#ac-info-left").innerText = info.left;
+                    document.querySelector("#ac-info-width").innerText = info.width;
+                    document.querySelector("#ac-info-height").innerText = info.height;
+                    document.querySelector("#ac-info-color").innerText = info.color;
+                });
 
                 const product = new SelectBox("selectbox-product", function(value) {
                     var xhr = new XMLHttpRequest();
@@ -101,7 +112,7 @@
                         </div>
                     </div>
                     <div class="nav-body-content">
-                        <div class="ap-selector selectbox-product">
+                        <div class="ac-selector selectbox-product">
                             <select>
                                 <option value="">상품</option>
                                 <option value="0">아이폰 11</option>
@@ -109,6 +120,26 @@
                                 <option value="2">쿠션</option>
                                 <option value="3">담요</option>
                             </select>
+                        </div>
+                        <div id="btn-ac-info" class="ac-info-button">
+                            정보 조회
+                        </div>
+                        <div class="ac-info">
+                            <div class="ac-info-item">
+                                T (top) : <div id="ac-info-top" class="value">0</div>
+                            </div>
+                            <div class="ac-info-item">
+                                L (left) : <div id="ac-info-left" class="value">0</div>
+                            </div>
+                            <div class="ac-info-item">
+                                W (width) : <div id="ac-info-width" class="value">0</div>
+                            </div>
+                            <div class="ac-info-item">
+                                H (height) : <div id="ac-info-height" class="value">0</div>
+                            </div>
+                            <div class="ac-info-item">
+                                C (color) : <div id="ac-info-color" class="value">#</div>
+                            </div>
                         </div>
                     </div>
                 </div>
