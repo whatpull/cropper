@@ -1,0 +1,45 @@
+.ac .nav .nav-body .nav-body-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.ac .nav .nav-body .nav-body-content .ac-assets {
+    margin-top: 10px;
+    border: 1px solid #e2e2e2;
+    flex: 1;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+.ac .nav .nav-body .nav-body-content .ac-assets .ac-assets-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.ac .nav .nav-body .nav-body-content .ac-assets .ac-assets-wrapper .asset-item {
+    flex: 0 0 100px;
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 5px auto;
+    box-shadow: 0 0 0 1px #e2e2e2 inset;
+    cursor: pointer;
+}
+
+.ac .nav .nav-body .nav-body-content .ac-assets .ac-assets-wrapper .asset-item.active {
+    box-shadow: 0 0 0 3px #4286f4 inset;
+}
+
+.ac .nav .nav-body .nav-body-content .ac-upload-button {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #e2e2e2;
+    text-align: center;
+    cursor: pointer;
+}

@@ -1,0 +1,12 @@
+{
+    "data" : [
+        {
+            "asset_id": 0,
+            "asset_path": "./mock_img/test.png"
+        },
+        {
+            "asset_id": 1,
+            "asset_path": "./mock_img/test2.png"
+        }
+    ]
+}

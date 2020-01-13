@@ -6,6 +6,7 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet" />
         <link href="./css/common.css" rel="stylesheet" />
+        <link href="./css/auto.css" rel="stylesheet" />
 
         <!-- 공통 -->
         <script type="text/javascript" src="./js/common.js"></script>
@@ -39,12 +40,15 @@
                     color06: "#D34249",
                 }
 
-                function preview() {
-                    const iphone_11pro = new Cropper({
+                let iphone_11pro, pouch, cushion, blanket
+
+                // [미리보기]
+                function preview(asset_img) {
+                    iphone_11pro = new Cropper({
                         mode: "autopacking",
                         mock_img: "./mock_img/iphone_11pro.png",
                         area_img: "./mock_img/iphone_11pro_area.png",
-                        asset_img: "./mock_img/test.png",
+                        asset_img: asset_img,
                         effect_img: "./mock_img/iphone_11effect.png",
                         is_design: false
                     }, {
@@ -55,11 +59,11 @@
                     }, palette_color);
                     iphone_11pro.init();
 
-                    const pouch = new Cropper({
+                    pouch = new Cropper({
                         mode: "autopacking",
                         mock_img: "./mock_img/pouch.png",
                         area_img: "./mock_img/pouch_area.png",
-                        asset_img: "./mock_img/test.png",
+                        asset_img: asset_img,
                         effect_img: "./mock_img/pouch_effect.png",
                         is_design: false
                     }, {
@@ -70,11 +74,11 @@
                     }, palette_color);
                     pouch.init();
 
-                    const cushion = new Cropper({
+                    cushion = new Cropper({
                         mode: "autopacking",
                         mock_img: "./mock_img/cushion.png",
                         area_img: "./mock_img/cushion_area.png",
-                        asset_img: "./mock_img/test.png",
+                        asset_img: asset_img,
                         effect_img: "./mock_img/cushion_effect.png",
                         is_design: false
                     }, {
@@ -85,11 +89,11 @@
                     }, palette_color);
                     cushion.init();
 
-                    const blanket = new Cropper({
+                    blanket = new Cropper({
                         mode: "autopacking",
                         mock_img: "./mock_img/blanket.png",
                         area_img: "./mock_img/blanket_area.png",
-                        asset_img: "./mock_img/test.png",
+                        asset_img: asset_img,
                         effect_img: "./mock_img/blanket_effect.png",
                         is_design: false
                     }, {
@@ -100,26 +104,64 @@
                     }, palette_color);
                     blanket.init()
                 }
-                // 실행
-                preview();
 
-                const product = new SelectBox("selectbox-product", function(value) {
+                // [미리보기 파괴] 
+                function preview_destroy() {
+                    iphone_11pro.destroy();
+                    pouch.destroy();
+                    cushion.destroy();
+                    blanket.destroy();
+                }
+
+                // 실행
+                preview("./mock_img/test.png");
+
+                const product = new SelectBox("selectbox-creator", function(value) {
+                    fetch();
+                });
+                product.init();
+
+                function fetch() {
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function(e) {
                         if (xhr.readyState == 4) {
                             if(xhr.status == 200) {
                                 result = JSON.parse(xhr.responseText);
-                                data = result.data[value];
+                                assets = result.data;
+                                for(asset of assets) {
+                                    const assets_div = document.querySelector("#ac-assets");
+                                    const asset_div = document.createElement("div");
+                                    asset_div.id = "asset-div-" + asset.asset_id;
+                                    asset_div.classList.add("asset-item");
+                                    asset_div.setAttribute("data-asset", asset.asset_path);
+                                    asset_div.addEventListener("click", function(e) {
+                                        // UI 선택
+                                        const list = document.querySelectorAll(".asset-item");
+                                        for(item of list) {
+                                            if(item.classList.contains("active")) {
+                                                item.classList.remove("active");
+                                            }
+                                        }
+                                        this.classList.add("active");
+
+                                        console.log(this.getAttribute("data-asset"));
+
+                                        preview_destroy();
+                                        preview(this.getAttribute("data-asset"));
+                                    });
+                                    asset_div.style.backgroundImage = "url('" + asset.asset_path + "')";
+                                    assets_div.appendChild(asset_div);
+                                }
                                 // 준비
                             } else {
                                 console.log("xhr error");
                             }
                         }
                     };
-                    xhr.open("GET", "data/editor_item.json", true);
+                    xhr.open("GET", "data/autocropper_assets.json", true);
                     xhr.send();
-                });
-                product.init();
+                }
+                fetch();
             }
         </script>
     </head>
@@ -155,7 +197,7 @@
                         </div>
                     </div>
                     <div class="nav-body-content">
-                        <div class="ac-selector selectbox-product">
+                        <div class="ac-selector selectbox-creator">
                             <select>
                                 <option value="">크리에이터</option>
                                 <option value="0">BJ이상호</option>
@@ -163,6 +205,14 @@
                                 <option value="2">항상#킴성태</option>
                                 <option value="3">감스트</option>
                             </select>
+                        </div>
+                        <div class="ac-assets">
+                            <div id="ac-assets" class="ac-assets-wrapper">
+                                
+                            </div>
+                        </div>
+                        <div id="btn-ac-upload" class="ac-upload-button">
+                            UPLOAD
                         </div>
                     </div>
                 </div>
