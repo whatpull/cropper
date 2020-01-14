@@ -26,45 +26,11 @@
             window.onload = function() {
                 common.menu();
                 common.expander();
-
-                function fetch() {
-                    const target = document.querySelector("#ac-table");
-
-                    var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function(e) {
-                        if (xhr.readyState == 4) {
-                            if(xhr.status == 200) {
-                                result = JSON.parse(xhr.responseText);
-                                list = result.content;
-
-                                for(item of list) {
-                                    // DIV ROW 생성
-                                    const row = document.createElement("div");
-                                    row.classList.add("ac-table-row");
-
-                                    // DIV COLUM 생성, 데이터를 어떻게 파싱할지
-                                    const column_01 = document.createElement("div");
-                                    column_01.id = "ac-creator-name";
-                                    column_01.style.width = "150px";
-                                    column_01.innerText = item.creatorName;
-                                    column_01.classList.add("ac-table-column");
-
-                                    row.appendChild(column_01);
-                                    target.appendChild(row);
-                                }
-                            } else {
-                                console.log("xhr error");
-                            }
-                        }
-                    }
-                    // xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators", true);
-                    xhr.open("GET", "data/creator.json", true);
-                    xhr.send();
-                }
-                fetch();
-
-                const table = new Table(100, 10, 10);
+                
+                // const table = new Table(100, 10, 10, "data/creator.json");
+                const table = new Table(100, 10, 10, "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators");
                 table.paging(1);
+                table.body("page=0");
             }
         </script>
     </head>

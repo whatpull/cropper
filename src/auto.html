@@ -40,77 +40,60 @@
                     color06: "#D34249",
                 }
 
-                let iphone_11pro, pouch, cushion, blanket
+                let iphone_11pro, pouch, cushion, blanket;
+                let cropper = [];
 
                 // [미리보기]
                 function preview(asset_img) {
-                    iphone_11pro = new Cropper({
-                        mode: "autopacking",
-                        mock_img: "./mock_img/iphone_11pro.png",
-                        area_img: "./mock_img/iphone_11pro_area.png",
-                        asset_img: asset_img,
-                        effect_img: "./mock_img/iphone_11effect.png",
-                        is_design: false
-                    }, {
-                        top: 200,
-                        left: 0,
-                        width: 400,
-                        height: 400
-                    }, palette_color);
-                    iphone_11pro.init();
+                    for(let i = 1; i <= 3; i++) {
+                        fetchOption(i, asset_img);
+                    }
+                }
 
-                    pouch = new Cropper({
-                        mode: "autopacking",
-                        mock_img: "./mock_img/pouch.png",
-                        area_img: "./mock_img/pouch_area.png",
-                        asset_img: asset_img,
-                        effect_img: "./mock_img/pouch_effect.png",
-                        is_design: false
-                    }, {
-                        top: 0,
-                        left: 0,
-                        width: 600,
-                        height: 600
-                    }, palette_color);
-                    pouch.init();
+                function fetchOption(id, asset_img) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function(e) {
+                        if (xhr.readyState == 4) {
+                            if(xhr.status == 200) {
+                                result = JSON.parse(xhr.responseText);
+                                options = result.result.packageOptions;
+                                for(option of options) {
+                                    const path = option.imagePath;
+                                    const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
+                                    const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
+                                    const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
 
-                    cushion = new Cropper({
-                        mode: "autopacking",
-                        mock_img: "./mock_img/cushion.png",
-                        area_img: "./mock_img/cushion_area.png",
-                        asset_img: asset_img,
-                        effect_img: "./mock_img/cushion_effect.png",
-                        is_design: false
-                    }, {
-                        top: 100,
-                        left: 0,
-                        width: 600,
-                        height: 600
-                    }, palette_color);
-                    cushion.init();
-
-                    blanket = new Cropper({
-                        mode: "autopacking",
-                        mock_img: "./mock_img/blanket.png",
-                        area_img: "./mock_img/blanket_area.png",
-                        asset_img: asset_img,
-                        effect_img: "./mock_img/blanket_effect.png",
-                        is_design: false
-                    }, {
-                        top: 120,
-                        left: 0,
-                        width: 600,
-                        height: 600
-                    }, palette_color);
-                    blanket.init()
+                                    const temp = new Cropper({
+                                        mode: "autopacking",
+                                        mock_img: path + mock_img,
+                                        area_img: path + area_img,
+                                        asset_img: asset_img,
+                                        effect_img: path + effect_img,
+                                        is_design: false
+                                    }, {
+                                        top: parseFloat(option.mockTop),
+                                        left: parseFloat(option.mockLeft),
+                                        width: parseFloat(option.mockWidth),
+                                        height: parseFloat(option.mockHeight)
+                                    }, palette_color)
+                                    cropper.push(temp);
+                                    temp.init();
+                                }
+                            } else {
+                                console.log("xhr error");
+                            }
+                        }
+                    }
+                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + id, true);
+                    xhr.send();
                 }
 
                 // [미리보기 파괴] 
                 function preview_destroy() {
-                    iphone_11pro.destroy();
-                    pouch.destroy();
-                    cushion.destroy();
-                    blanket.destroy();
+                    const size = cropper.length;
+                    for(let i = 0; i < size; i++) {
+                        cropper[i].destroy();
+                    }
                 }
 
                 // 실행

@@ -386,11 +386,10 @@ Cropper.prototype._handleFunction = function(visibility) {
 // [생성] 상품 이미지
 Cropper.prototype._handleMockImage = function() {
     if(typeof this.mock_img === "undefined") {
-        this.mock_img = document.createElement("img");
-        this.mock_img.src = this.data_set.mock_img;
+        this.mock_img = new Image();
+        this.mock_img.crossOrigin = 'Anonymous';
         this.mock_img.id = "mock-img";
         this.mock_img.width = 0;
-        this.target.appendChild(this.mock_img);
         this.mock_img.onload = function() {
             this.canvas.width = this.mock_img.naturalWidth;
             this.canvas.height = this.mock_img.naturalHeight;
@@ -398,6 +397,7 @@ Cropper.prototype._handleMockImage = function() {
             const centerY = (this.canvas.scrollHeight/2) - (this.canvas.scrollHeight/2);
             this.context.drawImage(this.mock_img, centerX, centerY, this.mock_img.naturalWidth, this.mock_img.naturalHeight);
         }.bind(this);
+        this.mock_img.src = this.data_set.mock_img;
     } else {
         const centerX = (this.canvas.scrollWidth/2) - (this.canvas_worker.scrollWidth/2);
         const centerY = (this.canvas.scrollHeight/2) - (this.canvas.scrollHeight/2);
@@ -408,11 +408,10 @@ Cropper.prototype._handleMockImage = function() {
 // [생성] 상품 영역 이미지
 Cropper.prototype._handleAreaImage = function(e) {
     if(typeof this.area_img === "undefined") {
-        this.area_img = document.createElement("img");
-        this.area_img.src = this.data_set.area_img;
+        this.area_img = new Image();
+        this.area_img.crossOrigin = 'Anonymous';
         this.area_img.id = "area-img";
         this.area_img.width = 0;
-        this.target.appendChild(this.area_img);
         this.area_img.onload = function() {
             this.canvas_worker.width = this.area_img.naturalWidth;
             this.canvas_worker.height = this.area_img.naturalHeight;
@@ -434,6 +433,7 @@ Cropper.prototype._handleAreaImage = function(e) {
                 this._handleEffectDraw(this.data_set.effect_img);
             }
         }.bind(this);
+        this.area_img.src = this.data_set.area_img;
     } else {
         const centerX = (this.canvas_worker.scrollWidth/2) - (this.canvas_worker.scrollWidth/2);
         const centerY = (this.canvas_worker.scrollHeight/2) - (this.canvas_worker.scrollHeight/2);
@@ -458,11 +458,11 @@ Cropper.prototype._handleAreaImage = function(e) {
 // [생성] 도안 이미지
 Cropper.prototype._handleMockImageDesign = function(e) {
     if(typeof this.design_mock_img === "undefined") {
-        this.design_mock_img = document.createElement("img");
-        this.design_mock_img.src = this.data_set.design_mock_img;
+        this.design_mock_img = new Image();
+        this.design_mock_img.crossOrigin = 'Anonymous';
         this.design_mock_img.id = "design-mock-img";
         this.design_mock_img.width = 0;
-        this.target.appendChild(this.design_mock_img);
+        // this.target.appendChild(this.design_mock_img);
         this.design_mock_img.onload = function() {
             this.canvas_design.width = this.design_mock_img.naturalWidth;
             this.canvas_design.height = this.design_mock_img.naturalHeight;
@@ -470,6 +470,7 @@ Cropper.prototype._handleMockImageDesign = function(e) {
             const centerY = (this.canvas_design.scrollHeight/2) - (this.canvas_design.scrollHeight/2);
             this.context_design.drawImage(this.design_mock_img, centerX, centerY, this.design_mock_img.naturalWidth, this.design_mock_img.naturalHeight);
         }.bind(this);
+        this.design_mock_img.src = this.data_set.design_mock_img;
     } else {
         const centerX = (this.canvas_design.scrollWidth/2) - (this.canvas_design.scrollWidth/2);
         const centerY = (this.canvas_design.scrollHeight/2) - (this.canvas_design.scrollHeight/2);
@@ -480,11 +481,11 @@ Cropper.prototype._handleMockImageDesign = function(e) {
 // [생성] 도안 영역 이미지
 Cropper.prototype._handleAreaImageDesign = function(e) {
     if(typeof this.design_area_img === "undefined") {
-        this.design_area_img = document.createElement("img");
-        this.design_area_img.src = this.data_set.design_area_img;
+        this.design_area_img = new Image();
+        this.design_area_img.crossOrigin = 'Anonymous';
         this.design_area_img.id = "design-area-img";
         this.design_area_img.width = 0;
-        this.target.appendChild(this.design_area_img);
+        // this.target.appendChild(this.design_area_img);
         this.design_area_img.onload = function() {
             this.canvas_design.width = this.design_area_img.naturalWidth;
             this.canvas_design.height = this.design_area_img.naturalHeight;
@@ -499,6 +500,7 @@ Cropper.prototype._handleAreaImageDesign = function(e) {
                 this._handleDraw(e);
             }
         }.bind(this);
+        this.design_area_img.src = this.data_set.design_area_img;
     } else {
         const centerX = (this.canvas_design.scrollWidth/2) - (this.canvas_design.scrollWidth/2);
         const centerY = (this.canvas_design.scrollHeight/2) - (this.canvas_design.scrollHeight/2);
@@ -510,11 +512,11 @@ Cropper.prototype._handleAreaImageDesign = function(e) {
 
 // [생성] 디지털 자원 - 오토패킹 전용
 Cropper.prototype._handleAssetDraw = function(url) {
-    this.upload_img = document.createElement("img");
-    this.upload_img.src = url;
+    this.upload_img = new Image();
+    this.upload_img.crossOrigin = 'Anonymous';
     this.upload_img.id = "upload-img";
     this.upload_img.width = 0;
-    this.target.appendChild(this.upload_img);
+    // this.target.appendChild(this.upload_img);
     this.upload_img.onload = function() {
         // [비율]
         let ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
@@ -556,16 +558,17 @@ Cropper.prototype._handleAssetDraw = function(url) {
         // download_product();
         // download_design();
     }.bind(this);
+    this.upload_img.src = url;
 }
 
 // [생성] 효과
 Cropper.prototype._handleEffectDraw = function(url) {
     if(typeof this.effect_img === "undefined") {
-        this.effect_img = document.createElement("img");
-        this.effect_img.src = url;
+        this.effect_img = new Image();
+        this.effect_img.crossOrigin = 'Anonymous';
         this.effect_img.id = "effect-img";
         this.effect_img.width = 0;
-        this.target.appendChild(this.effect_img);
+        // this.target.appendChild(this.effect_img);
         this.effect_img.onload = function() {
             const centerX = (this.canvas_worker.scrollWidth/2) - (this.canvas_worker.scrollWidth/2);
             const centerY = (this.canvas_worker.scrollHeight/2) - (this.canvas_worker.scrollHeight/2);
@@ -575,6 +578,7 @@ Cropper.prototype._handleEffectDraw = function(url) {
         
             this._handleComposeImage();
         }.bind(this);
+        this.effect_img.src = url;
     } else {
         const centerX = (this.canvas_worker.scrollWidth/2) - (this.canvas_worker.scrollWidth/2);
         const centerY = (this.canvas_worker.scrollHeight/2) - (this.canvas_worker.scrollHeight/2);
@@ -988,11 +992,11 @@ Cropper.prototype._handleClearCanvas = function() {
 // [이벤트] 합성
 Cropper.prototype._handleComposeImage = function() {
     const data = this.canvas_worker.toDataURL('image/png');
-    this.composed_img = document.createElement("img");
-    this.composed_img.src = data;
+    this.composed_img = new Image();
+    this.composed_img.crossOrigin = 'Anonymous';
     this.composed_img.id = "composed-img";
     this.composed_img.width = 0;
-    this.target.appendChild(this.composed_img);
+    // this.target.appendChild(this.composed_img);
     this.composed_img.onload = function() {
         const centerX = (this.canvas.scrollWidth/2) - (this.canvas.scrollWidth/2);
         const centerY = (this.canvas.scrollHeight/2) - (this.canvas.scrollHeight/2);
@@ -1011,6 +1015,7 @@ Cropper.prototype._handleComposeImage = function() {
             // this._handleMakeFile(this.canvas_design);
         }
     }.bind(this);
+    this.composed_img.src = data;
 }
 
 // [다운로드] 파일 다운로드
