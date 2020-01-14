@@ -1,11 +1,20 @@
 .ac-table {
-    width: 1024px;
+    width: 100%;
+    max-width: 1024px;
     border: 1px solid #e2e2e2;
 }
 
 .ac-table .ac-table-row {
     height: 80px;
     border-bottom: 1px solid #e2e2e2;
+}
+
+.ac-table .ac-table-row .ac-table-column {
+    height: 100%;
+    border-right: 1px solid #e2e2e2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .ac-table .ac-table-row:last-child {

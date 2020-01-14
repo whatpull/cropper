@@ -5,7 +5,6 @@
         <title>Auto Cropper</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         <link href="./css/common.css" rel="stylesheet" />
-        <link href="./css/table.css" rel="stylesheet" />
         <link href="./afreecatv/css/creator.css" rel="stylesheet" />
 
         <!-- 공통 -->
@@ -18,6 +17,10 @@
         <!-- 셀렉트박스 모듈 -->
         <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
         <link rel="stylesheet" type="text/css" href="./css/selectbox.css" />
+
+        <!-- 테이블 모듈 -->
+        <script type="text/javascript" src="./js/table_core_module.js"></script>
+        <link href="./css/table.css" rel="stylesheet" />
 
         <script>
             window.onload = function() {
@@ -32,38 +35,45 @@
                         if (xhr.readyState == 4) {
                             if(xhr.status == 200) {
                                 result = JSON.parse(xhr.responseText);
-                                data = result.content;
-                                const tag = new StringBuffer();
-                                tag.append('<div></div>');
+                                list = result.content;
 
-                                // DIV ROW 생성
-                                const row = document.createElement("div");
-                                row.classList.add("ac-table-row");
+                                for(item of list) {
+                                    // DIV ROW 생성
+                                    const row = document.createElement("div");
+                                    row.classList.add("ac-table-row");
 
-                                // DIV COLUM 생성, 데이터를 어떻게 파싱할지
-                                const column_01 = document.createElement("div");
-                                column_01.id = "ac-creator-name";
-                                column_01.classList.add("ac-table-column");
+                                    // DIV COLUM 생성, 데이터를 어떻게 파싱할지
+                                    const column_01 = document.createElement("div");
+                                    column_01.id = "ac-creator-name";
+                                    column_01.style.width = "150px";
+                                    column_01.innerText = item.creatorName;
+                                    column_01.classList.add("ac-table-column");
 
-                                row.appendChild(column_01);
-
-                                // target.innerHTML = tag.toString();
-                                target.appendChild(row);
+                                    row.appendChild(column_01);
+                                    target.appendChild(row);
+                                }
                             } else {
                                 console.log("xhr error");
                             }
                         }
                     }
-                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators", true);
+                    // xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators", true);
+                    xhr.open("GET", "data/creator.json", true);
                     xhr.send();
                 }
                 fetch();
+
+                const table = new Table(100, 10, 10);
+                table.paging(1);
             }
         </script>
     </head>
     <body class="ac">
         <div class="wrapper">
             <div class="content">
+                <div id="ac-table-paging" class="ac-table-paging">
+
+                </div>
                 <div id="ac-table" class="ac-table">
 
                 </div>
@@ -97,7 +107,7 @@
                             <i class="material-icons">
                                 people
                             </i>
-                            bj
+                            creator
                         </div>
                     </div>
                     <div class="nav-body-content">
