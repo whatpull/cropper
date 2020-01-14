@@ -1,0 +1,51 @@
+.ac .wrapper .content {
+    display: flex;
+    flex-direction: row;
+}
+
+.ac .nav .nav-head .nav-head-expander {
+    cursor: not-allowed;
+}
+
+.ac .wrapper .content .info {
+    flex: 0 0 300px;
+    border-right: 1px solid #e2e2e2;
+    padding: 20px;
+}
+
+.ac .wrapper .content .info .profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #fafafa;
+}
+
+.ac .wrapper .content .info .profile .thumbnail {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid #e2e2e2;
+    background-color: #ffffff;
+}
+
+.ac .wrapper .content .info .profile .id {
+    margin-top: 10px;
+}
+
+.ac .wrapper .content .info .profile .name {
+    margin-top: 10px;
+}
+
+.ac .wrapper .content .info .accounts {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ac .wrapper .content .data {
+    flex: 1;
+}

@@ -8,15 +8,12 @@ function Table(totalElements, size, totalPages, url) {
 
 // 페이지 처리
 // https://sjh010.tistory.com/1
-Table.prototype.paging = function(currentPage) {
+Table.prototype.paging = function(currentPage, callback) {
     const target = document.querySelector("#ac-table-paging");
     target.innerHTML = "";
 
     // 페이지 그룹 만들기
     const pageGroup = Math.ceil(currentPage/this.pageCount);
-
-    console.log(pageGroup * this.pageCount);
-    console.log(this.totalPages);
 
     // [변수] 페이지 셋팅에 필요값
     const last = pageGroup * this.pageCount > this.totalPages ? this.totalPages : pageGroup * this.pageCount;
@@ -35,8 +32,10 @@ Table.prototype.paging = function(currentPage) {
     if(prev_block > 0) { // append prev
         prev_block_div.addEventListener("click", function(e) {
             e.preventDefault();
-            this.body("page=" + (Number(prev_block) - 1));
+            this.body("page=" + (Number(prev_block) - 1), callback);
         }.bind(this));
+    } else {
+        prev_block_div.classList.add("disabled");
     }
 
     // [버튼] 이전
@@ -48,8 +47,10 @@ Table.prototype.paging = function(currentPage) {
     if(prev >= 1) { // append prev
         prev_div.addEventListener("click", function(e) {
             e.preventDefault();
-            this.body("page=" + (Number(prev) - 1));
+            this.body("page=" + (Number(prev) - 1), callback);
         }.bind(this));
+    } else {
+        prev_div.classList.add("disabled");
     }
 
     // [버튼] 숫자
@@ -61,7 +62,7 @@ Table.prototype.paging = function(currentPage) {
         num_div.addEventListener("click", function(e) {
             e.preventDefault();
             const i = e.target.getAttribute("id").split("num-")[1];
-            this.body("page=" + (Number(i) - 1));
+            this.body("page=" + (Number(i) - 1), callback);
         }.bind(this));
         target.appendChild(num_div);
     }
@@ -75,8 +76,10 @@ Table.prototype.paging = function(currentPage) {
     if(next <= this.totalPages) { // append prev
         next_div.addEventListener("click", function(e) {
             e.preventDefault();
-            this.body("page=" + (Number(next) - 1));
+            this.body("page=" + (Number(next) - 1), callback);
         }.bind(this));
+    } else {
+        next_div.classList.add("disabled");
     }
 
     // [버튼] 블락
@@ -88,15 +91,17 @@ Table.prototype.paging = function(currentPage) {
     if(last < this.totalPages) { // append next
         next_block_div.addEventListener("click", function(e) {
             e.preventDefault();
-            this.body("page=" + (Number(next_block) - 1));
+            this.body("page=" + (Number(next_block) - 1), callback);
         }.bind(this));
+    } else {
+        next_block_div.classList.add("disabled");
     }
 
-    // 현재 페이지 active
-    
+    // 활성화된 페이지
+    document.querySelector("#num-"+currentPage).classList.add("active");
 }
 
-Table.prototype.body = function(data) {
+Table.prototype.body = function(data, callback) {
     const target = document.querySelector("#ac-table");
     target.innerHTML = "";
 
@@ -107,31 +112,18 @@ Table.prototype.body = function(data) {
                 result = JSON.parse(xhr.responseText);
                 list = result.content;
 
-                // 페이지 호출
-                // console.log(result);
-                // console.log(result);
-
+                // 페이지 설정(pageable - Spring)
                 const currentPage = result.pageable.pageNumber + 1;
                 this.totalElements = result.totalElements;
                 this.size = result.size;
                 this.totalPages = result.totalPages;
 
-                this.paging(currentPage);
+                this.paging(currentPage, callback);
 
                 for(item of list) {
-                    // DIV ROW 생성
-                    const row = document.createElement("div");
-                    row.classList.add("ac-table-row");
-
-                    // DIV COLUM 생성, 데이터를 어떻게 파싱할지
-                    const column_01 = document.createElement("div");
-                    column_01.id = "ac-creator-name";
-                    column_01.style.width = "150px";
-                    column_01.innerText = item.creatorName;
-                    column_01.classList.add("ac-table-column");
-
-                    row.appendChild(column_01);
-                    target.appendChild(row);
+                    if(typeof callback === "function") {
+                        callback(item, target);
+                    }
                 }
             } else {
                 console.log("xhr error");

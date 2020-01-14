@@ -1,3 +1,10 @@
+.ac .wrapper .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .ac .nav .nav-head .nav-head-expander {
     cursor: not-allowed;
 }

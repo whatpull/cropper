@@ -1,12 +1,16 @@
 .ac-table {
-    width: 100%;
-    max-width: 1024px;
+    width: fit-content;
     border: 1px solid #e2e2e2;
 }
 
 .ac-table .ac-table-row {
     height: 80px;
     border-bottom: 1px solid #e2e2e2;
+    display: flex;
+}
+
+.ac-table .ac-table-row:last-child {
+    border-bottom: none;
 }
 
 .ac-table .ac-table-row .ac-table-column {
@@ -17,8 +21,18 @@
     align-items: center;
 }
 
-.ac-table .ac-table-row:last-child {
-    border-bottom: none;
+.ac-table .ac-table-row .ac-table-column:last-child {
+    border-right: 0px;
+}
+
+.ac-table .ac-table-row .ac-table-column .ac-table-btn-detail {
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #e2e2e2;
 }
 
 .ac-table-paging {
@@ -33,4 +47,13 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+}
+
+.ac-table-paging .btn.disabled {
+    opacity: 0.5;
+}
+
+.ac-table-paging .btn-num.active{
+    color: #4286f4;
+    font-weight: bold;
 }
