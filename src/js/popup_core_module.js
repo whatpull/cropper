@@ -23,8 +23,8 @@ Popup.prototype.init = function(form) {
     document.body.appendChild(this.dim);
 
     this.popup = document.createElement("div");
-    this.popup.style.width = "700px";
-    this.popup.style.height = "700px";
+    // this.popup.style.width = "700px";
+    // this.popup.style.height = "700px";
     this.popup.style.backgroundColor = "#ffffff";
     this.popup.style.borderRadius = "10px";
     this.popup.style.overflowY = "auto";

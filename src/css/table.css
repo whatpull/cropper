@@ -57,3 +57,23 @@
     color: #4286f4;
     font-weight: bold;
 }
+
+.ac-table-head {
+    display: flex;
+}
+
+.ac-table-head .column {
+    border: 1px solid #e2e2e2;
+    background-color: #fafafa;
+    border-bottom: none;
+    border-right: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    font-weight: bold;
+}
+
+.ac-table-head .column:last-child {
+    border-right: 1px solid #e2e2e2;
+}

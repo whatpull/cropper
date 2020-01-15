@@ -51,6 +51,11 @@
 
                 // {"code":0,"result":{"assetPath":"https://ogq-commerce.s3.ap-northeast-2.amazonaws.com/afreeca/asset/6d57c0e9-cd4e-4836-8811-fec89011dfe8.png","assetFileName":"6d57c0e9-cd4e-4836-8811-fec89011dfe8.png"}}
 
+                document.querySelector("#asset-file-btn").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    document.querySelector("#asset-file").click();
+                });
+
                 // 파일 업로드
                 document.querySelector("#asset-file").addEventListener("change", function(e) {
                     // console.log(e.target.files[0]);
@@ -75,12 +80,11 @@
                                     var assetPath = obj.result.assetPath;
                                     var assetFileName = obj.result.assetFileName;
 
-                                    var param = {
-                                        assetFileName: assetFileName,
-                                        assetPath: assetPath,
-                                        name: "테스트",
-                                        productCreatorId: id
-                                    }
+                                    var param = new FormData();
+                                    param.append('assetFileName', assetFileName);
+                                    param.append('assetPath', assetPath);
+                                    param.append('name', "테스트");
+                                    param.append('productCreatorId', id);
 
                                     var xhr_ = new XMLHttpRequest();
                                     xhr_.onreadystatechange = function(e) {
@@ -93,7 +97,7 @@
                                         }
                                     }
                                     xhr_.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/asset", true);
-                                    xhr_.send(JSON.stringify(param));
+                                    xhr_.send(param);
                                 } else {
                                     console.log("Error loading page");
                                 }
@@ -109,6 +113,9 @@
                 function parsing(data) {
                     document.querySelector("#profile-id").innerText = data.userId;
                     document.querySelector("#profile-name").innerText = data.creatorName;
+
+                    document.querySelector("#accounts-info").innerText = data.productCreatorAccounts[0].bankName + " | " + data.productCreatorAccounts[0].ownerName;
+                    document.querySelector("#accounts-no").innerHTML = data.productCreatorAccounts[0].accountNo;
                 }
             }
         </script>
@@ -123,14 +130,35 @@
                         <div id="profile-name" class="name">1</div>
                     </div>
                     <div class="accounts">
-                        
+                        <div id="accounts-info">1</div>
+                        <div id="accounts-no">2</div>
                     </div>
+                    <div id="accounts-regist-btn" class="accounts-regist-btn">계좌 수정</div>
                 </div>
                 <div class="data">
                     <input id="asset-file" type="file"/>
-                    <p>
+                    <div id="asset-file-btn" class="asset-file-btn">파일 업로드</div>
                     <div id="asset-list" class="asset-list">
-                        그리드 패턴(IP 이미지 리스트)
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
+                        <div class="asset-item"></div>
                     </div>
                 </div>
             </div>

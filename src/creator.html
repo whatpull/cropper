@@ -30,8 +30,8 @@
                 common.menu();
                 common.expander();
                 
-                // const table = new Table(100, 10, 10, "data/creator.json");
-                const table = new Table(100, 10, 10, "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators");
+                // const table = new Table("data/creator.json");
+                const table = new Table("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators");
                 table.body("page=0", function(item, target) {
                     // DIV ROW 생성
                     const row = document.createElement("div");
@@ -45,30 +45,37 @@
                     column_01.classList.add("ac-table-column");
                     
                     const column_02 = document.createElement("div");
-                    column_02.id = "ac-creator-name";
+                    column_02.id = "ac-creator-id";
                     column_02.style.width = "150px";
-                    column_02.innerText = item.creatorName;
+                    column_02.innerText = item.userId;
                     column_02.classList.add("ac-table-column");
+
+                    const column_03 = document.createElement("div");
+                    column_03.id = "ac-creator-name";
+                    column_03.style.width = "150px";
+                    column_03.innerText = item.creatorName;
+                    column_03.classList.add("ac-table-column");
 
                     const btn_detail = document.createElement("div");
                     btn_detail.id = "ac-btn-detail";
                     btn_detail.setAttribute("data-id", item.id);
-                    btn_detail.innerText = "DETAIL";
+                    btn_detail.innerText = "상세";
                     btn_detail.classList.add("ac-table-btn-detail");
                     btn_detail.addEventListener("click", function(e) {
                         e.preventDefault();
                         window.location.href = "creator_detail.html?id=" + this.getAttribute("data-id");
                     });
 
-                    const column_03 = document.createElement("div");
-                    column_03.id = "ac-creator-setting";
-                    column_03.style.width = "150px";
-                    column_03.classList.add("ac-table-column");
-                    column_03.appendChild(btn_detail);
+                    const column_04 = document.createElement("div");
+                    column_04.id = "ac-creator-setting";
+                    column_04.style.width = "150px";
+                    column_04.classList.add("ac-table-column");
+                    column_04.appendChild(btn_detail);
 
                     row.appendChild(column_01);
                     row.appendChild(column_02);
                     row.appendChild(column_03);
+                    row.appendChild(column_04);
 
                     target.appendChild(row);
                 });
@@ -80,83 +87,126 @@
                     form.id = "creator-regist";
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
-                    form.style.margin = "10px";
+                    form.style.margin = "30px";
                     form.style.justifyContent = "center";
                     form.style.alignItems = "center";
 
+                    // 타이틀
+                    const title_div = document.createElement("div");
+                    title_div.innerText = "CREATOR REGIST"
+                    title_div.style.fontSize = "20px";
+                    title_div.style.fontWeight = "bold";
+                    title_div.style.color = "#4286f4";
+
                     // 이름
                     const name_div = document.createElement("div");
-                    const name_label = document.createElement("span");
+                    const name_label = document.createElement("div");
                     name_label.innerText = "이름 : ";
+                    name_label.style.width = "100px";
+                    name_label.style.fontWeight = "bold";
                     const name = document.createElement("input");
                     name.id = "creator-name";
+                    name.style.padding = "5px";
+                    name.style.fontSize = "15px";
                     name.setAttribute("name", "creatorName");
-                    name_div.style.marginTop = "10px";
+                    name_div.style.marginTop = "20px";
+                    // name_div.style.width = "300px";
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
 
                     // 계정
                     const id_div = document.createElement("div");
-                    const id_label = document.createElement("span");
+                    const id_label = document.createElement("div");
                     id_label.innerText = "아이디 : ";
+                    id_label.style.width = "100px";
+                    id_label.style.fontWeight = "bold";
                     const id = document.createElement("input");
                     id.id = "user-id";
+                    id.style.padding = "5px";
+                    id.style.fontSize = "15px";
                     id.setAttribute("name", "userId");
-                    id_div.style.marginTop = "10px";
+                    id_div.style.marginTop = "20px";
+                    // id_div.style.width = "300px";
                     id_div.appendChild(id_label);
                     id_div.appendChild(id);
 
                     // 계좌 번호
                     const account_no_div = document.createElement("div");
-                    const account_no_div_label = document.createElement("span");
+                    const account_no_div_label = document.createElement("div");
                     account_no_div_label.innerText = "계좌번호 : ";
+                    account_no_div_label.style.width = "100px";
+                    account_no_div_label.style.fontWeight = "bold";
                     const account_no = document.createElement("input");
                     account_no.id = "account-no";
+                    account_no.style.padding = "5px";
+                    account_no.style.fontSize = "15px";
                     account_no.setAttribute("name", "accountNo");
-                    account_no_div.style.marginTop = "10px";
+                    account_no_div.style.marginTop = "20px";
+                    // account_no_div.style.width = "300px";
                     account_no_div.appendChild(account_no_div_label);
                     account_no_div.appendChild(account_no);
 
                     // 은행 코드
                     const bank_code_div = document.createElement("div");
-                    const bank_code_div_label = document.createElement("span");
+                    const bank_code_div_label = document.createElement("div");
                     bank_code_div_label.innerText = "은행코드 : ";
+                    bank_code_div_label.style.width = "100px";
+                    bank_code_div_label.style.fontWeight = "bold";
                     const bank_code = document.createElement("input");
                     bank_code.id = "bank-code";
+                    bank_code.style.padding = "5px";
+                    bank_code.style.fontSize = "15px";
                     bank_code.setAttribute("name", "bankCode");
                     bank_code.value = "1111";
-                    bank_code_div.style.marginTop = "10px";
+                    bank_code_div.style.marginTop = "20px";
+                    // bank_code_div.style.width = "300px";
                     bank_code_div.appendChild(bank_code_div_label);
                     bank_code_div.appendChild(bank_code);
 
                     // 은행 이름
                     const bank_name_div = document.createElement("div");
-                    const bank_name_div_label = document.createElement("span");
+                    const bank_name_div_label = document.createElement("div");
                     bank_name_div_label.innerText = "은행이름 : ";
+                    bank_name_div_label.style.width = "100px";
+                    bank_name_div_label.style.fontWeight = "bold";
                     const bank_name = document.createElement("input");
                     bank_name.id = "bank-name";
+                    bank_name.style.padding = "5px";
+                    bank_name.style.fontSize = "15px";
                     bank_name.setAttribute("name", "bankName");
-                    bank_name_div.style.marginTop = "10px";
+                    bank_name_div.style.marginTop = "20px";
+                    // bank_name_div.style.width = "300px";
                     bank_name_div.appendChild(bank_name_div_label);
                     bank_name_div.appendChild(bank_name);
 
                     // 계좌주 이름
                     const owner_name_div = document.createElement("div");
-                    const owner_name_div_label = document.createElement("span");
+                    const owner_name_div_label = document.createElement("div");
                     owner_name_div_label.innerText = "계좌주 : ";
+                    owner_name_div_label.style.width = "100px";
+                    owner_name_div_label.style.fontWeight = "bold";
                     const owner_name = document.createElement("input");
                     owner_name.id = "owner-name";
+                    owner_name.style.padding = "5px";
+                    owner_name.style.fontSize = "15px";
                     owner_name.setAttribute("name", "ownerName");
-                    owner_name_div.style.marginTop = "10px";
+                    owner_name_div.style.marginTop = "20px";
+                    // owner_name_div.style.width = "300px";
                     owner_name_div.appendChild(owner_name_div_label);
                     owner_name_div.appendChild(owner_name);
 
                     // 버튼
-                    const submit_btn = document.createElement("button");
-                    submit_btn.innerText = "SUBMIT";
+                    const submit_btn = document.createElement("div");
+                    submit_btn.innerText = "등록";
                     submit_btn.style.width = "100px";
                     submit_btn.style.height = "40px";
-                    submit_btn.style.marginTop = "10px";
+                    submit_btn.style.marginTop = "20px";
+                    submit_btn.style.backgroundColor = "#FFFFFF";
+                    submit_btn.style.border = "1px solid #e2e2e2";
+                    submit_btn.style.display = "flex";
+                    submit_btn.style.justifyContent = "center";
+                    submit_btn.style.alignItems = "center";
+                    submit_btn.style.cursor = "pointer";
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
                         console.log(e);
@@ -168,33 +218,26 @@
                         const bank_name = document.querySelector("#bank-name").value;
                         const owner_name = document.querySelector("#owner-name").value;
 
-                        var data = {
-                            productCreatorAccounts: {}
-                        }
+                        var data = new FormData();
 
                         if(creator_name !== "") {
-                            data.creatorName = creator_name;
+                            data.append("creatorName", creator_name);
                         }
                         if(user_id !== "") {
-                            data.userId = user_id;
+                            data.append("userId", user_id);
                         }
-                        if(account_no !== "") {
-                            data.productCreatorAccounts.accountNo = account_no;
-                        }
-                        if(bank_code !== "") {
-                            data.productCreatorAccounts.bankCode = bank_code;
-                        }
-                        if(bank_name !== "") {
-                            data.productCreatorAccounts.bankName = bank_name;
-                        }
-                        if(owner_name !== "") {
-                            data.productCreatorAccounts.ownerName = owner_name;
+                        if(account_no !== "" && bank_code !== "" && bank_name !== "" && owner_name !== "") {
+                            data.append("productCreatorAccounts[0].accountNo", account_no);
+                            data.append("productCreatorAccounts[0].bankCode", bank_code);
+                            data.append("productCreatorAccounts[0].bankName", bank_name);
+                            data.append("productCreatorAccounts[0].ownerName", owner_name);
                         }
 
                         console.log(data);
                         send(data);
                     });
 
+                    form.appendChild(title_div);
                     form.appendChild(name_div);
                     form.appendChild(id_div);
                     form.appendChild(account_no_div);
@@ -214,14 +257,14 @@
                             if(xhr.status == 200) {
                                 result = JSON.parse(xhr.responseText);
                                 data = result.result;
-                                parsing(data);
+                                console.log(data);
                             } else {
                                 console.log("xhr error");
                             }
                         }
                     }
                     xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreator", true);
-                    xhr.send(JSON.stringify(data));
+                    xhr.send(data);
                 }
 
                 // [버튼] 등록
@@ -240,6 +283,12 @@
                 </div>
                 <div id="ac-table-paging" class="ac-table-paging">
 
+                </div>
+                <div id="ac-table-head" class="ac-table-head">
+                    <div class="column">번호</div>
+                    <div class="column">아이디</div>
+                    <div class="column">이름</div>
+                    <div class="column">관리</div>
                 </div>
                 <div id="ac-table" class="ac-table">
 

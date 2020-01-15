@@ -27,13 +27,97 @@
                 common.menu();
                 common.expander();
 
+                // const table = new Table("data/creator.json");
+                const table = new Table("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreators");
+                table.body("page=0", function(item, target) {
+                    // DIV ROW 생성
+                    const row = document.createElement("div");
+                    row.classList.add("ac-table-row");
+
+                    // DIV COLUM 생성, 데이터를 어떻게 파싱할지
+                    // 번호
+                    const column_01 = document.createElement("div");
+                    column_01.id = "ac-maker-number";
+                    column_01.style.width = "80px";
+                    column_01.innerText = item.id;
+                    column_01.classList.add("ac-table-column");
+                    
+                    // 이름
+                    const column_02 = document.createElement("div");
+                    column_02.id = "ac-maker-name";
+                    column_02.style.width = "150px";
+                    column_02.innerText = item.name;
+                    column_02.classList.add("ac-table-column");
+
+                    // 연락처
+                    const column_03 = document.createElement("div");
+                    column_03.id = "ac-maker-contact";
+                    column_03.style.width = "150px";
+                    column_03.innerText = item.contact;
+                    column_03.classList.add("ac-table-column");
+
+                    // 이메일
+                    const column_04 = document.createElement("div");
+                    column_04.id = "ac-maker-email";
+                    column_04.style.width = "200px";
+                    column_04.innerText = item.email;
+                    column_04.classList.add("ac-table-column");
+
+                    // 사업자 번호
+                    const column_05 = document.createElement("div");
+                    column_05.id = "ac-maker-corpregno";
+                    column_05.style.width = "200px";
+                    column_05.innerText = item.corpRegNo;
+                    column_05.classList.add("ac-table-column");
+
+                    const btn_detail = document.createElement("div");
+                    btn_detail.id = "ac-btn-detail";
+                    btn_detail.setAttribute("data-id", item.id);
+                    btn_detail.innerText = "수정";
+                    btn_detail.classList.add("ac-table-btn-detail");
+                    btn_detail.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        // popup 수정
+                    });
+
+                    const column_06 = document.createElement("div");
+                    column_06.id = "ac-maker-setting";
+                    column_06.style.width = "150px";
+                    column_06.classList.add("ac-table-column");
+                    column_06.appendChild(btn_detail);
+
+                    row.appendChild(column_01);
+                    row.appendChild(column_02);
+                    row.appendChild(column_03);
+                    row.appendChild(column_04);
+                    row.appendChild(column_05);
+                    row.appendChild(column_06);
+
+                    target.appendChild(row);
+                });
             }
         </script>
     </head>
     <body class="ac">
         <div class="wrapper">
             <div class="content">
-                제조사[등록, 조회]
+                <div id="ac-btn-regist" class="ac-table-btn-regist">
+                    등록
+                </div>
+                <div id="ac-table-paging" class="ac-table-paging">
+
+                </div>
+                <div id="ac-table-head" class="ac-table-head">
+                    <div class="column">번호</div>
+                    <div class="column">이름</div>
+                    <div class="column">연락처</div>
+                    <div class="column">이메일</div>
+                    <div class="column">사업자 번호</div>
+                    <div class="column">관리</div>
+                </div>
+                <div id="ac-table" class="ac-table">
+
+                </div>
             </div>
             <div class="nav reduction">
                 <div class="nav-head">

@@ -1,8 +1,8 @@
 .ac .wrapper .content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    padding-top: 10px;
 }
 
 .ac .nav .nav-head .nav-head-expander {
@@ -20,4 +20,21 @@
     align-items: center;
     cursor: pointer;
     border: 1px solid #e2e2e2;
+    background-color: #ffffff;
+}
+
+.ac-table-head .column:nth-child(1) {
+    width: 80px;
+}
+
+.ac-table-head .column:nth-child(2) {
+    width: 150px;
+}
+
+.ac-table-head .column:nth-child(3) {
+    width: 150px;
+}
+
+.ac-table-head .column:nth-child(4) {
+    width: 150px;
 }

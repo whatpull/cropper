@@ -1,8 +1,8 @@
-function Table(totalElements, size, totalPages, url) {
-    this.totalElements = totalElements; // 전체 데이터
-    this.size = size;                   // 한페이지 데이터 수 
+function Table(url) {
+    this.totalElements; // 전체 데이터
+    this.size;                   // 한페이지 데이터 수 
     this.pageCount = 10;                // 한페이지 페이지 수
-    this.totalPages = totalPages;
+    this.totalPages;
     this.url = url;
 }
 
