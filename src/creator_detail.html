@@ -49,9 +49,65 @@
                 }
                 fetch(id);
 
+                // {"code":0,"result":{"assetPath":"https://ogq-commerce.s3.ap-northeast-2.amazonaws.com/afreeca/asset/6d57c0e9-cd4e-4836-8811-fec89011dfe8.png","assetFileName":"6d57c0e9-cd4e-4836-8811-fec89011dfe8.png"}}
+
+                // 파일 업로드
+                document.querySelector("#asset-file").addEventListener("change", function(e) {
+                    // console.log(e.target.files[0]);
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const result = event.target.result;
+                        const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
+                        const array = [];
+                        for (let i = 0; i < blob_bin.length; i++) {
+                            array.push(blob_bin.charCodeAt(i));
+                        }
+                        const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+
+                        var data = new FormData();	// formData 생성
+                        data.append("image", blob, 'new_file.png');	// file data 추가
+
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    var obj = JSON.parse(xhr.responseText);
+                                    var assetPath = obj.result.assetPath;
+                                    var assetFileName = obj.result.assetFileName;
+
+                                    var param = {
+                                        assetFileName: assetFileName,
+                                        assetPath: assetPath,
+                                        name: "테스트",
+                                        productCreatorId: id
+                                    }
+
+                                    var xhr_ = new XMLHttpRequest();
+                                    xhr_.onreadystatechange = function(e) {
+                                        if (xhr_.readyState == 4) {
+                                            if(xhr_.status == 200) {
+                                                var obj = JSON.parse(xhr_.responseText);
+                                            } else {
+                                                console.log("Error loading page");
+                                            }
+                                        }
+                                    }
+                                    xhr_.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/asset", true);
+                                    xhr_.send(JSON.stringify(param));
+                                } else {
+                                    console.log("Error loading page");
+                                }
+                            }
+                        };
+                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/upload/asset", true);
+                        xhr.send(data);
+                    }
+                    reader.readAsDataURL(e.target.files[0]);
+                });
+
                 // 데이터 파싱[+ UI생성]
                 function parsing(data) {
-                    console.log(data);
+                    document.querySelector("#profile-id").innerText = data.userId;
                     document.querySelector("#profile-name").innerText = data.creatorName;
                 }
             }
@@ -67,11 +123,15 @@
                         <div id="profile-name" class="name">1</div>
                     </div>
                     <div class="accounts">
-                        계좌정보 - 조회, 등록
+                        
                     </div>
                 </div>
                 <div class="data">
-                    목업 에셋(IP), 도안 에셋(IP) - 조회, 등록
+                    <input id="asset-file" type="file"/>
+                    <p>
+                    <div id="asset-list" class="asset-list">
+                        그리드 패턴(IP 이미지 리스트)
+                    </div>
                 </div>
             </div>
             <div class="nav reduction">

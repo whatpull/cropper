@@ -22,7 +22,8 @@ function Design(data_set, asset_data) {
     // 편집이미지
     this.asset_data = asset_data;
 }
- 
+
+// 초기화
 Design.prototype.init = function() {
     this.target = document.createElement("div");
     this.target.classList.add("design");

@@ -1055,9 +1055,7 @@ Cropper.prototype._handleSendFile = function(canvas) {
     const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
 
     var data = new FormData();	// formData 생성
-    for(var i = 0; i < 60; i++) {
-        data.append("files", blob, 'new_file.png');	// file data 추가
-    }
+    data.append("files", blob, 'new_file.png');	// file data 추가
 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(e) {

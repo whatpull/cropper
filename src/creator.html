@@ -22,6 +22,9 @@
         <script type="text/javascript" src="./js/table_core_module.js"></script>
         <link href="./css/table.css" rel="stylesheet" />
 
+        <!-- 팝업 모듈 -->
+        <script type="text/javascript" src="./js/popup_core_module.js"></script>
+
         <script>
             window.onload = function() {
                 common.menu();
@@ -69,13 +72,172 @@
 
                     target.appendChild(row);
                 });
+
+                const popup_reg = new Popup();
+                // 실제 팝업창에 그려질 form 문 작성
+                popup_reg.init(function(popup) {
+                    const form = document.createElement("form");
+                    form.id = "creator-regist";
+                    form.style.display = "flex";
+                    form.style.flexDirection = "column";
+                    form.style.margin = "10px";
+                    form.style.justifyContent = "center";
+                    form.style.alignItems = "center";
+
+                    // 이름
+                    const name_div = document.createElement("div");
+                    const name_label = document.createElement("span");
+                    name_label.innerText = "이름 : ";
+                    const name = document.createElement("input");
+                    name.id = "creator-name";
+                    name.setAttribute("name", "creatorName");
+                    name_div.style.marginTop = "10px";
+                    name_div.appendChild(name_label);
+                    name_div.appendChild(name);
+
+                    // 계정
+                    const id_div = document.createElement("div");
+                    const id_label = document.createElement("span");
+                    id_label.innerText = "아이디 : ";
+                    const id = document.createElement("input");
+                    id.id = "user-id";
+                    id.setAttribute("name", "userId");
+                    id_div.style.marginTop = "10px";
+                    id_div.appendChild(id_label);
+                    id_div.appendChild(id);
+
+                    // 계좌 번호
+                    const account_no_div = document.createElement("div");
+                    const account_no_div_label = document.createElement("span");
+                    account_no_div_label.innerText = "계좌번호 : ";
+                    const account_no = document.createElement("input");
+                    account_no.id = "account-no";
+                    account_no.setAttribute("name", "accountNo");
+                    account_no_div.style.marginTop = "10px";
+                    account_no_div.appendChild(account_no_div_label);
+                    account_no_div.appendChild(account_no);
+
+                    // 은행 코드
+                    const bank_code_div = document.createElement("div");
+                    const bank_code_div_label = document.createElement("span");
+                    bank_code_div_label.innerText = "은행코드 : ";
+                    const bank_code = document.createElement("input");
+                    bank_code.id = "bank-code";
+                    bank_code.setAttribute("name", "bankCode");
+                    bank_code.value = "1111";
+                    bank_code_div.style.marginTop = "10px";
+                    bank_code_div.appendChild(bank_code_div_label);
+                    bank_code_div.appendChild(bank_code);
+
+                    // 은행 이름
+                    const bank_name_div = document.createElement("div");
+                    const bank_name_div_label = document.createElement("span");
+                    bank_name_div_label.innerText = "은행이름 : ";
+                    const bank_name = document.createElement("input");
+                    bank_name.id = "bank-name";
+                    bank_name.setAttribute("name", "bankName");
+                    bank_name_div.style.marginTop = "10px";
+                    bank_name_div.appendChild(bank_name_div_label);
+                    bank_name_div.appendChild(bank_name);
+
+                    // 계좌주 이름
+                    const owner_name_div = document.createElement("div");
+                    const owner_name_div_label = document.createElement("span");
+                    owner_name_div_label.innerText = "계좌주 : ";
+                    const owner_name = document.createElement("input");
+                    owner_name.id = "owner-name";
+                    owner_name.setAttribute("name", "ownerName");
+                    owner_name_div.style.marginTop = "10px";
+                    owner_name_div.appendChild(owner_name_div_label);
+                    owner_name_div.appendChild(owner_name);
+
+                    // 버튼
+                    const submit_btn = document.createElement("button");
+                    submit_btn.innerText = "SUBMIT";
+                    submit_btn.style.width = "100px";
+                    submit_btn.style.height = "40px";
+                    submit_btn.style.marginTop = "10px";
+                    submit_btn.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        console.log(e);
+                        // 하나씩 파싱해서 데이터 저장
+                        const creator_name = document.querySelector("#creator-name").value;
+                        const user_id = document.querySelector("#user-id").value;
+                        const account_no = document.querySelector("#account-no").value;
+                        const bank_code = document.querySelector("#bank-code").value;
+                        const bank_name = document.querySelector("#bank-name").value;
+                        const owner_name = document.querySelector("#owner-name").value;
+
+                        var data = {
+                            productCreatorAccounts: {}
+                        }
+
+                        if(creator_name !== "") {
+                            data.creatorName = creator_name;
+                        }
+                        if(user_id !== "") {
+                            data.userId = user_id;
+                        }
+                        if(account_no !== "") {
+                            data.productCreatorAccounts.accountNo = account_no;
+                        }
+                        if(bank_code !== "") {
+                            data.productCreatorAccounts.bankCode = bank_code;
+                        }
+                        if(bank_name !== "") {
+                            data.productCreatorAccounts.bankName = bank_name;
+                        }
+                        if(owner_name !== "") {
+                            data.productCreatorAccounts.ownerName = owner_name;
+                        }
+
+                        console.log(data);
+                        send(data);
+                    });
+
+                    form.appendChild(name_div);
+                    form.appendChild(id_div);
+                    form.appendChild(account_no_div);
+                    form.appendChild(bank_code_div);
+                    form.appendChild(bank_name_div);
+                    form.appendChild(owner_name_div);
+                    form.appendChild(submit_btn);
+
+                    popup.appendChild(form);
+                });
+
+                // 데이터 전송
+                function send(data) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function(e) {
+                        if (xhr.readyState == 4) {
+                            if(xhr.status == 200) {
+                                result = JSON.parse(xhr.responseText);
+                                data = result.result;
+                                parsing(data);
+                            } else {
+                                console.log("xhr error");
+                            }
+                        }
+                    }
+                    xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreator", true);
+                    xhr.send(JSON.stringify(data));
+                }
+
+                // [버튼] 등록
+                document.querySelector("#ac-btn-regist").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    popup_reg.open();
+                });
             }
         </script>
     </head>
     <body class="ac">
         <div class="wrapper">
             <div class="content">
-                썸네일 유무에 따라 카드메타포 형태로 갈지 정해야함
+                <div id="ac-btn-regist" class="ac-table-btn-regist">
+                    등록
+                </div>
                 <div id="ac-table-paging" class="ac-table-paging">
 
                 </div>

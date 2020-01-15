@@ -75,9 +75,16 @@
                                         left: parseFloat(option.mockLeft),
                                         width: parseFloat(option.mockWidth),
                                         height: parseFloat(option.mockHeight)
-                                    }, palette_color)
-                                    cropper.push(temp);
+                                    }, {
+                                        color01: "#ffffff",
+                                        color02: "#B6B5B5",
+                                        color03: "#54B689",
+                                        color04: "#A093D6",
+                                        color05: "#7BB2E3",
+                                        color06: "#D34249",
+                                    });
                                     temp.init();
+                                    cropper.push(temp);
                                 }
                             } else {
                                 console.log("xhr error");
