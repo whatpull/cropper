@@ -5,7 +5,7 @@
         <title>Auto Cropper</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         <link href="./css/common.css" rel="stylesheet" />
-        <link href="./afreecatv/css/creator.css" rel="stylesheet" />
+        <link href="./afreecatv/css/product.css" rel="stylesheet" />
 
         <!-- 공통 -->
         <script type="text/javascript" src="./js/common.js"></script>
@@ -26,62 +26,14 @@
             window.onload = function() {
                 common.menu();
                 common.expander();
-                
-                // const table = new Table(100, 10, 10, "data/creator.json");
-                const table = new Table(100, 10, 10, "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators");
-                table.body("page=0", function(item, target) {
-                    // DIV ROW 생성
-                    const row = document.createElement("div");
-                    row.classList.add("ac-table-row");
 
-                    // DIV COLUM 생성, 데이터를 어떻게 파싱할지
-                    const column_01 = document.createElement("div");
-                    column_01.id = "ac-creator-number";
-                    column_01.style.width = "80px";
-                    column_01.innerText = item.id;
-                    column_01.classList.add("ac-table-column");
-                    
-                    const column_02 = document.createElement("div");
-                    column_02.id = "ac-creator-name";
-                    column_02.style.width = "150px";
-                    column_02.innerText = item.creatorName;
-                    column_02.classList.add("ac-table-column");
-
-                    const btn_detail = document.createElement("div");
-                    btn_detail.id = "ac-btn-detail";
-                    btn_detail.setAttribute("data-id", item.id);
-                    btn_detail.innerText = "DETAIL";
-                    btn_detail.classList.add("ac-table-btn-detail");
-                    btn_detail.addEventListener("click", function(e) {
-                        e.preventDefault();
-                        window.location.href = "creator_detail.html?id=" + this.getAttribute("data-id");
-                    });
-
-                    const column_03 = document.createElement("div");
-                    column_03.id = "ac-creator-setting";
-                    column_03.style.width = "150px";
-                    column_03.classList.add("ac-table-column");
-                    column_03.appendChild(btn_detail);
-
-                    row.appendChild(column_01);
-                    row.appendChild(column_02);
-                    row.appendChild(column_03);
-
-                    target.appendChild(row);
-                });
             }
         </script>
     </head>
     <body class="ac">
         <div class="wrapper">
             <div class="content">
-                썸네일 유무에 따라 카드메타포 형태로 갈지 정해야함
-                <div id="ac-table-paging" class="ac-table-paging">
-
-                </div>
-                <div id="ac-table" class="ac-table">
-
-                </div>
+                상품 리스트 - 다운로드(목업, 도안) // 존재하는 경우에만
             </div>
             <div class="nav reduction">
                 <div class="nav-head">
@@ -108,7 +60,7 @@
                             </i>
                             auto
                         </div>
-                        <div class="menu-item active" data-page="creator">
+                        <div class="menu-item" data-page="creator">
                             <i class="material-icons">
                                 people
                             </i>
@@ -120,7 +72,7 @@
                             </i>
                             maker
                         </div>
-                        <div class="menu-item" data-page="product">
+                        <div class="menu-item active" data-page="product">
                             <i class="material-icons">
                                 local_mall
                             </i>
