@@ -45,32 +45,9 @@
 
                 // [미리보기]
                 function preview(asset_img) {
-                    for(let i = 1; i <= 4; i++) {
+                    for(let i = 1; i <= 5; i++) {
                         fetchOption(i, asset_img);
                     }
-
-                    const temp = new Cropper({
-                        mode: "autopacking",
-                        mock_img: "./mock_img/canvas.png",
-                        area_img: "./mock_img/canvas_area.png",
-                        asset_img: asset_img,
-                        effect_img: "./mock_img/canvas_effect.png",
-                        is_design: false
-                    }, {
-                        top: 0,
-                        left: 0,
-                        width: 200,
-                        height: 200
-                    }, {
-                        color01: "#ffffff",
-                        color02: "#B6B5B5",
-                        color03: "#54B689",
-                        color04: "#A093D6",
-                        color05: "#7BB2E3",
-                        color06: "#D34249",
-                    });
-                    temp.init();
-                    cropper.push(temp);
                 }
 
                 function fetchOption(id, asset_img) {

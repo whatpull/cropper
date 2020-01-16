@@ -32,7 +32,9 @@
 
                 // const table = new Table("data/creator.json");
                 const table = new Table("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreators");
-                table.body("page=0", function(item, target) {
+                table.body("page=0", bodydata);
+
+                function bodydata(item, target) {
                     // DIV ROW 생성
                     const row = document.createElement("div");
                     row.classList.add("ac-table-row");
@@ -97,7 +99,7 @@
                     row.appendChild(column_06);
 
                     target.appendChild(row);
-                });
+                }
 
                 const popup_reg = new Popup();
                 // 실제 팝업창에 그려질 form 문 작성
@@ -293,6 +295,7 @@
                                     result = JSON.parse(xhr.responseText);
                                     data = result.result;
                                     popup_reg.close();
+                                    table.body("page=0", bodydata);
                                     alert("등록에 성공하였습니다.");
                                 } else {
                                     alert("등록에 실패하였습니다.");

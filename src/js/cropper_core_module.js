@@ -373,14 +373,13 @@ Cropper.prototype._handleFunction = function(visibility) {
 
     // 모드별 기능 버튼 설정
     if(this.data_set.mode === "autopacking") {
-        this.button_palette.style.top = "50px";
-        this.palette_div.style.top = "110px";
+        // this.button_palette.style.top = "50px";
+        // this.palette_div.style.top = "110px";
     } else if(this.data_set.mode === "editor") {
         this.target.appendChild(this.button_upload);
+        this.target.appendChild(this.button_palette);
+        this.target.appendChild(this.palette_div);
     }
-
-    this.target.appendChild(this.button_palette);
-    this.target.appendChild(this.palette_div);
 }
 
 // [생성] 상품 이미지
@@ -512,53 +511,57 @@ Cropper.prototype._handleAreaImageDesign = function(e) {
 
 // [생성] 디지털 자원 - 오토패킹 전용
 Cropper.prototype._handleAssetDraw = function(url) {
-    this.upload_img = new Image();
-    this.upload_img.crossOrigin = 'Anonymous';
-    this.upload_img.id = "upload-img";
-    this.upload_img.width = 0;
-    // this.target.appendChild(this.upload_img);
-    this.upload_img.onload = function() {
-        // [비율]
-        let ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
+    try {
+        this.upload_img = new Image();
+        this.upload_img.crossOrigin = 'Anonymous';
+        this.upload_img.id = "upload-img";
+        this.upload_img.width = 0;
+        // this.target.appendChild(this.upload_img);
+        this.upload_img.onload = function() {
+            // [비율]
+            let ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
 
-        const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
-        let width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
-        let height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
+            const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
+            let width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
+            let height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
 
-        // [축소]
-        let scale_down = 1;
-        if(this.canvas_worker.width > this.canvas_worker.scrollWidth) {
-            scale_down = (this.canvas_worker.scrollWidth / this.canvas_worker.width);
-            width_ratio = width_ratio * scale_down;
-            height_ratio = height_ratio * scale_down;
-        }
+            // [축소]
+            let scale_down = 1;
+            if(this.canvas_worker.width > this.canvas_worker.scrollWidth) {
+                scale_down = (this.canvas_worker.scrollWidth / this.canvas_worker.width);
+                width_ratio = width_ratio * scale_down;
+                height_ratio = height_ratio * scale_down;
+            }
 
-        // [저장]
-        // _handleSave();
-        const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
-        const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
+            // [저장]
+            // _handleSave();
+            const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
+            const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
 
-        this.edit_image.top = this.edit_image.top <= 0 ? centerY : this.edit_image.top * scale_down;
-        this.edit_image.left = this.edit_image.left <= 0 ? centerX : this.edit_image.left * scale_down;
-        this.edit_image.width = width_ratio;
-        this.edit_image.height = height_ratio;
+            this.edit_image.top = this.edit_image.top <= 0 ? centerY : this.edit_image.top * scale_down;
+            this.edit_image.left = this.edit_image.left <= 0 ? centerX : this.edit_image.left * scale_down;
+            this.edit_image.width = width_ratio;
+            this.edit_image.height = height_ratio;
 
-        // [모드 변환]
-        this.context_worker.globalCompositeOperation = "source-atop";
-        this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
-        
-        this._handleEffectDraw(this.data_set.effect_img);
-
-        if(this.data_set.is_design) {
             // [모드 변환]
-            this.context_design.globalCompositeOperation = "source-atop";
-            this.context_design.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
-        }
-        // [타이밍 테스트] (draw 타임을 측정해서 다운로드가 진행되야함 // 빈 이미지가 다운로드 되는 케이스가 존재)
-        // download_product();
-        // download_design();
-    }.bind(this);
-    this.upload_img.src = url;
+            this.context_worker.globalCompositeOperation = "source-atop";
+            this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
+            
+            this._handleEffectDraw(this.data_set.effect_img);
+
+            if(this.data_set.is_design) {
+                // [모드 변환]
+                this.context_design.globalCompositeOperation = "source-atop";
+                this.context_design.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
+            }
+            // [타이밍 테스트] (draw 타임을 측정해서 다운로드가 진행되야함 // 빈 이미지가 다운로드 되는 케이스가 존재)
+            // download_product();
+            // download_design();
+        }.bind(this);
+        this.upload_img.src = url;
+    } catch(e) {
+        console.log(e);
+    }
 }
 
 // [생성] 효과

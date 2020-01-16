@@ -91,6 +91,7 @@
                                         if (xhr_.readyState == 4) {
                                             if (xhr_.status == 200) {
                                                 var obj = JSON.parse(xhr_.responseText);
+                                                fetchAssets(id);
                                             } else {
                                                 console.log("Error loading page");
                                             }
