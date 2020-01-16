@@ -101,6 +101,7 @@
                     for(let i = 0; i < size; i++) {
                         cropper[i].destroy();
                     }
+                    cropper = [];
                 }
 
                 const product = new SelectBox("selectbox-creator", function(value) {
@@ -145,6 +146,13 @@
                                         preview(this.getAttribute("data-asset"));
                                     });
                                     asset_div.style.backgroundImage = "url('" + asset.assetPath + asset.assetFileName + "')";
+                                    // 원인 파악을 위한 테스트
+                                    // asset_div.crossOrigin = "Anonymous";
+                                    // asset_div.onload = function() {
+
+                                    // }
+                                    // asset_div.src = asset.assetPath + asset.assetFileName;
+
                                     assets_div.appendChild(asset_div);
                                 }
                                 // 준비

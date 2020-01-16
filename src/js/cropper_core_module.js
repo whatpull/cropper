@@ -255,7 +255,7 @@ Cropper.prototype._handleFunction = function(visibility) {
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color01);
         
         if(this.data_set.mode === "autopacking") {
-            this._handleAssetDraw(this.data_set.asset_img);
+            this._handleAssetDraw();
         } else if(this.data_set.mode === "editor") {
             if(this.data_set.is_design) {
                 this._handleAreaImageDesign();
@@ -276,7 +276,7 @@ Cropper.prototype._handleFunction = function(visibility) {
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color02);
         
         if(this.data_set.mode === "autopacking") {
-            this._handleAssetDraw(this.data_set.asset_img);
+            this._handleAssetDraw();
         } else if(this.data_set.mode === "editor") {
             if(this.data_set.is_design) {
                 this._handleAreaImageDesign();
@@ -297,7 +297,7 @@ Cropper.prototype._handleFunction = function(visibility) {
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color03);
     
         if(this.data_set.mode === "autopacking") {
-            this._handleAssetDraw(this.data_set.asset_img);
+            this._handleAssetDraw();
         } else if(this.data_set.mode === "editor") {
             if(this.data_set.is_design) {
                 this._handleAreaImageDesign();
@@ -318,7 +318,7 @@ Cropper.prototype._handleFunction = function(visibility) {
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color04);
     
         if(this.data_set.mode === "autopacking") {
-            this._handleAssetDraw(this.data_set.asset_img);
+            this._handleAssetDraw();
         } else if(this.data_set.mode === "editor") {
             if(this.data_set.is_design) {
                 this._handleAreaImageDesign();
@@ -339,7 +339,7 @@ Cropper.prototype._handleFunction = function(visibility) {
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color05);
     
         if(this.data_set.mode === "autopacking") {
-            this._handleAssetDraw(this.data_set.asset_img);
+            this._handleAssetDraw();
         } else if(this.data_set.mode === "editor") {
             if(this.data_set.is_design) {
                 this._handleAreaImageDesign();
@@ -360,7 +360,7 @@ Cropper.prototype._handleFunction = function(visibility) {
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.palette_color.color06);
     
         if(this.data_set.mode === "autopacking") {
-            this._handleAssetDraw(this.data_set.asset_img);
+            this._handleAssetDraw();
         } else if(this.data_set.mode === "editor") {
             if(this.data_set.is_design) {
                 this._handleAreaImageDesign();
@@ -385,7 +385,7 @@ Cropper.prototype._handleFunction = function(visibility) {
 // [생성] 상품 이미지
 Cropper.prototype._handleMockImage = function() {
     if(typeof this.mock_img === "undefined") {
-        this.mock_img = new Image();
+        this.mock_img = new Image;
         this.mock_img.crossOrigin = 'Anonymous';
         this.mock_img.id = "mock-img";
         this.mock_img.width = 0;
@@ -407,7 +407,7 @@ Cropper.prototype._handleMockImage = function() {
 // [생성] 상품 영역 이미지
 Cropper.prototype._handleAreaImage = function(e) {
     if(typeof this.area_img === "undefined") {
-        this.area_img = new Image();
+        this.area_img = new Image;
         this.area_img.crossOrigin = 'Anonymous';
         this.area_img.id = "area-img";
         this.area_img.width = 0;
@@ -421,7 +421,7 @@ Cropper.prototype._handleAreaImage = function(e) {
             this.context_worker.drawImage(this.area_img, centerX, centerY, this.area_img.naturalWidth, this.area_img.naturalHeight);
             this._handleColorDraw(this.context_worker, this.canvas_worker, this.selected_color);
             if(this.data_set.mode === "autopacking") {
-                this._handleAssetDraw(this.data_set.asset_img);
+                this._handleAssetDraw();
             } else if(typeof e === "object" && this.data_set.mode === "editor") {
                 if(this.data_set.is_design) {
                     this._handleAreaImageDesign(e);
@@ -441,7 +441,7 @@ Cropper.prototype._handleAreaImage = function(e) {
         this.context_worker.drawImage(this.area_img, centerX, centerY, this.area_img.naturalWidth, this.area_img.naturalHeight);
         this._handleColorDraw(this.context_worker, this.canvas_worker, this.selected_color);
         if(this.data_set.mode === "autopacking") {
-            this._handleAssetDraw(this.data_set.asset_img);
+            this._handleAssetDraw();
         } else if(typeof e === "object" && this.data_set.mode === "editor") {
             if(this.data_set.is_design) {
                 this._handleAreaImageDesign(e);
@@ -457,7 +457,7 @@ Cropper.prototype._handleAreaImage = function(e) {
 // [생성] 도안 이미지
 Cropper.prototype._handleMockImageDesign = function(e) {
     if(typeof this.design_mock_img === "undefined") {
-        this.design_mock_img = new Image();
+        this.design_mock_img = new Image;
         this.design_mock_img.crossOrigin = 'Anonymous';
         this.design_mock_img.id = "design-mock-img";
         this.design_mock_img.width = 0;
@@ -480,7 +480,7 @@ Cropper.prototype._handleMockImageDesign = function(e) {
 // [생성] 도안 영역 이미지
 Cropper.prototype._handleAreaImageDesign = function(e) {
     if(typeof this.design_area_img === "undefined") {
-        this.design_area_img = new Image();
+        this.design_area_img = new Image;
         this.design_area_img.crossOrigin = 'Anonymous';
         this.design_area_img.id = "design-area-img";
         this.design_area_img.width = 0;
@@ -494,7 +494,7 @@ Cropper.prototype._handleAreaImageDesign = function(e) {
             this.context_design.globalCompositeOperation = "source-over";
             this.context_design.drawImage(this.design_area_img, centerX, centerY, this.design_area_img.naturalWidth, this.design_area_img.naturalHeight);
             if(this.data_set.mode === "autopacking") {
-                this._handleAssetDraw(this.data_set.asset_img);
+                this._handleAssetDraw();
             } else if(typeof e === "object" && this.data_set.mode === "editor") {
                 this._handleDraw(e);
             }
@@ -510,64 +510,60 @@ Cropper.prototype._handleAreaImageDesign = function(e) {
 }
 
 // [생성] 디지털 자원 - 오토패킹 전용
-Cropper.prototype._handleAssetDraw = function(url) {
-    try {
-        this.upload_img = new Image();
-        this.upload_img.crossOrigin = 'Anonymous';
-        this.upload_img.id = "upload-img";
-        this.upload_img.width = 0;
-        // this.target.appendChild(this.upload_img);
-        this.upload_img.onload = function() {
-            // [비율]
-            let ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
+Cropper.prototype._handleAssetDraw = function() {
+    this.upload_img = document.createElement("img");
+    // this.upload_img.crossOrigin = 'Anonymous';
+    this.upload_img.id = "upload-img";
+    this.upload_img.width = 0;
+    this.upload_img.onload = function() {
+        // [비율]
+        let ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
 
-            const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
-            let width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
-            let height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
+        const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
+        let width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
+        let height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
 
-            // [축소]
-            let scale_down = 1;
-            if(this.canvas_worker.width > this.canvas_worker.scrollWidth) {
-                scale_down = (this.canvas_worker.scrollWidth / this.canvas_worker.width);
-                width_ratio = width_ratio * scale_down;
-                height_ratio = height_ratio * scale_down;
-            }
+        // [축소]
+        let scale_down = 1;
+        if(this.canvas_worker.width > this.canvas_worker.scrollWidth) {
+            scale_down = (this.canvas_worker.scrollWidth / this.canvas_worker.width);
+            width_ratio = width_ratio * scale_down;
+            height_ratio = height_ratio * scale_down;
+        }
 
-            // [저장]
-            // _handleSave();
-            const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
-            const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
+        // [저장]
+        // _handleSave();
+        const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
+        const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
 
-            this.edit_image.top = this.edit_image.top <= 0 ? centerY : this.edit_image.top * scale_down;
-            this.edit_image.left = this.edit_image.left <= 0 ? centerX : this.edit_image.left * scale_down;
-            this.edit_image.width = width_ratio;
-            this.edit_image.height = height_ratio;
+        this.edit_image.top = this.edit_image.top <= 0 ? centerY : this.edit_image.top * scale_down;
+        this.edit_image.left = this.edit_image.left <= 0 ? centerX : this.edit_image.left * scale_down;
+        this.edit_image.width = width_ratio;
+        this.edit_image.height = height_ratio;
 
+        // [모드 변환]
+        this.context_worker.globalCompositeOperation = "source-atop";
+        this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
+        
+        this._handleEffectDraw(this.data_set.effect_img);
+
+        if(this.data_set.is_design) {
             // [모드 변환]
-            this.context_worker.globalCompositeOperation = "source-atop";
-            this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
-            
-            this._handleEffectDraw(this.data_set.effect_img);
+            this.context_design.globalCompositeOperation = "source-atop";
+            this.context_design.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
+        }
+        // [타이밍 테스트] (draw 타임을 측정해서 다운로드가 진행되야함 // 빈 이미지가 다운로드 되는 케이스가 존재)
+        // download_product();
+        // download_design();
 
-            if(this.data_set.is_design) {
-                // [모드 변환]
-                this.context_design.globalCompositeOperation = "source-atop";
-                this.context_design.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
-            }
-            // [타이밍 테스트] (draw 타임을 측정해서 다운로드가 진행되야함 // 빈 이미지가 다운로드 되는 케이스가 존재)
-            // download_product();
-            // download_design();
-        }.bind(this);
-        this.upload_img.src = url;
-    } catch(e) {
-        console.log(e);
-    }
+    }.bind(this);
+    this.upload_img.src = this.data_set.asset_img;
 }
 
 // [생성] 효과
 Cropper.prototype._handleEffectDraw = function(url) {
     if(typeof this.effect_img === "undefined") {
-        this.effect_img = new Image();
+        this.effect_img = new Image;
         this.effect_img.crossOrigin = 'Anonymous';
         this.effect_img.id = "effect-img";
         this.effect_img.width = 0;
@@ -603,7 +599,7 @@ Cropper.prototype._handleDraw = function(e) {
             // [패턴 이미지] selection
             const reader = new FileReader();
             reader.onload = function(event) {
-                this.upload_img = new Image();
+                this.upload_img = new Image;
                 this.upload_img.onload = function() {
                     // [비율] - 소수점 차이가 심한 경우 제대로 된 비율 계산이 어렵다. 왠만하면 캔버스와 해상도는 정사이즈 배율
                     const ratio =  (this.canvas_worker.width / this.canvas_worker.scrollWidth);
@@ -995,7 +991,7 @@ Cropper.prototype._handleClearCanvas = function() {
 // [이벤트] 합성
 Cropper.prototype._handleComposeImage = function() {
     const data = this.canvas_worker.toDataURL('image/png');
-    this.composed_img = new Image();
+    this.composed_img = new Image;
     this.composed_img.crossOrigin = 'Anonymous';
     this.composed_img.id = "composed-img";
     this.composed_img.width = 0;
@@ -1085,6 +1081,66 @@ Cropper.prototype.info = function() {
 }
 
 Cropper.prototype.destroy = function() {
+    // 시스템
+    this.input = null;
+    
+    // 버튼
+    this.button_download = null;
+    this.button_upload = null;
+    this.button_palette = null;
+
+    // 캔버스
+    this.canvas = null;
+    this.canvas_design = null;
+    this.canvas_worker = null;
+
+    // 컨텍스트
+    this.context = null;
+    this.context_design = null;
+    this.context_worker = null;
+
+    // 이미지
+    this.mock_img = null;
+    this.area_img = null;
+    this.design_mock_img = null;
+    this.design_area_img = null;
+    this.upload_img = null;
+    this.effect_img = null;
+    this.composed_img = null;
+
+    // 데이터
+    this.data_set = null;
+
+    // 편집이미지
+    this.edit_image = null;
+
+    // 편집영역
+    this.edit_div = null;
+    this.mousePosition = null;
+    this.offset = [0,0];
+    this.isDown = false;
+    this.isResize = false;
+
+    // 팔레트
+    this.palette_div = null;
+    this.selected_color = null;
+    this.palette_color = null;
+    this.palette_color_div_01 = null;
+    this.palette_color_div_02 = null;
+    this.palette_color_div_03 = null;
+    this.palette_color_div_04 = null;
+    this.palette_color_div_05 = null;
+    this.palette_color_div_06 = null;
+
+    // 모드 표시[타이틀]
+    this.mode_div = null;
+
+    // 리사이즈 이벤트
+    window.onresize = null;
+
     // 이벤트 제거 방법 고민
-    this.target.remove();
+    if(this.target != null){
+        this.target.remove();
+    }
+    this.target = null;
 }
