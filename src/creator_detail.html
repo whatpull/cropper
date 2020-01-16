@@ -35,7 +35,7 @@
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function(e) {
                         if (xhr.readyState == 4) {
-                            if(xhr.status == 200) {
+                            if (xhr.status == 200) {
                                 result = JSON.parse(xhr.responseText);
                                 data = result.result;
                                 parsing(data);
@@ -75,7 +75,7 @@
                         var xhr = new XMLHttpRequest();
                         xhr.onreadystatechange = function(e) {
                             if (xhr.readyState == 4) {
-                                if(xhr.status == 200) {
+                                if (xhr.status == 200) {
                                     var obj = JSON.parse(xhr.responseText);
                                     var assetPath = obj.result.assetPath;
                                     var assetFileName = obj.result.assetFileName;
@@ -89,7 +89,7 @@
                                     var xhr_ = new XMLHttpRequest();
                                     xhr_.onreadystatechange = function(e) {
                                         if (xhr_.readyState == 4) {
-                                            if(xhr_.status == 200) {
+                                            if (xhr_.status == 200) {
                                                 var obj = JSON.parse(xhr_.responseText);
                                             } else {
                                                 console.log("Error loading page");
@@ -117,6 +117,38 @@
                     document.querySelector("#accounts-info").innerText = data.productCreatorAccounts[0].bankName + " | " + data.productCreatorAccounts[0].ownerName;
                     document.querySelector("#accounts-no").innerHTML = data.productCreatorAccounts[0].accountNo;
                 }
+
+                // 리스트 조회
+                function fetchAssets(id) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function(e) {
+                        if (xhr.readyState == 4) {
+                            if (xhr.status == 200) {
+                                result = JSON.parse(xhr.responseText);
+                                list = result.content;
+
+                                const asset_list = document.querySelector("#asset-list");
+                                asset_list.innerHTML = "";
+
+                                for(item of list) {
+                                    const img = item.assetPath + item.assetFileName;
+                                    const asset_item_div = document.createElement("div");
+                                    asset_item_div.id = "asset-item";
+                                    asset_item_div.style.backgroundImage = "url('" + img + "')";
+                                    asset_item_div.style.backgroundPosition = "center";
+                                    asset_item_div.style.backgroundSize = "cover";
+                                    asset_item_div.classList.add("asset-item");
+                                    asset_list.appendChild(asset_item_div);
+                                }
+                            } else {
+                                console.log("xhr error");
+                            }
+                        }
+                    }
+                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/assets?productCreatorId=" + id, true);
+                    xhr.send();
+                }
+                fetchAssets(id);
             }
         </script>
     </head>
@@ -139,26 +171,6 @@
                     <input id="asset-file" type="file"/>
                     <div id="asset-file-btn" class="asset-file-btn">파일 업로드</div>
                     <div id="asset-list" class="asset-list">
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
-                        <div class="asset-item"></div>
                     </div>
                 </div>
             </div>

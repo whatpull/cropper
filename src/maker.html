@@ -22,6 +22,9 @@
         <script type="text/javascript" src="./js/table_core_module.js"></script>
         <link href="./css/table.css" rel="stylesheet" />
 
+        <!-- 팝업 모듈 -->
+        <script type="text/javascript" src="./js/popup_core_module.js"></script>
+
         <script>
             window.onload = function() {
                 common.menu();
@@ -94,6 +97,231 @@
                     row.appendChild(column_06);
 
                     target.appendChild(row);
+                });
+
+                const popup_reg = new Popup();
+                // 실제 팝업창에 그려질 form 문 작성
+                popup_reg.init(function(popup) {
+                    const form = document.createElement("form");
+                    form.id = "maker-regist";
+                    form.style.display = "flex";
+                    form.style.flexDirection = "column";
+                    form.style.margin = "30px";
+                    form.style.justifyContent = "center";
+                    form.style.alignItems = "center";
+
+                    // 타이틀
+                    const title_div = document.createElement("div");
+                    title_div.innerText = "제조사 등록";
+                    title_div.style.fontSize = "20px";
+                    title_div.style.fontWeight = "bold";
+                    title_div.style.color = "#4286f4";
+
+                    // 이름
+                    const name_div = document.createElement("div");
+                    const name_label = document.createElement("div");
+                    name_label.innerText = "제조사 이름 : ";
+                    name_label.style.fontWeight = "bold";
+                    const name = document.createElement("input");
+                    name.id = "maker-name";
+                    name.style.padding = "5px";
+                    name.style.fontSize = "15px";
+                    name.setAttribute("name", "name");
+                    name_div.style.marginTop = "20px";
+                    name_div.appendChild(name_label);
+                    name_div.appendChild(name);
+
+                    // 연락처
+                    const contact_div = document.createElement("div");
+                    contact_div.style.marginTop = "20px";
+                    const contact_label = document.createElement("div");
+                    contact_label.innerText = "연락처 : ";
+                    contact_label.style.fontWeight = "bold";
+                    const contact = document.createElement("input");
+                    contact.id = "maker-contact";
+                    contact.style.padding = "5px";
+                    contact.style.fontSize = "15px";
+                    contact.setAttribute("name", "contact");
+                    contact_div.appendChild(contact_label);
+                    contact_div.appendChild(contact);
+
+                    // 이메일
+                    const email_div = document.createElement("div");
+                    email_div.style.marginTop = "20px";
+                    const email_label = document.createElement("div");
+                    email_label.innerText = "이메일 : ";
+                    email_label.style.fontWeight = "bold";
+                    const email = document.createElement("input");
+                    email.id = "maker-email";
+                    email.style.padding = "5px";
+                    email.style.fontSize = "15px";
+                    email.setAttribute("name", "email");
+                    email_div.appendChild(email_label);
+                    email_div.appendChild(email);
+
+                    // 사업자 번호
+                    const corpregno_div = document.createElement("div");
+                    corpregno_div.style.marginTop = "20px";
+                    const corpregno_label = document.createElement("div");
+                    corpregno_label.innerText = "사업자 번호 : ";
+                    corpregno_label.style.fontWeight = "bold";
+                    const corpregno = document.createElement("input");
+                    corpregno.id = "corp-reg-no";
+                    corpregno.style.padding = "5px";
+                    corpregno.style.fontSize = "15px";
+                    corpregno.setAttribute("name", "corpRegNo");
+                    corpregno_div.appendChild(corpregno_label);
+                    corpregno_div.appendChild(corpregno);
+
+                    // 출고지
+                    const delivery_address_div = document.createElement("div");
+                    delivery_address_div.style.marginTop = "20px";
+                    const delivery_address_label = document.createElement("div");
+                    delivery_address_label.innerText = "출고지 : ";
+                    delivery_address_label.style.fontWeight = "bold";
+                    const delivery_address = document.createElement("input");
+                    delivery_address.id = "delivery-address";
+                    delivery_address.style.padding = "5px";
+                    delivery_address.style.fontSize = "15px";
+                    delivery_address.setAttribute("name", "deliveryAddress");
+                    delivery_address_div.appendChild(delivery_address_label);
+                    delivery_address_div.appendChild(delivery_address);
+
+                    // 출고지 우편번호
+                    const delivery_address_zipcode_div = document.createElement("div");
+                    delivery_address_zipcode_div.style.marginTop = "20px";
+                    const delivery_address_zipcode_label = document.createElement("div");
+                    delivery_address_zipcode_label.innerText = "출고지 우편번호 : ";
+                    delivery_address_zipcode_label.style.fontWeight = "bold";
+                    const delivery_address_zipcode = document.createElement("input");
+                    delivery_address_zipcode.id = "delivery-address-zipcode";
+                    delivery_address_zipcode.style.padding = "5px";
+                    delivery_address_zipcode.style.fontSize = "15px";
+                    delivery_address_zipcode.setAttribute("name", "deliveryAddressZipCode");
+                    delivery_address_zipcode_div.appendChild(delivery_address_zipcode_label);
+                    delivery_address_zipcode_div.appendChild(delivery_address_zipcode);
+
+                    // 반품지
+                    const return_address_div = document.createElement("div");
+                    return_address_div.style.marginTop = "20px";
+                    const return_address_label = document.createElement("div");
+                    return_address_label.innerText = "반품지 : ";
+                    return_address_label.style.fontWeight = "bold";
+                    const return_address = document.createElement("input");
+                    return_address.id = "return-address";
+                    return_address.style.padding = "5px";
+                    return_address.style.fontSize = "15px";
+                    return_address.setAttribute("name", "returnAddress");
+                    return_address_div.appendChild(return_address_label);
+                    return_address_div.appendChild(return_address);
+
+                    // 반품지 우편번호
+                    const return_address_zipcode_div = document.createElement("div");
+                    return_address_zipcode_div.style.marginTop = "20px";
+                    const return_address_zipcode_label = document.createElement("div");
+                    return_address_zipcode_label.innerText = "반품지 우편번호 : ";
+                    return_address_zipcode_label.style.fontWeight = "bold";
+                    const return_address_zipcode = document.createElement("input");
+                    return_address_zipcode.id = "return-address-zipcode";
+                    return_address_zipcode.style.padding = "5px";
+                    return_address_zipcode.style.fontSize = "15px";
+                    return_address_zipcode.setAttribute("name", "returnAddressZipCode");
+                    return_address_zipcode_div.appendChild(return_address_zipcode_label);
+                    return_address_zipcode_div.appendChild(return_address_zipcode);
+
+                    // 버튼
+                    const submit_btn = document.createElement("div");
+                    submit_btn.innerText = "등록";
+                    submit_btn.style.width = "100px";
+                    submit_btn.style.height = "40px";
+                    submit_btn.style.marginTop = "20px";
+                    submit_btn.style.backgroundColor = "#FFFFFF";
+                    submit_btn.style.border = "1px solid #e2e2e2";
+                    submit_btn.style.display = "flex";
+                    submit_btn.style.justifyContent = "center";
+                    submit_btn.style.alignItems = "center";
+                    submit_btn.style.cursor = "pointer";
+                    submit_btn.addEventListener("click", function(e) {
+                        e.preventDefault();
+
+                        // 하나씩 파싱해서 데이터 저장
+                        const maker_name = document.querySelector("#maker-name").value;
+                        const maker_contact = document.querySelector("#maker-contact").value;
+                        const maker_email = document.querySelector("#maker-email").value;
+                        const corp_reg_no = document.querySelector("#corp-reg-no").value;
+                        const delivery_address = document.querySelector("#delivery-address").value;
+                        const delivery_address_zipcode = document.querySelector("#delivery-address-zipcode").value;
+                        const return_address = document.querySelector("#return-address").value;
+                        const return_address_zipcode = document.querySelector("#return-address-zipcode").value;
+
+                        var data = new FormData();
+
+                        if(maker_name !== "") {
+                            data.append("name", maker_name);
+                        }
+                        if(maker_contact !== "") {
+                            data.append("contact", maker_contact);
+                        }
+                        if(maker_email !== "") {
+                            data.append("email", maker_email);
+                        }
+                        if(corp_reg_no !== "") {
+                            data.append("corpRegNo", corp_reg_no);
+                        }
+                        if(delivery_address !== "") {
+                            data.append("deliveryAddress", delivery_address);
+                        }
+                        if(delivery_address_zipcode !== "") {
+                            data.append("deliveryAddressZipCode", delivery_address_zipcode);
+                        }
+                        if(return_address !== "") {
+                            data.append("returnAddress", return_address);
+                        }
+                        if(return_address_zipcode !== "") {
+                            data.append("returnAddressZipCode", return_address_zipcode);
+                        }
+
+                        send(data);
+                    });
+
+                    // 데이터 전송
+                    function send(data) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    result = JSON.parse(xhr.responseText);
+                                    data = result.result;
+                                    popup_reg.close();
+                                    alert("등록에 성공하였습니다.");
+                                } else {
+                                    alert("등록에 실패하였습니다.");
+                                    // console.log("xhr error");
+                                }
+                            }
+                        }
+                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreator", true);
+                        xhr.send(data);
+                    }
+
+                    form.appendChild(title_div);
+                    form.appendChild(name_div);
+                    form.appendChild(contact_div);
+                    form.appendChild(email_div);
+                    form.appendChild(corpregno_div);
+                    form.appendChild(delivery_address_div);
+                    form.appendChild(delivery_address_zipcode_div);
+                    form.appendChild(return_address_div);
+                    form.appendChild(return_address_zipcode_div);
+                    form.appendChild(submit_btn);
+
+                    popup.appendChild(form);
+                });
+
+                // [버튼] 등록
+                document.querySelector("#ac-btn-regist").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    popup_reg.open();
                 });
             }
         </script>

@@ -45,9 +45,32 @@
 
                 // [미리보기]
                 function preview(asset_img) {
-                    for(let i = 1; i <= 3; i++) {
+                    for(let i = 1; i <= 4; i++) {
                         fetchOption(i, asset_img);
                     }
+
+                    const temp = new Cropper({
+                        mode: "autopacking",
+                        mock_img: "./mock_img/canvas.png",
+                        area_img: "./mock_img/canvas_area.png",
+                        asset_img: asset_img,
+                        effect_img: "./mock_img/canvas_effect.png",
+                        is_design: false
+                    }, {
+                        top: 0,
+                        left: 0,
+                        width: 200,
+                        height: 200
+                    }, {
+                        color01: "#ffffff",
+                        color02: "#B6B5B5",
+                        color03: "#54B689",
+                        color04: "#A093D6",
+                        color05: "#7BB2E3",
+                        color06: "#D34249",
+                    });
+                    temp.init();
+                    cropper.push(temp);
                 }
 
                 function fetchOption(id, asset_img) {
@@ -103,21 +126,18 @@
                     }
                 }
 
-                // 실행
-                preview("./mock_img/test.png");
-
                 const product = new SelectBox("selectbox-creator", function(value) {
-                    fetch();
+                    fetch(value);
                 });
-                product.init();
+                product.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators?size=2147483647");
 
-                function fetch() {
+                function fetch(id) {
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function(e) {
                         if (xhr.readyState == 4) {
                             if(xhr.status == 200) {
                                 result = JSON.parse(xhr.responseText);
-                                assets = result.data;
+                                assets = result.content;
 
                                 const assets_div = document.querySelector("#ac-assets");
                                 assets_div.innerHTML = "";
@@ -126,10 +146,14 @@
                                     const asset_div = document.createElement("div");
                                     asset_div.id = "asset-div-" + asset.asset_id;
                                     asset_div.classList.add("asset-item");
-                                    if(index == 0) {
+
+                                    if(index == 0) { // 초기 데이터 설정
                                         asset_div.classList.add("active");
+                                        preview_destroy();
+                                        preview(asset.assetPath + asset.assetFileName);
                                     }
-                                    asset_div.setAttribute("data-asset", asset.asset_path);
+
+                                    asset_div.setAttribute("data-asset", asset.assetPath + asset.assetFileName);
                                     asset_div.addEventListener("click", function(e) {
                                         // UI 선택
                                         const list = document.querySelectorAll(".asset-item");
@@ -143,7 +167,7 @@
                                         preview_destroy();
                                         preview(this.getAttribute("data-asset"));
                                     });
-                                    asset_div.style.backgroundImage = "url('" + asset.asset_path + "')";
+                                    asset_div.style.backgroundImage = "url('" + asset.assetPath + asset.assetFileName + "')";
                                     assets_div.appendChild(asset_div);
                                 }
                                 // 준비
@@ -152,10 +176,11 @@
                             }
                         }
                     }
-                    xhr.open("GET", "data/autocropper_assets.json", true);
+                    // xhr.open("GET", "data/autocropper_assets.json", true);
+                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/assets?productCreatorId=" + id, true);
                     xhr.send();
                 }
-                fetch();
+                // fetch();
             }
         </script>
     </head>
@@ -212,13 +237,7 @@
                     </div>
                     <div class="nav-body-content">
                         <div class="ac-selector selectbox-creator">
-                            <select>
-                                <option value="">크리에이터</option>
-                                <option value="0">BJ이상호</option>
-                                <option value="1">와꾸대장봉준</option>
-                                <option value="2">항상#킴성태</option>
-                                <option value="3">감스트</option>
-                            </select>
+                            <select id="select"></select>
                         </div>
                         <div class="ac-assets">
                             <div id="ac-assets" class="ac-assets-wrapper">

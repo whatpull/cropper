@@ -67,6 +67,23 @@
                 "width": 200,
                 "height": 200
             }
+        },
+        {
+            "data_set": {
+                "mode": "editor",
+                "mock_img": "./mock_img/canvas.png",
+                "area_img": "./mock_img/canvas_area.png",
+                "asset_img": "./mock_img/test.png",
+                "effect_img": "./mock_img/canvas_effect.png",
+                "is_design": false,
+                "color_code": "#ffffff"
+            },
+            "edit_image": {
+                "top": 0,
+                "left": 0,
+                "width": 200,
+                "height": 200
+            }
         }
     ]
 }

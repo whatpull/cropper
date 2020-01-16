@@ -42,5 +42,11 @@ Popup.prototype.init = function(form) {
 
 // 오픈
 Popup.prototype.open = function() {
+    document.querySelector("form").reset();
     this.dim.style.display = "flex";
+}
+
+Popup.prototype.close = function() {
+    document.querySelector("form").reset();
+    this.dim.style.display = "none";
 }

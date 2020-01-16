@@ -10,7 +10,7 @@ function SelectBox(target, callback) {
     this.callback = callback;
 }
 
-SelectBox.prototype.init = function() {
+SelectBox.prototype.setting = function() {
     for (i = 0; i < this.x.length; i++) {
         this.selElmnt = this.x[i].getElementsByTagName("select")[0];
         /* [선택된 옵션 아이템] */
@@ -86,4 +86,52 @@ SelectBox.prototype.init = function() {
 
     /* [이벤트 등록 - 전체 닫기]: */
     document.addEventListener("click", closeAllSelect);
+}
+
+SelectBox.prototype.init = function(url) {
+    if(typeof url === "string") {
+        const target = document.querySelector("#select");
+        target.innerHTML = "";
+    
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(e) {
+            if (xhr.readyState == 4) {
+                if(xhr.status == 200) {
+                    result = JSON.parse(xhr.responseText);
+                    list = result.content;
+    
+                    const option_default = document.createElement("option");
+                    option_default.innerText = "크리에이터";
+                    target.appendChild(option_default);
+    
+                    for(item of list) {
+                        const option = document.createElement("option");
+                        option.value = item.id;
+                        option.innerText = item.userId + "(" + item.creatorName + ")";
+                        target.appendChild(option);
+                    }
+    
+                    this.setting();
+
+                    // 첫번째 강제선택
+                    const first = document.querySelectorAll(".select-items")[0];
+                    if(typeof first === "object") {
+                        first.children[0].click();
+                    }
+                } else {
+                    console.log("xhr error");
+                }
+            }
+        }.bind(this);
+        xhr.open("GET", url, true);
+        xhr.send();
+    } else {
+        this.setting();
+
+        // 첫번째 강제선택
+        const first = document.querySelectorAll(".select-items")[0];
+        if(typeof first === "object") {
+            first.children[0].click();
+        }
+    }
 }

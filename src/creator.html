@@ -93,7 +93,7 @@
 
                     // 타이틀
                     const title_div = document.createElement("div");
-                    title_div.innerText = "CREATOR REGIST"
+                    title_div.innerText = "크리에이터 등록"
                     title_div.style.fontSize = "20px";
                     title_div.style.fontWeight = "bold";
                     title_div.style.color = "#4286f4";
@@ -132,10 +132,10 @@
 
                     // 계좌 번호
                     const account_no_div = document.createElement("div");
-                    const account_no_div_label = document.createElement("div");
-                    account_no_div_label.innerText = "계좌번호 : ";
-                    account_no_div_label.style.width = "100px";
-                    account_no_div_label.style.fontWeight = "bold";
+                    const account_no_label = document.createElement("div");
+                    account_no_label.innerText = "계좌번호 : ";
+                    account_no_label.style.width = "100px";
+                    account_no_label.style.fontWeight = "bold";
                     const account_no = document.createElement("input");
                     account_no.id = "account-no";
                     account_no.style.padding = "5px";
@@ -143,15 +143,15 @@
                     account_no.setAttribute("name", "accountNo");
                     account_no_div.style.marginTop = "20px";
                     // account_no_div.style.width = "300px";
-                    account_no_div.appendChild(account_no_div_label);
+                    account_no_div.appendChild(account_no_label);
                     account_no_div.appendChild(account_no);
 
                     // 은행 코드
                     const bank_code_div = document.createElement("div");
-                    const bank_code_div_label = document.createElement("div");
-                    bank_code_div_label.innerText = "은행코드 : ";
-                    bank_code_div_label.style.width = "100px";
-                    bank_code_div_label.style.fontWeight = "bold";
+                    const bank_code_label = document.createElement("div");
+                    bank_code_label.innerText = "은행코드 : ";
+                    bank_code_label.style.width = "100px";
+                    bank_code_label.style.fontWeight = "bold";
                     const bank_code = document.createElement("input");
                     bank_code.id = "bank-code";
                     bank_code.style.padding = "5px";
@@ -160,15 +160,15 @@
                     bank_code.value = "1111";
                     bank_code_div.style.marginTop = "20px";
                     // bank_code_div.style.width = "300px";
-                    bank_code_div.appendChild(bank_code_div_label);
+                    bank_code_div.appendChild(bank_code_label);
                     bank_code_div.appendChild(bank_code);
 
                     // 은행 이름
                     const bank_name_div = document.createElement("div");
-                    const bank_name_div_label = document.createElement("div");
-                    bank_name_div_label.innerText = "은행이름 : ";
-                    bank_name_div_label.style.width = "100px";
-                    bank_name_div_label.style.fontWeight = "bold";
+                    const bank_name_label = document.createElement("div");
+                    bank_name_label.innerText = "은행이름 : ";
+                    bank_name_label.style.width = "100px";
+                    bank_name_label.style.fontWeight = "bold";
                     const bank_name = document.createElement("input");
                     bank_name.id = "bank-name";
                     bank_name.style.padding = "5px";
@@ -176,15 +176,15 @@
                     bank_name.setAttribute("name", "bankName");
                     bank_name_div.style.marginTop = "20px";
                     // bank_name_div.style.width = "300px";
-                    bank_name_div.appendChild(bank_name_div_label);
+                    bank_name_div.appendChild(bank_name_label);
                     bank_name_div.appendChild(bank_name);
 
                     // 계좌주 이름
                     const owner_name_div = document.createElement("div");
-                    const owner_name_div_label = document.createElement("div");
-                    owner_name_div_label.innerText = "계좌주 : ";
-                    owner_name_div_label.style.width = "100px";
-                    owner_name_div_label.style.fontWeight = "bold";
+                    const owner_name_label = document.createElement("div");
+                    owner_name_label.innerText = "계좌주 : ";
+                    owner_name_label.style.width = "100px";
+                    owner_name_label.style.fontWeight = "bold";
                     const owner_name = document.createElement("input");
                     owner_name.id = "owner-name";
                     owner_name.style.padding = "5px";
@@ -192,7 +192,7 @@
                     owner_name.setAttribute("name", "ownerName");
                     owner_name_div.style.marginTop = "20px";
                     // owner_name_div.style.width = "300px";
-                    owner_name_div.appendChild(owner_name_div_label);
+                    owner_name_div.appendChild(owner_name_label);
                     owner_name_div.appendChild(owner_name);
 
                     // 버튼
@@ -233,7 +233,6 @@
                             data.append("productCreatorAccounts[0].ownerName", owner_name);
                         }
 
-                        console.log(data);
                         send(data);
                     });
 
@@ -254,12 +253,14 @@
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function(e) {
                         if (xhr.readyState == 4) {
-                            if(xhr.status == 200) {
+                            if (xhr.status == 200) {
                                 result = JSON.parse(xhr.responseText);
                                 data = result.result;
-                                console.log(data);
+                                popup_reg.close();
+                                alert("등록에 성공하였습니다.");
                             } else {
-                                console.log("xhr error");
+                                alert("등록에 실패하였습니다.");
+                                // console.log("xhr error");
                             }
                         }
                     }
