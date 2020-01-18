@@ -24,6 +24,9 @@
         <script type="text/javascript" src="./js/table_core_module.js"></script>
         <link href="./css/table.css" rel="stylesheet" />
 
+        <!-- 팝업 모듈 -->
+        <script type="text/javascript" src="./js/popup_core_module.js"></script>
+
         <script>
             window.onload = function() {
                 const host = window.location.host;
@@ -60,8 +63,8 @@
 
                 // 파일 업로드
                 document.querySelector("#asset-file").addEventListener("change", function(e) {
-                    // console.log(e.target.files[0]);
                     const reader = new FileReader();
+                    const filename = e.target.files[0].name;
                     reader.onload = function(event) {
                         const result = event.target.result;
                         const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
@@ -72,35 +75,22 @@
                         const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
 
                         var data = new FormData();	// formData 생성
-                        data.append("image", blob, 'new_file.png');	// file data 추가
+                        data.append("image", blob, filename);	// file data 추가
 
                         var xhr = new XMLHttpRequest();
                         xhr.onreadystatechange = function(e) {
                             if (xhr.readyState == 4) {
                                 if (xhr.status == 200) {
+                                    // 팝업생성 및 이름 값 받기
                                     var obj = JSON.parse(xhr.responseText);
                                     var assetPath = obj.result.assetPath;
                                     var assetFileName = obj.result.assetFileName;
 
-                                    var param = new FormData();
-                                    param.append('assetFileName', assetFileName);
-                                    param.append('assetPath', assetPath);
-                                    param.append('name', "테스트");
-                                    param.append('productCreatorId', id);
-
-                                    var xhr_ = new XMLHttpRequest();
-                                    xhr_.onreadystatechange = function(e) {
-                                        if (xhr_.readyState == 4) {
-                                            if (xhr_.status == 200) {
-                                                var obj = JSON.parse(xhr_.responseText);
-                                                fetchAssets(id);
-                                            } else {
-                                                console.log("Error loading page");
-                                            }
-                                        }
-                                    }
-                                    xhr_.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/asset", true);
-                                    xhr_.send(param);
+                                    popup_regist.setdata({
+                                        "assetPath": assetPath,
+                                        "assetFileName": assetFileName
+                                    });
+                                    popup_regist.open();
                                 } else {
                                     console.log("Error loading page");
                                 }
@@ -112,11 +102,100 @@
                     reader.readAsDataURL(e.target.files[0]);
                 });
 
+                const popup_regist = new Popup();
+                // 실제 팝업창에 그려질 form 문 작성
+                popup_regist.init(function(popup) {
+                    const form = document.createElement("form");
+                    form.id = "asset-regist";
+                    form.style.display = "flex";
+                    form.style.flexDirection = "column";
+                    form.style.alignItems = "center";
+                    form.style.maxHeight = "600px";
+                    form.style.padding = "0px 30px";
+                    form.style.overflowY = "auto";
+                    form.style.overflowX = "hidden";
+
+                    // 타이틀
+                    const title_div = document.createElement("div");
+                    title_div.innerText = "에셋 등록"
+                    title_div.style.fontSize = "20px";
+                    title_div.style.marginTop = "20px";
+                    title_div.style.fontWeight = "bold";
+                    title_div.style.color = "#4286f4";
+
+                    // 이름
+                    const name_div = document.createElement("div");
+                    const name_label = document.createElement("div");
+                    name_label.innerText = "이름 : ";
+                    name_label.style.width = "100px";
+                    name_label.style.fontWeight = "bold";
+                    const name = document.createElement("input");
+                    name.id = "asset-name";
+                    name.style.padding = "5px";
+                    name.style.fontSize = "15px";
+                    name.setAttribute("name", "name");
+                    name_div.style.marginTop = "20px";
+                    name_div.appendChild(name_label);
+                    name_div.appendChild(name);
+
+                    // 버튼
+                    const submit_btn = document.createElement("div");
+                    submit_btn.innerText = "등록";
+                    submit_btn.style.width = "100px";
+                    submit_btn.style.minHeight = "40px";
+                    submit_btn.style.marginTop = "20px";
+                    submit_btn.style.marginBottom = "20px";
+                    submit_btn.style.backgroundColor = "#FFFFFF";
+                    submit_btn.style.border = "1px solid #e2e2e2";
+                    submit_btn.style.display = "flex";
+                    submit_btn.style.justifyContent = "center";
+                    submit_btn.style.alignItems = "center";
+                    submit_btn.style.cursor = "pointer";
+                    submit_btn.addEventListener("click", function(e) {
+                        e.preventDefault();
+
+                        const data = popup_regist.getdata();
+                        const asset_name = document.querySelector("#asset-name").value;
+
+                        var param = new FormData();
+                        param.append('assetFileName', data.assetFileName);
+                        param.append('assetPath', data.assetPath);
+                        param.append('name', asset_name);
+                        param.append('productCreatorId', id);
+
+                        send(param);
+                    }.bind(popup_regist));
+
+                    form.appendChild(title_div);
+                    form.appendChild(name_div);
+                    form.appendChild(submit_btn);
+
+                    popup.appendChild(form);
+                });
+
+                // 데이터 전송
+                function send(param) {
+                    var xhr_ = new XMLHttpRequest();
+                    xhr_.onreadystatechange = function(e) {
+                        if (xhr_.readyState == 4) {
+                            if (xhr_.status == 200) {
+                                var obj = JSON.parse(xhr_.responseText);
+                                fetchAssets(id);
+                                popup_regist.close();
+                                alert("등록에 성공하였습니다.");
+                            } else {
+                                alert("등록에 실패하였습니다.");
+                            }
+                        }
+                    }
+                    xhr_.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/asset", true);
+                    xhr_.send(param);
+                }
+
                 // 데이터 파싱[+ UI생성]
                 function parsing(data) {
                     document.querySelector("#profile-id").innerText = data.userId;
                     document.querySelector("#profile-name").innerText = data.creatorName;
-
                     document.querySelector("#accounts-info").innerText = data.productCreatorAccounts[0].bankName + " | " + data.productCreatorAccounts[0].ownerName;
                     document.querySelector("#accounts-no").innerHTML = data.productCreatorAccounts[0].accountNo;
                 }

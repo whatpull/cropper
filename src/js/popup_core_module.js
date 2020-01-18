@@ -2,6 +2,7 @@
 function Popup() {
     this.dim;
     this.popup;
+    this.data;
 }
 
 // 초기화
@@ -40,12 +41,21 @@ Popup.prototype.init = function(form) {
     }
 }
 
+Popup.prototype.setdata = function(data) {
+    this.data = data;
+}
+
+Popup.prototype.getdata = function() {
+    return this.data;
+}
+
 // 오픈
 Popup.prototype.open = function() {
     this.popup.querySelector("form").scrollTop = 0;
     this.dim.style.display = "flex";
 }
 
+// 닫기
 Popup.prototype.close = function() {
     this.popup.querySelector("form").reset();
     this.dim.style.display = "none";
