@@ -88,7 +88,7 @@ SelectBox.prototype.setting = function() {
     document.addEventListener("click", closeAllSelect);
 }
 
-SelectBox.prototype.init = function(url) {
+SelectBox.prototype.init = function(url, callback) {
     if(typeof url === "string") {
         const target = document.querySelector("#select");
         target.innerHTML = "";
@@ -99,24 +99,15 @@ SelectBox.prototype.init = function(url) {
                 if(xhr.status == 200) {
                     result = JSON.parse(xhr.responseText);
                     list = result.content;
-    
-                    const option_default = document.createElement("option");
-                    option_default.innerText = "크리에이터";
-                    target.appendChild(option_default);
-    
-                    for(item of list) {
-                        const option = document.createElement("option");
-                        option.value = item.id;
-                        option.innerText = item.userId + "(" + item.creatorName + ")";
-                        target.appendChild(option);
-                    }
-    
-                    this.setting();
 
-                    // 첫번째 강제선택
-                    const first = document.querySelectorAll(".select-items")[0];
-                    if(typeof first === "object") {
-                        first.children[0].click();
+                    if(typeof callback === "function" ) {
+                        callback(list, target);
+                        this.setting();
+                        // 첫번째 강제선택
+                        const first = document.querySelectorAll(".select-items")[0];
+                        if(typeof first === "object") {
+                            first.children[0].click();
+                        }
                     }
                 } else {
                     console.log("xhr error");

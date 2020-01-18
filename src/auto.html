@@ -45,54 +45,67 @@
 
                 // [미리보기]
                 function preview(asset_img) {
-                    for(let i = 1; i <= 5; i++) {
-                        fetchOption(i, asset_img);
-                    }
+                    fetchOption(1, asset_img).then(function(result) {
+                        fetchOption(2, asset_img).then(function(result) {
+                            fetchOption(3, asset_img).then(function(result) {
+                                fetchOption(4, asset_img).then(function(result) {
+                                    fetchOption(5, asset_img).then(function(result) {
+                                        
+                                    });
+                                });
+                            });
+                        });
+                    });
                 }
 
                 function fetchOption(id, asset_img) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function(e) {
-                        if (xhr.readyState == 4) {
-                            if(xhr.status == 200) {
-                                result = JSON.parse(xhr.responseText);
-                                options = result.result.packageOptions;
-                                for(option of options) {
-                                    const path = option.imagePath;
-                                    const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
-                                    const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
-                                    const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
+                    return new Promise(function(resolve, reject) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    result = JSON.parse(xhr.responseText);
+                                    options = result.result.packageOptions;
+                                    for(option of options) {
+                                        const path = option.imagePath;
+                                        const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
+                                        const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
+                                        const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
+    
+                                        const temp = new Cropper({
+                                            mode: "autopacking",
+                                            mock_img: path + mock_img,
+                                            area_img: path + area_img,
+                                            asset_img: asset_img,
+                                            effect_img: path + effect_img,
+                                            is_design: false
+                                        }, {
+                                            top: parseFloat(option.mockTop),
+                                            left: parseFloat(option.mockLeft),
+                                            width: parseFloat(option.mockWidth),
+                                            height: parseFloat(option.mockHeight)
+                                        }, {
+                                            color01: "#ffffff",
+                                            color02: "#B6B5B5",
+                                            color03: "#54B689",
+                                            color04: "#A093D6",
+                                            color05: "#7BB2E3",
+                                            color06: "#D34249",
+                                        });
+                                        temp.init();
+                                        cropper.push(temp);
+                                    }
+                                    resolve("success");
+                                } else {
+                                    console.log("xhr error");
+                                    reject("error");
 
-                                    const temp = new Cropper({
-                                        mode: "autopacking",
-                                        mock_img: path + mock_img,
-                                        area_img: path + area_img,
-                                        asset_img: asset_img,
-                                        effect_img: path + effect_img,
-                                        is_design: false
-                                    }, {
-                                        top: parseFloat(option.mockTop),
-                                        left: parseFloat(option.mockLeft),
-                                        width: parseFloat(option.mockWidth),
-                                        height: parseFloat(option.mockHeight)
-                                    }, {
-                                        color01: "#ffffff",
-                                        color02: "#B6B5B5",
-                                        color03: "#54B689",
-                                        color04: "#A093D6",
-                                        color05: "#7BB2E3",
-                                        color06: "#D34249",
-                                    });
-                                    temp.init();
-                                    cropper.push(temp);
                                 }
-                            } else {
-                                console.log("xhr error");
                             }
                         }
-                    }
-                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + id, true);
-                    xhr.send();
+                        xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + id, true);
+                        xhr.send();
+                    });
                 }
 
                 // [미리보기 파괴] 
@@ -107,7 +120,18 @@
                 const product = new SelectBox("selectbox-creator", function(value) {
                     fetch(value);
                 });
-                product.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators?size=2147483647");
+                product.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators?size=2147483647", function(list, target) {
+                    const option_default = document.createElement("option");
+                    option_default.innerText = "크리에이터";
+                    target.appendChild(option_default);
+    
+                    for(item of list) {
+                        const option = document.createElement("option");
+                        option.value = item.id;
+                        option.innerText = item.userId + "(" + item.creatorName + ")";
+                        target.appendChild(option);
+                    }
+                });
 
                 function fetch(id) {
                     var xhr = new XMLHttpRequest();
@@ -127,8 +151,6 @@
 
                                     if(index == 0) { // 초기 데이터 설정
                                         asset_div.classList.add("active");
-                                        preview_destroy();
-                                        preview(asset.assetPath + asset.assetFileName);
                                     }
 
                                     asset_div.setAttribute("data-asset", asset.assetPath + asset.assetFileName);
@@ -146,15 +168,13 @@
                                         preview(this.getAttribute("data-asset"));
                                     });
                                     asset_div.style.backgroundImage = "url('" + asset.assetPath + asset.assetFileName + "')";
-                                    // 원인 파악을 위한 테스트
-                                    // asset_div.crossOrigin = "Anonymous";
-                                    // asset_div.onload = function() {
-
-                                    // }
-                                    // asset_div.src = asset.assetPath + asset.assetFileName;
-
                                     assets_div.appendChild(asset_div);
                                 }
+
+                                if(typeof assets[0] === "object") {
+                                    preview_destroy();
+                                    preview(assets[0].assetPath + assets[0].assetFileName);
+                                } 
                                 // 준비
                             } else {
                                 console.log("xhr error");
@@ -165,7 +185,6 @@
                     xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/assets?productCreatorId=" + id, true);
                     xhr.send();
                 }
-                // fetch();
             }
         </script>
     </head>

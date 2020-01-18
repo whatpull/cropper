@@ -25,7 +25,8 @@
     border-right: 0px;
 }
 
-.ac-table .ac-table-row .ac-table-column .ac-table-btn-detail {
+.ac-table .ac-table-row .ac-table-column .ac-table-btn-detail,
+.ac-table .ac-table-row .ac-table-column .ac-table-btn-editor {
     width: 100px;
     height: 40px;
     display: flex;
