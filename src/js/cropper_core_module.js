@@ -38,6 +38,7 @@ function Cropper(data_set, edit_image, palette_color) {
     this.button_download;
     this.button_upload;
     this.button_palette;
+    this.button_initailize;
 
     // 캔버스
     this.canvas;
@@ -81,10 +82,14 @@ function Cropper(data_set, edit_image, palette_color) {
     // 모드 표시[타이틀]
     this.mode_div;
 
-    // 리사이즈 이벤트
+    // [이벤트] 윈도우 리사이즈
     window.onresize = function() {
         if(typeof this.edit_div === "object") {
+            // [좌표] 상대좌표 가운데 정렬
             const centerX = ((this.target.scrollWidth - this.canvas_worker.scrollWidth)/2);
+            const centerY = ((this.target.scrollHeight - this.canvas_worker.scrollHeight)/2);
+
+            this.edit_div.style.top = (this.edit_image.top + centerY) + "px";
             this.edit_div.style.left = (this.edit_image.left + centerX) + "px";
         }
     }.bind(this);
@@ -226,8 +231,14 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.palette_div.id = "palette-div";
     this.button_palette.addEventListener("click", function(e) {
         e.preventDefault();
-        this.nextSibling.classList.toggle("visible");
-    });
+        this.palette_div.classList.toggle("visible");
+        // 팔레트 하위 버튼 설정시 사용
+        // if(this.palette_div.classList.contains("visible")) {
+        //     this.button_initailize.style.top = "404px";
+        // } else {
+        //     this.button_initailize.style.top = "130px";
+        // }
+    }.bind(this));
 
     // [팔레트] 1번 색상
     this.palette_color_div_01 = document.createElement("div");
@@ -331,6 +342,20 @@ Cropper.prototype._handleFunction = function(visibility) {
     }.bind(this));
     this.palette_div.appendChild(this.palette_color_div_06);
 
+    // [생성] 초기화 버튼
+    this.button_initailize = document.createElement("button");
+    this.button_initailize.id = "btn-initailize";
+    this.button_initailize.classList.add("btn");
+    this.button_initailize.addEventListener("click", function(e) {
+        e.preventDefault();
+        this.reset();
+    }.bind(this));
+    const button_initailize_icon = document.createElement("i");
+    button_initailize_icon.classList.add("material-icons");
+    button_initailize_icon.innerText = "refresh";
+    button_initailize_icon.style.transform = "rotate( 45deg )";
+    this.button_initailize.appendChild(button_initailize_icon);
+
     // 모드별 기능 버튼 설정
     if(this.data_set.mode === "autopacking") {
         // this.button_palette.style.top = "50px";
@@ -339,6 +364,7 @@ Cropper.prototype._handleFunction = function(visibility) {
         this.target.appendChild(this.button_upload);
         this.target.appendChild(this.button_palette);
         this.target.appendChild(this.palette_div);
+        this.target.appendChild(this.button_initailize);
     }
 }
 
@@ -546,7 +572,7 @@ Cropper.prototype._handleDraw = function(e) {
 
 // [생성] 편집영역
 Cropper.prototype._handleEditDiv = function() {
-    // [좌표] 상대좌표 가운데 정렬 테스트
+    // [좌표] 상대좌표 가운데 정렬
     const centerX = ((this.target.scrollWidth - this.canvas_worker.scrollWidth)/2);
     const centerY = ((this.target.scrollHeight - this.canvas_worker.scrollHeight)/2);
 
@@ -655,7 +681,7 @@ Cropper.prototype._handleMoveCanvasEditImage = function(x, y) {
     const ratio =  (this.canvas_worker.width / this.canvas_worker.scrollWidth);
     this._handleClearCanvas();
 
-    // [좌표] 상대좌표 가운데 정렬 테스트
+    // [좌표] 상대좌표 가운데 정렬
     const centerX = ((this.target.scrollWidth - this.canvas_worker.scrollWidth)/2);
     const centerY = ((this.target.scrollHeight - this.canvas_worker.scrollHeight)/2);
     this.edit_image.left = x - centerX;
@@ -731,6 +757,7 @@ Cropper.prototype._handleResizableDiv = function(div) {
             // original_x = element.getBoundingClientRect().left;
             // original_y = element.getBoundingClientRect().top;
             // 부모를 기준으로 한 상대좌표[절대 좌표의 연산 공식]
+            // [좌표] 상대좌표 가운데 정렬
             original_x = (window.pageYOffset + element.getBoundingClientRect().left) - (window.pageYOffset + this.target.getBoundingClientRect().left)
             original_y = (window.pageYOffset + element.getBoundingClientRect().top) - (window.pageYOffset + this.target.getBoundingClientRect().top)
             original_mouse_x = e.pageX;
@@ -933,6 +960,7 @@ Cropper.prototype._handleSendFile = function(canvas) {
     xhr.send(data);
 }
 
+// [공개함수] 정보조회
 Cropper.prototype.info = function() {
     return {
         top: this.edit_image.top,
@@ -943,6 +971,66 @@ Cropper.prototype.info = function() {
     }
 }
 
+// [공개함수] 초기화
+// 데이터를 제외한 모든 속성 초기화
+Cropper.prototype.reset = function() {
+    // 시스템
+    this.input = null;
+    
+    // 버튼
+    this.button_download = null;
+    this.button_upload = null;
+    this.button_palette = null;
+
+    // 캔버스
+    this.canvas = null;
+    this.canvas_worker = null;
+
+    // 컨텍스트
+    this.context = null;
+    this.context_worker = null;
+
+    // 이미지
+    this.mock_img = undefined;
+    this.area_img = undefined;
+    this.upload_img = undefined;
+    this.effect_img = undefined;
+    this.composed_img = undefined;
+
+    // 편집영역
+    this.edit_div = null;
+    this.mousePosition = null;
+    this.offset = [0,0];
+    this.isDown = false;
+    this.isResize = false;
+
+    // 팔레트
+    this.palette_div = null;
+    this.selected_color = this.data_set.color_code;
+    this.palette_color_div_01 = null;
+    this.palette_color_div_02 = null;
+    this.palette_color_div_03 = null;
+    this.palette_color_div_04 = null;
+    this.palette_color_div_05 = null;
+    this.palette_color_div_06 = null;
+
+    // 모드 표시[타이틀]
+    this.mode_div = null;
+
+    // 리사이즈 이벤트
+    window.onresize = null;
+
+    // 이벤트 제거 방법 고민
+    if(this.target != null){
+        this.target.remove();
+    }
+    this.target = null;
+
+    // 초기화
+    this.init();
+}
+
+// [공개함수] 제거
 Cropper.prototype.destroy = function() {
     // 시스템
     this.input = null;

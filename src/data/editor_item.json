@@ -3,10 +3,10 @@
         {
             "data_set": {
                 "mode": "editor",
-                "mock_img": "./mock_img/iphone_11pro.png",
-                "area_img": "./mock_img/iphone_11pro_area.png",
-                "asset_img": "./mock_img/test.png",
-                "effect_img": "./mock_img/iphone_11effect.png",
+                "mock_img": "./afreeca/package/iphone_11pro.png",
+                "area_img": "./afreeca/package/iphone_11pro_area.png",
+                "asset_img": "./afreeca/package/test.png",
+                "effect_img": "./afreeca/package/iphone_11effect.png",
                 "is_design": false,
                 "color_code": "#ffffff"
             },
@@ -20,10 +20,10 @@
         {
             "data_set": {
                 "mode": "editor",
-                "mock_img": "./mock_img/pouch.png",
-                "area_img": "./mock_img/pouch_area.png",
-                "asset_img": "./mock_img/test.png",
-                "effect_img": "./mock_img/pouch_effect.png",
+                "mock_img": "./afreeca/package/pouch.png",
+                "area_img": "./afreeca/package/pouch_area.png",
+                "asset_img": "./afreeca/package/test.png",
+                "effect_img": "./afreeca/package/pouch_effect.png",
                 "is_design": false,
                 "color_code": "#ffffff"
             },
@@ -37,10 +37,10 @@
         {
             "data_set": {
                 "mode": "editor",
-                "mock_img": "./mock_img/cushion.png",
-                "area_img": "./mock_img/cushion_area.png",
-                "asset_img": "./mock_img/test.png",
-                "effect_img": "./mock_img/cushion_effect.png",
+                "mock_img": "./afreeca/package/cushion.png",
+                "area_img": "./afreeca/package/cushion_area.png",
+                "asset_img": "./afreeca/package/test.png",
+                "effect_img": "./afreeca/package/cushion_effect.png",
                 "is_design": false,
                 "color_code": "#ffffff"
             },
@@ -54,10 +54,10 @@
         {
             "data_set": {
                 "mode": "editor",
-                "mock_img": "./mock_img/blanket.png",
-                "area_img": "./mock_img/blanket_area.png",
-                "asset_img": "./mock_img/test.png",
-                "effect_img": "./mock_img/blanket_effect.png",
+                "mock_img": "./afreeca/package/blanket.png",
+                "area_img": "./afreeca/package/blanket_area.png",
+                "asset_img": "./afreeca/package/test.png",
+                "effect_img": "./afreeca/package/blanket_effect.png",
                 "is_design": false,
                 "color_code": "#ffffff"
             },
@@ -71,10 +71,10 @@
         {
             "data_set": {
                 "mode": "editor",
-                "mock_img": "./mock_img/canvas.png",
-                "area_img": "./mock_img/canvas_area.png",
-                "asset_img": "./mock_img/test.png",
-                "effect_img": "./mock_img/canvas_effect.png",
+                "mock_img": "./afreeca/package/canvas.png",
+                "area_img": "./afreeca/package/canvas_area.png",
+                "asset_img": "./afreeca/package/test.png",
+                "effect_img": "./afreeca/package/canvas_effect.png",
                 "is_design": false,
                 "color_code": "#ffffff"
             },

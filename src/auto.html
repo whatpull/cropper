@@ -47,19 +47,63 @@
 
                 // [미리보기]
                 function preview(asset_img) {
-                    fetchOption(1, asset_img).then(function(result) {
-                        fetchOption(2, asset_img).then(function(result) {
-                            fetchOption(3, asset_img).then(function(result) {
-                                fetchOption(4, asset_img).then(function(result) {
-                                    fetchOption(5, asset_img).then(function(result) {
-                                        
-                                    });
-                                });
-                            });
-                        });
+                    fetchOptions(asset_img);
+                }
+
+                // [옵션 조회] 전체 조회
+                function fetchOptions(asset_img) {
+                    return new Promise(function(resolve, reject) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    result = JSON.parse(xhr.responseText);
+                                    contents = result.content;
+                                    for(content of contents) {
+                                        options = content.packageOptions;
+                                        for(option of options) {
+                                            let path = option.imagePath;
+                                            const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
+                                            const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
+                                            const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
+                                            const color_code = option.mockFilling;
+
+                                            if(host === "127.0.0.1:5500" 
+                                                || host === "localhost:5500" 
+                                                || host === "192.167.0.177:5500") {
+                                                path = "/cropper/src" + path;
+                                            }
+
+                                            const temp = new Cropper({
+                                                mode: "autopacking",
+                                                mock_img: path + mock_img,
+                                                area_img: path + area_img,
+                                                asset_img: asset_img,
+                                                effect_img: path + effect_img,
+                                                color_code: color_code
+                                            }, {
+                                                top: parseFloat(option.mockTop),
+                                                left: parseFloat(option.mockLeft),
+                                                width: parseFloat(option.mockWidth),
+                                                height: parseFloat(option.mockHeight)
+                                            }, palette_color);
+                                            temp.init();
+                                            cropper.push(temp);
+                                        }
+                                    }
+                                    resolve("success");
+                                } else {
+                                    console.log("xhr error");
+                                    reject("error");
+                                }
+                            }
+                        }
+                        xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packages?size=2147483647", true);
+                        xhr.send();
                     });
                 }
 
+                // [옵션 조회] 단일 조회(아이디)
                 function fetchOption(id, asset_img) {
                     return new Promise(function(resolve, reject) {
                         var xhr = new XMLHttpRequest();
@@ -73,6 +117,7 @@
                                         const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
                                         const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
                                         const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
+                                        const color_code = option.mockFilling;
 
                                         if(host === "127.0.0.1:5500" 
                                             || host === "localhost:5500" 
@@ -86,20 +131,13 @@
                                             area_img: path + area_img,
                                             asset_img: asset_img,
                                             effect_img: path + effect_img,
-                                            is_design: false
+                                            color_code: color_code
                                         }, {
                                             top: parseFloat(option.mockTop),
                                             left: parseFloat(option.mockLeft),
                                             width: parseFloat(option.mockWidth),
                                             height: parseFloat(option.mockHeight)
-                                        }, {
-                                            color01: "#ffffff",
-                                            color02: "#B6B5B5",
-                                            color03: "#54B689",
-                                            color04: "#A093D6",
-                                            color05: "#7BB2E3",
-                                            color06: "#D34249",
-                                        });
+                                        }, palette_color);
                                         temp.init();
                                         cropper.push(temp);
                                     }

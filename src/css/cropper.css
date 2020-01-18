@@ -71,13 +71,18 @@ body {
 
 .cropper .btn#btn-palette {
     right: 10px;
+    top: 130px;
+}
+
+.cropper .btn#btn-initailize {
+    right: 10px;
     top: 70px;
 }
 
 .cropper #palette-div {
     position: absolute;
     right: 10px;
-    top: 130px;
+    top: 190px;
     width: 50px;
     background-color: #ffffff;
     border: solid 1px #e2e2e2;

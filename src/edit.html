@@ -20,6 +20,8 @@
 
         <script>
             window.onload = function() {
+                const host = window.location.host;
+
                 common.menu();
                 common.expander();
 
@@ -32,22 +34,6 @@
                     color06: "#D34249",
                 }
 
-                let editor = new Cropper({
-                    mode: "editor",
-                    mock_img: "./mock_img/iphone_11pro.png",
-                    area_img: "./mock_img/iphone_11pro_area.png",
-                    asset_img: "./mock_img/test.png",
-                    effect_img: "./mock_img/iphone_11effect.png",
-                    is_design: false,
-                    color_code: "#ffffff"
-                }, {
-                    top: 0,
-                    left: 0,
-                    width: 200,
-                    height: 200
-                }, palette_color);
-                editor.init();
-
                 // [이벤트] 버튼 클릭 - 정보 조회
                 document.querySelector("#btn-ac-info").addEventListener("click", function(e) {
                     const info = editor.info();
@@ -58,25 +44,83 @@
                     document.querySelector("#ac-info-color").innerText = info.color;
                 });
 
+                // [셀렉트 박스] 상품
+                let editor; // 에디터 변수
                 const product = new SelectBox("selectbox-product", function(value) {
+                    // 정보조회 초기화
+                    document.querySelector("#ac-info-top").innerText = "0";
+                    document.querySelector("#ac-info-left").innerText = "0";
+                    document.querySelector("#ac-info-width").innerText = "0";
+                    document.querySelector("#ac-info-height").innerText = "0";
+                    document.querySelector("#ac-info-color").innerText = "#";
+
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function(e) {
                         if (xhr.readyState == 4) {
                             if(xhr.status == 200) {
                                 result = JSON.parse(xhr.responseText);
-                                data = result.data[value];
-                                editor.destroy();
-                                editor = new Cropper(data.data_set, data.edit_image, palette_color);
-                                editor.init();
+                                // 우선순위를 구분할 수 있는 방법이 없어서 첫번째 리소스 활용
+                                option = result.result.packageOptions[0];
+
+                                if(typeof option === "undefined") {
+                                    // 옵션 데이터가 없는 경우
+                                } else {
+                                    let path = option.imagePath;
+                                    const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
+                                    const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
+                                    const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
+                                    const color_code = option.mockFilling;
+
+                                    if(host === "127.0.0.1:5500" 
+                                        || host === "localhost:5500" 
+                                        || host === "192.167.0.177:5500") {
+                                        path = "/cropper/src" + path;
+                                    }
+
+                                    if(typeof editor === "undefined") {
+
+                                    } else {
+                                        editor.destroy();
+                                    }
+                                    
+                                    editor = new Cropper({
+                                        mode: "editor",
+                                        mock_img: path + mock_img,
+                                        area_img: path + area_img,
+                                        effect_img: path + effect_img,
+                                        color_code: color_code
+                                    }, {
+                                        top: parseFloat(option.mockTop),
+                                        left: parseFloat(option.mockLeft),
+                                        width: parseFloat(option.mockWidth),
+                                        height: parseFloat(option.mockHeight)
+                                    }, palette_color);
+                                    editor.init();
+                                }
                             } else {
                                 console.log("xhr error");
                             }
                         }
                     };
-                    xhr.open("GET", "data/editor_item.json", true);
+                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + value, true);
                     xhr.send();
                 });
-                product.init();
+                product.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packages?size=2147483647", function(list, target) { 
+                    const option_default = document.createElement("option");
+                    option_default.innerText = "상품";
+                    target.appendChild(option_default);
+    
+                    for(item of list) {
+                        const data_options = item.packageOptions;
+                        const package_id = item.id;
+                        for(data_option of data_options) {
+                            const option = document.createElement("option");
+                            option.value = package_id;
+                            option.innerText = data_option.optionName1 + " - " + data_option.optionName2;
+                            target.appendChild(option);
+                        }
+                    }
+                });
             }
         </script>
     </head>
