@@ -20,6 +20,8 @@
 
         <script>
             window.onload = function() {
+                const host = window.location.host;
+
                 common.menu();
                 common.expander();
 
@@ -67,11 +69,17 @@
                                     result = JSON.parse(xhr.responseText);
                                     options = result.result.packageOptions;
                                     for(option of options) {
-                                        const path = option.imagePath;
+                                        let path = option.imagePath;
                                         const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
                                         const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
                                         const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
-    
+
+                                        if(host === "127.0.0.1:5500" 
+                                            || host === "localhost:5500" 
+                                            || host === "192.167.0.177:5500") {
+                                            path = "/cropper/src" + path;
+                                        }
+
                                         const temp = new Cropper({
                                             mode: "autopacking",
                                             mock_img: path + mock_img,
@@ -145,6 +153,8 @@
                                 assets_div.innerHTML = "";
                                 for(index in assets) {
                                     const asset = assets[index];
+                                    let assetPath = asset.assetPath;
+                                    const assetFileName = asset.assetFileName;
                                     const asset_div = document.createElement("div");
                                     asset_div.id = "asset-div-" + asset.asset_id;
                                     asset_div.classList.add("asset-item");
@@ -153,7 +163,13 @@
                                         asset_div.classList.add("active");
                                     }
 
-                                    asset_div.setAttribute("data-asset", asset.assetPath + asset.assetFileName);
+                                    if(host === "127.0.0.1:5500" 
+                                        || host === "localhost:5500" 
+                                        || host === "192.167.0.177:5500") {
+                                        assetPath = "/cropper/src" + assetPath;
+                                    }
+                                    
+                                    asset_div.setAttribute("data-asset", assetPath + assetFileName);
                                     asset_div.addEventListener("click", function(e) {
                                         // UI 선택
                                         const list = document.querySelectorAll(".asset-item");
@@ -167,13 +183,19 @@
                                         preview_destroy();
                                         preview(this.getAttribute("data-asset"));
                                     });
-                                    asset_div.style.backgroundImage = "url('" + asset.assetPath + asset.assetFileName + "')";
+                                    asset_div.style.backgroundImage = "url('" + assetPath + assetFileName + "')";
                                     assets_div.appendChild(asset_div);
                                 }
 
                                 if(typeof assets[0] === "object") {
+                                    let assetUrl = assets[0].assetPath + assets[0].assetFileName;
                                     preview_destroy();
-                                    preview(assets[0].assetPath + assets[0].assetFileName);
+                                    if(host === "127.0.0.1:5500" 
+                                        || host === "localhost:5500" 
+                                        || host === "192.167.0.177:5500") {
+                                        assetUrl = "/cropper/src" + assetUrl;
+                                    }
+                                    preview(assetUrl);
                                 } 
                                 // 준비
                             } else {
