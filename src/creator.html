@@ -83,21 +83,24 @@
                     target.appendChild(row);
                 }
 
-                const popup_reg = new Popup();
+                const popup_regist = new Popup();
                 // 실제 팝업창에 그려질 form 문 작성
-                popup_reg.init(function(popup) {
+                popup_regist.init(function(popup) {
                     const form = document.createElement("form");
                     form.id = "creator-regist";
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
-                    form.style.margin = "30px";
-                    form.style.justifyContent = "center";
                     form.style.alignItems = "center";
+                    form.style.maxHeight = "600px";
+                    form.style.padding = "0px 30px";
+                    form.style.overflowY = "auto";
+                    form.style.overflowX = "hidden";
 
                     // 타이틀
                     const title_div = document.createElement("div");
                     title_div.innerText = "크리에이터 등록"
                     title_div.style.fontSize = "20px";
+                    title_div.style.marginTop = "20px";
                     title_div.style.fontWeight = "bold";
                     title_div.style.color = "#4286f4";
 
@@ -202,8 +205,9 @@
                     const submit_btn = document.createElement("div");
                     submit_btn.innerText = "등록";
                     submit_btn.style.width = "100px";
-                    submit_btn.style.height = "40px";
+                    submit_btn.style.minHeight = "40px";
                     submit_btn.style.marginTop = "20px";
+                    submit_btn.style.marginBottom = "20px";
                     submit_btn.style.backgroundColor = "#FFFFFF";
                     submit_btn.style.border = "1px solid #e2e2e2";
                     submit_btn.style.display = "flex";
@@ -259,7 +263,7 @@
                             if (xhr.status == 200) {
                                 result = JSON.parse(xhr.responseText);
                                 data = result.result;
-                                popup_reg.close();
+                                popup_regist.close();
                                 table.body("page=0", bodydata);
                                 alert("등록에 성공하였습니다.");
                             } else {
@@ -275,7 +279,7 @@
                 // [버튼] 등록
                 document.querySelector("#ac-btn-regist").addEventListener("click", function(e) {
                     e.preventDefault();
-                    popup_reg.open();
+                    popup_regist.open();
                 });
             }
         </script>

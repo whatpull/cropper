@@ -115,9 +115,9 @@ Cropper.prototype.init = function() {
 
     // [생성] cropper(wrapper) 태그
     this.target = document.createElement("div");
-    this.target.style.marginBottom = "10px";
     this.target.style.minWidth = canvas_style_length;
     if(this.data_set.mode === "autopacking") {
+        this.target.style.marginBottom = "10px";
         this.target.style.marginRight = "10px";
         this.target.style.width = canvas_style_length;
         this.target.style.border = "1px solid #e2e2e2";
@@ -634,7 +634,7 @@ Cropper.prototype._handleEditDiv = function() {
                     x : e.clientX,
                     y : e.clientY
                 };
-    
+                
                 const x = this.mousePosition.x + this.offset[0];
                 const y = this.mousePosition.y + this.offset[1];
     
@@ -753,13 +753,16 @@ Cropper.prototype._handleResizableDiv = function(div) {
 
             original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
             original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
-            window.pageYOffset + element.getBoundingClientRect().top;
-            // original_x = element.getBoundingClientRect().left;
-            // original_y = element.getBoundingClientRect().top;
-            // 부모를 기준으로 한 상대좌표[절대 좌표의 연산 공식]
+            
+            // 스크롤 위치를 포함한 좌표
             // [좌표] 상대좌표 가운데 정렬
-            original_x = (window.pageYOffset + element.getBoundingClientRect().left) - (window.pageYOffset + this.target.getBoundingClientRect().left)
-            original_y = (window.pageYOffset + element.getBoundingClientRect().top) - (window.pageYOffset + this.target.getBoundingClientRect().top)
+            original_x = window.pageXOffset + element.getBoundingClientRect().left;
+            original_y = window.pageYOffset + element.getBoundingClientRect().top;
+
+            // 부모를 기준으로 한 상대좌표[절대 좌표의 연산 공식] // 절대공식 참조
+            // original_x = (window.pageXOffset + element.getBoundingClientRect().left) - (window.pageXOffset + this.canvas.getBoundingClientRect().left);
+            // original_y = (window.pageYOffset + element.getBoundingClientRect().top) - (window.pageYOffset + this.canvas.getBoundingClientRect().top);
+
             original_mouse_x = e.pageX;
             original_mouse_y = e.pageY;
 
@@ -771,6 +774,8 @@ Cropper.prototype._handleResizableDiv = function(div) {
         }.bind(this));
 
         function resize(e) {
+            console.log(e.pageX - original_mouse_x);
+            console.log(e.pageY - original_mouse_y);
             if(shift_down) { // [시프트] 비율축소
                 if (resizer.classList.contains('bottom-right')) {
                     let width = original_width + ((e.pageX - original_mouse_x)  * (original_width / original_height)) + (e.pageY - original_mouse_y);
@@ -836,18 +841,22 @@ Cropper.prototype._handleResizableDiv = function(div) {
     }
 }
 
-// [이벤트] 편집이미지 리사이즈
+// [이벤트] 편집이미지 - 캔버스 이미지 리사이즈
 Cropper.prototype._handleResizableCanvas = function(top, left, width, height) {
     // [비율]
     const ratio =  (this.canvas_worker.width / this.canvas_worker.scrollWidth);
 
+    // 스크롤 위치를 포함한 캔버스 포지션(캔버스 포지션의 위치)
+    const canvas_x = window.pageXOffset + this.canvas.getBoundingClientRect().left;
+    const canvas_y = window.pageYOffset + this.canvas.getBoundingClientRect().top;
+
     this._handleClearCanvas();
 
     if(typeof top !== "undefined") {
-        this.edit_image.top = top;
+        this.edit_image.top = top - canvas_y;
     }
     if(typeof left !== "undefined") {
-        this.edit_image.left = left;
+        this.edit_image.left = left - canvas_x;
     }
     if(typeof width !== "undefined") {
         this.edit_image.width = width;

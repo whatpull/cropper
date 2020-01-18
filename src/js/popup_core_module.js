@@ -24,10 +24,10 @@ Popup.prototype.init = function(form) {
 
     this.popup = document.createElement("div");
     // this.popup.style.width = "700px";
-    // this.popup.style.height = "700px";
+    this.popup.style.maxHeight = "600px";
     this.popup.style.backgroundColor = "#ffffff";
     this.popup.style.borderRadius = "10px";
-    this.popup.style.overflowY = "auto";
+    this.popup.style.overflowY = "hidden";
     this.popup.style.overflowX = "hidden";
     this.popup.style.zIndex = "1";
     this.popup.addEventListener("click", function(e) {
@@ -42,11 +42,11 @@ Popup.prototype.init = function(form) {
 
 // 오픈
 Popup.prototype.open = function() {
-    document.querySelector("form").reset();
+    this.popup.querySelector("form").scrollTop = 0;
     this.dim.style.display = "flex";
 }
 
 Popup.prototype.close = function() {
-    document.querySelector("form").reset();
+    this.popup.querySelector("form").reset();
     this.dim.style.display = "none";
 }
