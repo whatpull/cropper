@@ -1,4 +1,4 @@
-// 모듈패턴
+// 모듈 리빌링 패턴(backup본 1차 개발)
 const cropper = (function() {
     // 전역변수
     let target, input;

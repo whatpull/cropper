@@ -109,8 +109,8 @@ Table.prototype.body = function(data, callback) {
     xhr.onreadystatechange = function(e) {
         if (xhr.readyState == 4) {
             if(xhr.status == 200) {
-                result = JSON.parse(xhr.responseText);
-                list = result.content;
+                const result = JSON.parse(xhr.responseText);
+                const list = result.content;
 
                 // 페이지 설정(pageable - Spring)
                 const currentPage = result.pageable.pageNumber + 1;
@@ -127,10 +127,20 @@ Table.prototype.body = function(data, callback) {
                 }
             } else {
                 console.log("xhr error");
+                // border size 제거를 위해 -2px
+                target.style.minWidth = (document.querySelector("#ac-table-head").clientWidth - 2) + "px";
+                const empty = document.createElement("div");
+                empty.style.width = "100%";
+                empty.style.height = "50px";
+                empty.style.display = "flex";
+                empty.style.justifyContent = "center";
+                empty.style.alignItems = "center";
+                empty.style.fontWeight = "bold";
+                empty.innerText = "NO CONTENT";
+                target.appendChild(empty);
             }
         }
     }.bind(this);
-    // xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators", true);
     xhr.open("GET", this.url + (typeof data === "undefined" ? "" : "?" + data), true);
     xhr.send();
 }

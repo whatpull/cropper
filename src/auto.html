@@ -18,6 +18,9 @@
         <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
         <link rel="stylesheet" type="text/css" href="./css/selectbox.css" />
 
+        <!-- 모멘트JS -->
+        <script src="./libs/moment/moment.min.js"></script>
+
         <script>
             window.onload = function() {
                 const host = window.location.host;
@@ -43,7 +46,7 @@
                 }
 
                 let iphone_11pro, pouch, cushion, blanket;
-                let cropper = [];
+                let croppers = [];
 
                 // [미리보기]
                 function preview(asset_img) {
@@ -57,9 +60,13 @@
                         xhr.onreadystatechange = function(e) {
                             if (xhr.readyState == 4) {
                                 if(xhr.status == 200) {
-                                    result = JSON.parse(xhr.responseText);
-                                    contents = result.content;
+                                    const result = JSON.parse(xhr.responseText);
+                                    const contents = result.content;
                                     for(content of contents) {
+                                        // 패키지 아이디, 패키지 크리에이터 아이디
+                                        const packageId = content.id;
+                                        const packageCreatorId = content.packageCreator.id;
+
                                         options = content.packageOptions;
                                         for(option of options) {
                                             let path = option.imagePath;
@@ -88,7 +95,12 @@
                                                 height: parseFloat(option.mockHeight)
                                             }, palette_color);
                                             temp.init();
-                                            cropper.push(temp);
+                                            temp.setParam({
+                                                "packageId": packageId,
+                                                "packageCreatorId": packageCreatorId
+                                            });
+                                            // 활용 데이터 입력
+                                            croppers.push(temp);
                                         }
                                     }
                                     resolve("success");
@@ -109,8 +121,8 @@
                         xhr.onreadystatechange = function(e) {
                             if (xhr.readyState == 4) {
                                 if(xhr.status == 200) {
-                                    result = JSON.parse(xhr.responseText);
-                                    options = result.result.packageOptions;
+                                    const result = JSON.parse(xhr.responseText);
+                                    const options = result.result.packageOptions;
                                     for(option of options) {
                                         let path = option.imagePath;
                                         const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
@@ -138,7 +150,11 @@
                                             height: parseFloat(option.mockHeight)
                                         }, palette_color);
                                         temp.init();
-                                        cropper.push(temp);
+                                        temp.setParam({
+                                            "packageId": packageId,
+                                            "packageCreatorId": packageCreatorId
+                                        });
+                                        croppers.push(temp);
                                     }
                                     resolve("success");
                                 } else {
@@ -153,11 +169,11 @@
 
                 // [미리보기 파괴] 
                 function preview_destroy() {
-                    const size = cropper.length;
+                    const size = croppers.length;
                     for(let i = 0; i < size; i++) {
-                        cropper[i].destroy();
+                        croppers[i].destroy();
                     }
-                    cropper = [];
+                    croppers = [];
                 }
 
                 const product = new SelectBox("selectbox-creator", function(value) {
@@ -181,8 +197,8 @@
                     xhr.onreadystatechange = function(e) {
                         if (xhr.readyState == 4) {
                             if(xhr.status == 200) {
-                                result = JSON.parse(xhr.responseText);
-                                assets = result.content;
+                                const result = JSON.parse(xhr.responseText);
+                                const assets = result.content;
 
                                 const assets_div = document.querySelector("#ac-assets");
                                 assets_div.innerHTML = "";
@@ -241,6 +257,126 @@
                     // xhr.open("GET", "data/autocropper_assets.json", true);
                     xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/assets?productCreatorId=" + id, true);
                     xhr.send();
+                }
+
+                // [이벤트] 업로드 버튼 클릭
+                let isRun = false;
+                document.querySelector("#btn-ac-upload").addEventListener("click", function(e) {
+                    // 중복 클릭 방지
+                    if(isRun == true) {
+                        return;
+                    }
+                    isRun = true;
+
+                    // 1번 상품 생성
+                    // 필요 데이터 수집
+                    const creator_select = document.querySelector(".selectbox-creator #select");
+                    const creatorId = creator_select.options[creator_select.selectedIndex].value;
+
+                    let temp_array = {"param": []};
+                    for(cropper of croppers) {
+                        const param = cropper.getParam();
+                        temp_array.param.push(param);
+                    }
+                    temp_array = common.uniqueArray(temp_array);
+
+                    // 상품 생성 + 상품 아이디 데이터 저장
+                    const promise_array = [];
+                    for(temp of temp_array) {
+                        // 변수 생성
+                        const param = new FormData();
+                        param.append("creatorId", creatorId);
+                        // param.append('detail', "미정");
+                        param.append('image', temp.image, "product_thumbnail.png");
+                        param.append("packageCreatorId", temp.packageCreatorId);
+                        param.append("packageId", temp.packageId);
+
+                        promise_array.push(postProduct(param, temp));
+                    }
+
+                    // 프로미스 처리 일괄 데이터 성공유무 체크
+                    Promise.all(promise_array).then(function(values) {
+                        alert("상품 등록에 성공하였습니다.");
+                        isRun = false;
+                        error = 0;
+                    }, function(values) {
+                        alert("상품 등록에 실패하였습니다.");
+                        isRun = false;
+                        error = 0;
+                    });
+                });
+
+                // [서비스] 상품 생성
+                // [크로스 오리진 에러 공유]
+                function postProduct(param, temp) {
+                    return new Promise(function(resolve, reject) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    const result = JSON.parse(xhr.responseText);
+                                    console.log(result);
+
+                                    // 1. 상품 아이디 생성
+                                    // const productId = "1";
+                                    // 2. 옵션이름1, 옵션이름2 // start-date, end-date 처리를 어떻게 할 것인가? (입력받기에는 너무 많은 숫자)
+                                    const optionName1 = "미정";
+                                    const optionName2 = "미정";
+                                    // 현재 달의 첫번째일 - 1달, 마지막일 + 1달
+                                    const startDate = moment().startOf('month').subtract(1, 'month').format("YYYYMMDDHHmmSS");
+                                    const endDate = moment().endOf('month').add(1, 'month').format("YYYYMMDDHHmmSS");
+                                    
+                                    let error = 0;
+                                    // 상품 생성[프로덕트 아이디를 일치시키위한 작업]
+                                    const promise_array = [];
+                                    for(cropper of croppers) {
+                                        if(JSON.stringify(temp) === JSON.stringify(cropper.getParam())) {
+                                            // 변수 생성
+                                            const param = new FormData();
+                                            param.append("productId", productId);
+                                            param.append('optionName1', optionName1);
+                                            param.append("optionName2", optionName2);
+                                            param.append('image', cropper.getParam().image, "option_thumbnail.png");
+                                            param.append("startDate", startDate);
+                                            param.append("endDate", endDate);
+                                            
+                                            promise_array.push(postOption(param, error));
+                                        }
+                                    }
+
+                                    // 프로미스 처리 일괄 데이터 성공유무 체크
+                                    Promise.all(promise_array).then(function(values) {
+                                        resolve("success");
+                                    }, function(values) {
+                                        reject("error");
+                                    });
+                                } else {
+                                    reject("error");
+                                }
+                            }
+                        }
+                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product", true);
+                        xhr.send(param);
+                    });
+                }
+
+                // [서비스] 옵션 생성
+                function postOption(param, error) {
+                    return new Promise(function(resolve, reject) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    const result = JSON.parse(xhr.responseText);
+                                    console.log(result);
+                                } else {
+                                    error++;
+                                }
+                            }
+                        }
+                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/option", true);
+                        xhr.send(param);
+                    });
                 }
             }
         </script>
@@ -306,7 +442,7 @@
                             </div>
                         </div>
                         <div id="btn-ac-upload" class="ac-upload-button">
-                            UPLOAD
+                            상품 생성
                         </div>
                     </div>
                 </div>

@@ -10,13 +10,9 @@
         <!-- 공통 -->
         <script type="text/javascript" src="./js/common.js"></script>
 
-        <!-- 오토크로퍼 모듈 -->
-        <script type="text/javascript" src="./js/cropper_core_module.js"></script>
-        <link rel="stylesheet" type="text/css" href="./css/cropper.css" />
-
         <!-- 셀렉트박스 모듈 -->
-        <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
-        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" />
+        <!-- <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" /> -->
 
         <!-- 테이블 모듈 -->
         <script type="text/javascript" src="./js/table_core_module.js"></script>
@@ -308,8 +304,8 @@
                         xhr.onreadystatechange = function(e) {
                             if (xhr.readyState == 4) {
                                 if(xhr.status == 200) {
-                                    result = JSON.parse(xhr.responseText);
-                                    data = result.result;
+                                    const result = JSON.parse(xhr.responseText);
+                                    const data = result.result;
                                     popup_reg.close();
                                     table.body("page=0", bodydata);
                                     alert("등록에 성공하였습니다.");
@@ -556,8 +552,8 @@
                         xhr.onreadystatechange = function(e) {
                             if (xhr.readyState == 4) {
                                 if(xhr.status == 200) {
-                                    result = JSON.parse(xhr.responseText);
-                                    data = result.result;
+                                    const result = JSON.parse(xhr.responseText);
+                                    const data = result.result;
                                     popup_editor.close();
                                     table.body("page=0", bodydata);
                                     alert("수정에 성공하였습니다.");

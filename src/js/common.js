@@ -1,3 +1,4 @@
+// 공통모듈(유틸리티)
 const common = (function() {
     
     // 메뉴 셋팅
@@ -29,9 +30,21 @@ const common = (function() {
         }
     }
 
+    // 배열 중복 제거
+    function uniqueArray(array) {
+        const uniqueArray = array.param.filter((param, index) => {
+            const _array = JSON.stringify(param);
+            return index === array.param.findIndex(obj => {
+                return JSON.stringify(obj) === _array;
+            });
+        });
+        return uniqueArray;
+    }
+
     return {
         menu: menu, 
-        expander: expander
+        expander: expander, 
+        uniqueArray: uniqueArray
     }
 })();
 

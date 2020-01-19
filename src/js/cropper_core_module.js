@@ -1,5 +1,5 @@
 /**
- * 크로퍼 모듈
+ * 크로퍼 모듈(완성본)
  * 생성자 프로토타입 체이닝
  * @param {*} data_set 목업 데이터(이미지, 색상코드)
  * @param {*} edit_image 
@@ -57,6 +57,9 @@ function Cropper(data_set, edit_image, palette_color) {
 
     // 데이터
     this.data_set = data_set;
+
+    // 변수(파라미터)
+    this.param_set;
 
     // 편집이미지
     this.edit_image = edit_image;
@@ -916,8 +919,7 @@ Cropper.prototype._handleComposeImage = function() {
     this.composed_img.src = data;
 }
 
-// [다운로드] 파일 다운로드
-Cropper.prototype._handleMakeFile = function(canvas) {
+Cropper.prototype._handleCanvasConvertBlob = function(canvas) {
     const result = canvas.toDataURL('image/png');
     const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
     const array = [];
@@ -925,6 +927,12 @@ Cropper.prototype._handleMakeFile = function(canvas) {
         array.push(blob_bin.charCodeAt(i));
     }
     const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+    return blob;
+}
+
+// [다운로드] 파일 다운로드
+Cropper.prototype._handleMakeFile = function(canvas) {
+    const blob = this._handleCanvasConvertBlob(canvas);    
 
     // [다운로드 방식]
     const url = window.URL.createObjectURL(blob)
@@ -944,13 +952,7 @@ Cropper.prototype._handleMakeFile = function(canvas) {
 
 // [파일전송] 파일 서버전송
 Cropper.prototype._handleSendFile = function(canvas) {
-    const result = canvas.toDataURL('image/png');
-    const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
-    const array = [];
-    for (let i = 0; i < blob_bin.length; i++) {
-        array.push(blob_bin.charCodeAt(i));
-    }
-    const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+    const blob = this._handleCanvasConvertBlob(canvas);
 
     var data = new FormData();	// formData 생성
     data.append("files", blob, 'new_file.png');	// file data 추가
@@ -1099,4 +1101,15 @@ Cropper.prototype.destroy = function() {
         this.target.remove();
     }
     this.target = null;
+}
+
+// [데이터] 변수(파라미터) 저장
+Cropper.prototype.setParam = function(param_set) {
+    this.param_set = param_set;
+    this.param_set.image = this._handleCanvasConvertBlob(this.canvas);
+}
+
+// [데이터] 변수(파라미터) 조회
+Cropper.prototype.getParam = function() {
+    return this.param_set;
 }

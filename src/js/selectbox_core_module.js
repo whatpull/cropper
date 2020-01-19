@@ -97,8 +97,8 @@ SelectBox.prototype.init = function(url, callback) {
         xhr.onreadystatechange = function(e) {
             if (xhr.readyState == 4) {
                 if(xhr.status == 200) {
-                    result = JSON.parse(xhr.responseText);
-                    list = result.content;
+                    const result = JSON.parse(xhr.responseText);
+                    const list = result.content;
 
                     if(typeof callback === "function" ) {
                         callback(list, target);
