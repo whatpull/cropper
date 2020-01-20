@@ -69,11 +69,6 @@
                                     const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
                                     const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
                                     const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
-                                    
-                                    console.log("mock_img : " + mock_img);
-                                    console.log("area_img : " + area_img);
-                                    console.log("effect_img : " + effect_img);
-                                    
                                     const color_code = option.mockFilling;
 
                                     if(host === "127.0.0.1:5500" 
