@@ -66,6 +66,7 @@
                                         // 패키지 아이디, 패키지 크리에이터 아이디
                                         const packageId = content.id;
                                         const packageCreatorId = content.packageCreator.id;
+                                        const packageName = content.name;
 
                                         options = content.packageOptions;
                                         for(option of options) {
@@ -97,7 +98,8 @@
                                             temp.init();
                                             temp.setParam({
                                                 "packageId": packageId,
-                                                "packageCreatorId": packageCreatorId
+                                                "packageCreatorId": packageCreatorId,
+                                                "packageName": packageName
                                             });
                                             // 활용 데이터 입력
                                             croppers.push(temp);
@@ -122,6 +124,10 @@
                             if (xhr.readyState == 4) {
                                 if(xhr.status == 200) {
                                     const result = JSON.parse(xhr.responseText);
+                                    const packageId = result.result.id;
+                                    const packageCreatorId = result.result.packageCreator.id;
+                                    const packageName = result.result.name;
+
                                     const options = result.result.packageOptions;
                                     for(option of options) {
                                         let path = option.imagePath;
@@ -152,7 +158,8 @@
                                         temp.init();
                                         temp.setParam({
                                             "packageId": packageId,
-                                            "packageCreatorId": packageCreatorId
+                                            "packageCreatorId": packageCreatorId,
+                                            "packageName": packageName
                                         });
                                         croppers.push(temp);
                                     }
@@ -221,6 +228,7 @@
                                     }
                                     
                                     asset_div.setAttribute("data-asset", assetPath + assetFileName);
+                                    asset_div.setAttribute("data-name", asset.name);
                                     asset_div.addEventListener("click", function(e) {
                                         // UI 선택
                                         const list = document.querySelectorAll(".asset-item");
@@ -261,6 +269,7 @@
 
                 // [이벤트] 업로드 버튼 클릭
                 let isRun = false;
+                let temp_productIds = [];
                 document.querySelector("#btn-ac-upload").addEventListener("click", function(e) {
                     // 중복 클릭 방지
                     if(isRun == true) {
@@ -275,18 +284,24 @@
 
                     let temp_array = {"param": []};
                     for(cropper of croppers) {
+                        cropper.setBlob(); // 이미지 데이터 변수에 저장
                         const param = cropper.getParam();
                         temp_array.param.push(param);
                     }
                     temp_array = common.uniqueArray(temp_array);
 
+                    // 어셋 이름 획득
+                    const assetName = document.querySelector("#ac-assets .asset-item.active").getAttribute("data-name");
+
                     // 상품 생성 + 상품 아이디 데이터 저장
                     const promise_array = [];
                     for(temp of temp_array) {
+                        // asset_name_pakage_name
                         // 변수 생성
                         const param = new FormData();
                         param.append("creatorId", creatorId);
-                        // param.append('detail', "미정");
+                        param.append('name', assetName + "_" + temp.packageName);
+                        param.append('detail', "미정");
                         param.append('image', temp.image, "product_thumbnail.png");
                         param.append("packageCreatorId", temp.packageCreatorId);
                         param.append("packageId", temp.packageId);
@@ -299,11 +314,28 @@
                         alert("상품 등록에 성공하였습니다.");
                         isRun = false;
                         error = 0;
-                    }, function(values) {
+                    }).catch(function(error) {
+                        if(error.type === "option") {
+                            for(temp_productId of temp_productIds) {
+                                var xhr = new XMLHttpRequest();
+                                xhr.onreadystatechange = function(e) {
+                                    if (xhr.readyState == 4) {
+                                        if(xhr.status == 200) {
+                                            const result = JSON.parse(xhr.responseText);
+                                            console.log(result);
+                                        } else {
+                                            console.log("xhr error");
+                                        }
+                                    }
+                                }
+                                xhr.open("DELETE", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/" + temp_productId, true);
+                                xhr.send();
+                            }
+                        }
                         alert("상품 등록에 실패하였습니다.");
                         isRun = false;
                         error = 0;
-                    });
+                    }.bind(temp_productIds));
                 });
 
                 // [서비스] 상품 생성
@@ -315,43 +347,47 @@
                             if (xhr.readyState == 4) {
                                 if(xhr.status == 200) {
                                     const result = JSON.parse(xhr.responseText);
-                                    console.log(result);
 
                                     // 1. 상품 아이디 생성
-                                    // const productId = "1";
+                                    const productId = result.result.id;
+                                    temp_productIds.push(productId);
                                     // 2. 옵션이름1, 옵션이름2 // start-date, end-date 처리를 어떻게 할 것인가? (입력받기에는 너무 많은 숫자)
                                     const optionName1 = "미정";
                                     const optionName2 = "미정";
                                     // 현재 달의 첫번째일 - 1달, 마지막일 + 1달
-                                    const startDate = moment().startOf('month').subtract(1, 'month').format("YYYYMMDDHHmmSS");
-                                    const endDate = moment().endOf('month').add(1, 'month').format("YYYYMMDDHHmmSS");
+                                    const startDate = moment().startOf('month').subtract(1, 'month').format("YYYYMMDDHHmmss");
+                                    const endDate = moment().endOf('month').add(1, 'month').format("YYYYMMDDHHmmss");
                                     
-                                    let error = 0;
                                     // 상품 생성[프로덕트 아이디를 일치시키위한 작업]
                                     const promise_array = [];
                                     for(cropper of croppers) {
                                         if(JSON.stringify(temp) === JSON.stringify(cropper.getParam())) {
                                             // 변수 생성
                                             const param = new FormData();
-                                            param.append("productId", productId);
+                                            // param.append("productId", productId);
                                             param.append('optionName1', optionName1);
                                             param.append("optionName2", optionName2);
                                             param.append('image', cropper.getParam().image, "option_thumbnail.png");
                                             param.append("startDate", startDate);
                                             param.append("endDate", endDate);
                                             
-                                            promise_array.push(postOption(param, error));
+                                            promise_array.push(postOption(param));
                                         }
                                     }
 
                                     // 프로미스 처리 일괄 데이터 성공유무 체크
                                     Promise.all(promise_array).then(function(values) {
-                                        resolve("success");
-                                    }, function(values) {
-                                        reject("error");
-                                    });
+                                        resolve(productId);
+                                    }.bind(resolve), function(values) {
+                                        reject({
+                                            "type": "option",
+                                            "productId": productId
+                                        });
+                                    }.bind(reject));
                                 } else {
-                                    reject("error");
+                                    reject({
+                                        "type": "product"
+                                    });
                                 }
                             }
                         }
@@ -361,16 +397,16 @@
                 }
 
                 // [서비스] 옵션 생성
-                function postOption(param, error) {
+                function postOption(param) {
                     return new Promise(function(resolve, reject) {
                         var xhr = new XMLHttpRequest();
                         xhr.onreadystatechange = function(e) {
                             if (xhr.readyState == 4) {
                                 if(xhr.status == 200) {
                                     const result = JSON.parse(xhr.responseText);
-                                    console.log(result);
+                                    resolve("success");
                                 } else {
-                                    error++;
+                                    reject("error");
                                 }
                             }
                         }

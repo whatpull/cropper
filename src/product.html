@@ -52,6 +52,12 @@
                     column_03.innerText = item.creatorName;
                     column_03.classList.add("ac-table-column");
 
+                    const column_04 = document.createElement("div");
+                    column_04.id = "ac-product-status";
+                    column_04.style.width = "150px";
+                    column_04.innerText = item.status;
+                    column_04.classList.add("ac-table-column");
+
                     const btn_detail = document.createElement("div");
                     btn_detail.id = "ac-btn-detail";
                     btn_detail.setAttribute("data-url", item.productImagePath);
@@ -72,16 +78,17 @@
                         this.removeChild(link);
                     });
 
-                    const column_04 = document.createElement("div");
-                    column_04.id = "ac-creator-setting";
-                    column_04.style.width = "150px";
-                    column_04.classList.add("ac-table-column");
-                    column_04.appendChild(btn_detail);
+                    const column_05 = document.createElement("div");
+                    column_05.id = "ac-creator-setting";
+                    column_05.style.width = "150px";
+                    column_05.classList.add("ac-table-column");
+                    column_05.appendChild(btn_detail);
 
                     row.appendChild(column_01);
                     row.appendChild(column_02);
                     row.appendChild(column_03);
                     row.appendChild(column_04);
+                    row.appendChild(column_05);
 
                     target.appendChild(row);
                 }
@@ -98,6 +105,7 @@
                     <div class="column">번호</div>
                     <div class="column">상품명</div>
                     <div class="column">크리에이터</div>
+                    <div class="column">상태</div>
                     <div class="column">관리</div>
                 </div>
                 <div id="ac-table" class="ac-table">

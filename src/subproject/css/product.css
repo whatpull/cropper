@@ -24,3 +24,7 @@
 .ac-table-head .column:nth-child(4) {
     width: 150px;
 }
+
+.ac-table-head .column:nth-child(5) {
+    width: 150px;
+}

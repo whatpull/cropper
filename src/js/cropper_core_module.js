@@ -1106,10 +1106,15 @@ Cropper.prototype.destroy = function() {
 // [데이터] 변수(파라미터) 저장
 Cropper.prototype.setParam = function(param_set) {
     this.param_set = param_set;
-    this.param_set.image = this._handleCanvasConvertBlob(this.canvas);
 }
 
 // [데이터] 변수(파라미터) 조회
 Cropper.prototype.getParam = function() {
     return this.param_set;
+}
+
+// [데이터] 변수(이미지) 저장
+Cropper.prototype.setBlob = function() {
+    console.log(this._handleCanvasConvertBlob(this.canvas));
+    this.param_set.image = this._handleCanvasConvertBlob(this.canvas);
 }
