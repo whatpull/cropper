@@ -759,12 +759,15 @@ Cropper.prototype._handleResizableDiv = function(div) {
             
             // 스크롤 위치를 포함한 좌표
             // [좌표] 상대좌표 가운데 정렬
-            original_x = window.pageXOffset + element.getBoundingClientRect().left;
-            original_y = window.pageYOffset + element.getBoundingClientRect().top;
+            // original_x = window.pageXOffset + element.getBoundingClientRect().left;
+            // original_y = window.pageYOffset + element.getBoundingClientRect().top;
 
             // 부모를 기준으로 한 상대좌표[절대 좌표의 연산 공식] // 절대공식 참조
-            // original_x = (window.pageXOffset + element.getBoundingClientRect().left) - (window.pageXOffset + this.canvas.getBoundingClientRect().left);
-            // original_y = (window.pageYOffset + element.getBoundingClientRect().top) - (window.pageYOffset + this.canvas.getBoundingClientRect().top);
+            original_x = (window.pageXOffset + element.getBoundingClientRect().left) - (window.pageXOffset + this.target.getBoundingClientRect().left);
+            original_y = (window.pageYOffset + element.getBoundingClientRect().top) - (window.pageYOffset + this.target.getBoundingClientRect().top);
+
+            console.log(this.target.getBoundingClientRect().left);
+            console.log(this.target.getBoundingClientRect().top);
 
             original_mouse_x = e.pageX;
             original_mouse_y = e.pageY;
@@ -848,8 +851,8 @@ Cropper.prototype._handleResizableCanvas = function(top, left, width, height) {
     const ratio =  (this.canvas_worker.width / this.canvas_worker.scrollWidth);
 
     // 스크롤 위치를 포함한 캔버스 포지션(캔버스 포지션의 위치)
-    const canvas_x = window.pageXOffset + this.canvas.getBoundingClientRect().left;
-    const canvas_y = window.pageYOffset + this.canvas.getBoundingClientRect().top;
+    const canvas_x = (window.pageXOffset + this.canvas.getBoundingClientRect().left) - (window.pageXOffset + this.target.getBoundingClientRect().left);
+    const canvas_y = (window.pageYOffset + this.canvas.getBoundingClientRect().top) - (window.pageYOffset + this.target.getBoundingClientRect().top);
 
     this._handleClearCanvas();
 
