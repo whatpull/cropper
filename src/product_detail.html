@@ -59,8 +59,8 @@
                     document.querySelector("#product-name").innerText = data.name;
                     document.querySelector("#product-creator").innerText = data.creatorName;
                     document.querySelector("#product-package-creator").innerHTML = data.packageCreatorName;
-                    document.querySelector("#product-cost").innerText = data.productPrice.cost + "원";
-                    document.querySelector("#product-price").innerHTML = data.productPrice.price + "원";
+                    document.querySelector("#product-cost").innerText = common.numberWithCommas(data.productPrice.cost) + "원";
+                    document.querySelector("#product-price").innerHTML = common.numberWithCommas(data.productPrice.price) + "원";
 
                     const option_list = document.querySelector("#option-list");
                     option_list.innerHTML = "";
@@ -100,6 +100,10 @@
                             link.style.visibility = "hidden";
                             link.href = url;
                             link.download = 'product_image.png';
+                            // 이벤트 루프 방지용(클릭시 이벤트 전파를 막습니다.)
+                            link.addEventListener("click", function(e) {
+                                e.stopPropagation();
+                            });
                             this.appendChild(link);
                             link.click();
                             this.removeChild(link);

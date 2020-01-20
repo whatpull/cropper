@@ -72,6 +72,7 @@
                     btn_download.classList.add("ac-table-btn-download");
                     btn_download.addEventListener("click", function(e) {
                         e.preventDefault();
+                        console.log("test");
                         // 파일 다운로드 구현
                         const url = this.getAttribute("data-url");
                         var link = document.createElement('a');
@@ -80,6 +81,10 @@
                         link.style.visibility = "hidden";
                         link.href = url;
                         link.download = 'product_image.png';
+                        // 이벤트 루프 방지용(클릭시 이벤트 전파를 막습니다.)
+                        link.addEventListener("click", function(e) {
+                            e.stopPropagation();
+                        });
                         this.appendChild(link);
                         link.click();
                         this.removeChild(link);

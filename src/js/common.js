@@ -41,10 +41,16 @@ const common = (function() {
         return uniqueArray;
     }
 
+    // 숫자 콤마
+    function numberWithCommas(number) {
+	    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
     return {
         menu: menu, 
         expander: expander, 
-        uniqueArray: uniqueArray
+        uniqueArray: uniqueArray,
+        numberWithCommas: numberWithCommas
     }
 })();
 
