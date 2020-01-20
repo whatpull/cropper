@@ -123,6 +123,7 @@ body {
     /* width: 600px; */
     /* height: 600px; */
     /* background-color: #e2e2e2; */
+    background: transparent;
 }
 
 .cropper #canvas-worker {

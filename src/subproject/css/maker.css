@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .ac .nav .nav-head .nav-head-expander {
