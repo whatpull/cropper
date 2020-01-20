@@ -42,7 +42,7 @@
                                 const result = JSON.parse(xhr.responseText);
                                 const data = result.result;
                                 console.log(data);
-                                // parsing(data);
+                                parsing(data);
                             } else {
                                 console.log("xhr error");
                             }
@@ -55,10 +55,66 @@
 
                 // 데이터 파싱[+ UI생성]
                 function parsing(data) {
-                    document.querySelector("#product-id").innerText = data.userId;
+                    document.querySelector("#product-thumbnail").style.backgroundImage = "url('" + data.productImagePath + "')";
                     document.querySelector("#product-name").innerText = data.name;
-                    document.querySelector("#price-info").innerText = data.productCreatorAccounts[0].bankName + " | " + data.productCreatorAccounts[0].ownerName;
-                    document.querySelector("#price-no").innerHTML = data.productCreatorAccounts[0].accountNo;
+                    document.querySelector("#product-creator").innerText = data.creatorName;
+                    document.querySelector("#product-package-creator").innerHTML = data.packageCreatorName;
+                    document.querySelector("#product-cost").innerText = data.productPrice.cost + "원";
+                    document.querySelector("#product-price").innerHTML = data.productPrice.price + "원";
+
+                    const option_list = document.querySelector("#option-list");
+                    option_list.innerHTML = "";
+
+                    const options = data.productOptions;
+                    for(option of options) {
+                        let img = option.imagePath + option.mockupImage;
+                        if(host === "127.0.0.1:5500" 
+                                || host === "localhost:5500" 
+                                || host === "192.167.0.177:5500") {
+                                    img = "/cropper/src" + img;
+                        }
+
+                        const download_btn = document.createElement("div");
+                        download_btn.innerText = "DOWNLOAD";
+                        download_btn.setAttribute("data-url", img);
+                        download_btn.style.position = "absolute";
+                        download_btn.style.bottom = "0px";
+                        download_btn.style.right = "0px";
+                        download_btn.style.width = "100px";
+                        download_btn.style.minHeight = "20px";
+                        download_btn.style.backgroundColor = "#4286f4";
+                        download_btn.style.color = "#FFFFFF";
+                        download_btn.style.borderTop = "1px solid #e2e2e2";
+                        download_btn.style.borderLeft = "1px solid #e2e2e2";
+                        download_btn.style.display = "flex";
+                        download_btn.style.justifyContent = "center";
+                        download_btn.style.alignItems = "center";
+                        download_btn.style.cursor = "pointer";
+                        download_btn.addEventListener("click", function(e) {
+                            e.preventDefault();
+                            // 파일 다운로드 구현
+                            const url = this.getAttribute("data-url");
+                            var link = document.createElement('a');
+                            link.style.width = "0px";
+                            link.style.height = "0px";
+                            link.style.visibility = "hidden";
+                            link.href = url;
+                            link.download = 'product_image.png';
+                            this.appendChild(link);
+                            link.click();
+                            this.removeChild(link);
+                        });
+
+                        const option_item_div = document.createElement("div");
+                        option_item_div.id = "option-item";
+                        option_item_div.style.position = "relative";
+                        option_item_div.style.backgroundImage = "url('" + img + "')";
+                        option_item_div.style.backgroundPosition = "center";
+                        option_item_div.style.backgroundSize = "cover";
+                        option_item_div.classList.add("option-item");
+                        option_item_div.appendChild(download_btn);
+                        option_list.appendChild(option_item_div);
+                    }
                 }
             }
         </script>
@@ -69,12 +125,13 @@
                 <div class="info">
                     <div class="product">
                         <div id="product-thumbnail" class="thumbnail"></div>
-                        <div id="product-id" class="id">account</div>
-                        <div id="product-name" class="name">1</div>
+                        <div id="product-name" class="name"></div>
+                        <div id="product-creator" class="creator"></div>
+                        <div id="product-package-creator" class="creator"></div>
                     </div>
                     <div class="price">
-                        <div id="price-info">1</div>
-                        <div id="price-no">2</div>
+                        <div id="product-cost"></div>
+                        <div id="product-price"></div>
                     </div>
                     <div id="price-update-btn" class="price-update-btn">가격 수정</div>
                 </div>

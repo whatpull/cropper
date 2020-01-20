@@ -419,6 +419,7 @@ Cropper.prototype._handleAreaImage = function(e) {
                 // [모드 변환]
                 this.context_worker.globalCompositeOperation = "source-over";
                 this.context_worker.drawImage(this.area_img, centerX, centerY, this.area_img.naturalWidth, this.area_img.naturalHeight);
+                console.log(this.selected_color);
                 this._handleColorDraw(this.context_worker, this.canvas_worker, this.selected_color);
                 if(this.data_set.mode === "autopacking") {
                     this._handleAssetDraw();

@@ -30,14 +30,17 @@
     border-radius: 50%;
     border: 3px solid #e2e2e2;
     background-color: #ffffff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
-.ac .wrapper .content .info .product .id {
+.ac .wrapper .content .info .product .name {
     margin-top: 10px;
     font-weight: bold;
 }
 
-.ac .wrapper .content .info .product .name {
+.ac .wrapper .content .info .product .creator {
     margin-top: 10px;
 }
 

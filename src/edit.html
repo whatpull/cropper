@@ -47,6 +47,9 @@
                 // [셀렉트 박스] 상품
                 let editor; // 에디터 변수
                 const product = new SelectBox("selectbox-product", function(value) {
+                    const productId = value.split("_")[0];
+                    const optionIndex = value.split("_")[1];
+
                     // 정보조회 초기화
                     document.querySelector("#ac-info-top").innerText = "0";
                     document.querySelector("#ac-info-left").innerText = "0";
@@ -60,7 +63,7 @@
                             if(xhr.status == 200) {
                                 const result = JSON.parse(xhr.responseText);
                                 // 우선순위를 구분할 수 있는 방법이 없어서 첫번째 리소스 활용
-                                const option = result.result.packageOptions[0];
+                                const option = result.result.packageOptions[optionIndex];
 
                                 if(typeof option === "undefined") {
                                     // 옵션 데이터가 없는 경우
@@ -102,7 +105,7 @@
                             }
                         }
                     };
-                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + value, true);
+                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + productId, true);
                     xhr.send();
                 });
                 product.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packages?size=2147483647", function(list, target) { 
@@ -112,10 +115,13 @@
     
                     for(item of list) {
                         const data_options = item.packageOptions;
+                        const data_options_size = data_options.length
                         const package_id = item.id;
-                        for(data_option of data_options) {
+                        for(index in data_options) {
+                            const data_option = data_options[index];
+                            const option_index = index;
                             const option = document.createElement("option");
-                            option.value = package_id;
+                            option.value = package_id + "_" + option_index;
                             option.innerText = data_option.optionName1 + " - " + data_option.optionName2;
                             target.appendChild(option);
                         }
