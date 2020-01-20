@@ -105,7 +105,7 @@ SelectBox.prototype.init = function(url, callback) {
                         this.setting();
                         // 첫번째 강제선택
                         const first = document.querySelectorAll(".select-items")[0];
-                        if(typeof first === "object") {
+                        if(typeof first.children[0] === "object") {
                             first.children[0].click();
                         }
                     }
