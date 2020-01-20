@@ -355,7 +355,7 @@
                                     const optionName2 = "미정";
                                     // 현재 달의 첫번째일 - 1달, 마지막일 + 1달
                                     const startDate = moment().startOf('month').subtract(1, 'month').format("YYYYMMDDHHmmss");
-                                    const endDate = moment().endOf('month').add(1, 'month').format("YYYYMMDDHHmmss");
+                                    const endDate = moment().endOf('month').add(900, 'years').format("YYYYMMDDHHmmss");
                                     
                                     // 상품 생성[프로덕트 아이디를 일치시키위한 작업]
                                     const promise_array = [];
