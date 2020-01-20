@@ -26,7 +26,8 @@
 }
 
 .ac-table .ac-table-row .ac-table-column .ac-table-btn-detail,
-.ac-table .ac-table-row .ac-table-column .ac-table-btn-editor {
+.ac-table .ac-table-row .ac-table-column .ac-table-btn-editor,
+.ac-table .ac-table-row .ac-table-column .ac-table-btn-download {
     width: 100px;
     height: 40px;
     display: flex;

@@ -1,7 +1,7 @@
 .ac-selector {
     position: relative;
     font-family: Arial;
-    border: 1px solid #e2e2e2;
+    box-shadow: 0 0 0 1px #e2e2e2 inset; 
 }
 
 .ac-selector select {

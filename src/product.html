@@ -64,12 +64,13 @@
                     column_05.innerText = item.packageCreatorName;
                     column_05.classList.add("ac-table-column");
 
-                    const btn_detail = document.createElement("div");
-                    btn_detail.id = "ac-btn-detail";
-                    btn_detail.setAttribute("data-url", item.productImagePath);
-                    btn_detail.innerText = "다운로드";
-                    btn_detail.classList.add("ac-table-btn-detail");
-                    btn_detail.addEventListener("click", function(e) {
+                    const btn_download = document.createElement("div");
+                    btn_download.id = "ac-btn-download";
+                    btn_download.style.marginRight = "10px";
+                    btn_download.setAttribute("data-url", item.productImagePath);
+                    btn_download.innerText = "다운로드";
+                    btn_download.classList.add("ac-table-btn-download");
+                    btn_download.addEventListener("click", function(e) {
                         e.preventDefault();
                         // 파일 다운로드 구현
                         const url = this.getAttribute("data-url");
@@ -84,10 +85,21 @@
                         this.removeChild(link);
                     });
 
+                    const btn_detail = document.createElement("div");
+                    btn_detail.id = "ac-btn-detail";
+                    btn_detail.setAttribute("data-id", item.id);
+                    btn_detail.innerText = "상세";
+                    btn_detail.classList.add("ac-table-btn-detail");
+                    btn_detail.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        window.location.href = "product_detail.html?id=" + this.getAttribute("data-id");
+                    });
+
                     const column_06 = document.createElement("div");
                     column_06.id = "ac-creator-setting";
-                    column_06.style.width = "150px";
+                    column_06.style.width = "250px";
                     column_06.classList.add("ac-table-column");
+                    column_06.appendChild(btn_download);
                     column_06.appendChild(btn_detail);
 
                     row.appendChild(column_01);
