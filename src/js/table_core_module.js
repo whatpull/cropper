@@ -118,29 +118,37 @@ Table.prototype.body = function(page, callback, option1) {
                 this.size = result.size;
                 this.totalPages = result.totalPages;
 
-                this.paging(currentPage, callback, option1);
-
-                for(item of list) {
-                    if(typeof callback === "function") {
-                        callback(item, target);
+                if(list.length > 0) {
+                    this.paging(currentPage, callback, option1);
+                    for(item of list) {
+                        if(typeof callback === "function") {
+                            callback(item, target);
+                        }
                     }
+                } else {
+                    this.empty(target);
                 }
+                
             } else {
                 console.log("xhr error");
                 // border size 제거를 위해 -2px
-                target.style.minWidth = (document.querySelector("#ac-table-head").clientWidth - 2) + "px";
-                const empty = document.createElement("div");
-                empty.style.width = "100%";
-                empty.style.height = "50px";
-                empty.style.display = "flex";
-                empty.style.justifyContent = "center";
-                empty.style.alignItems = "center";
-                empty.style.fontWeight = "bold";
-                empty.innerText = "NO CONTENT";
-                target.appendChild(empty);
+                this.empty(target);
             }
         }
     }.bind(this);
     xhr.open("GET", this.url + (typeof page === "undefined" ? "" : "?" + page) + (typeof option1 === "undefined" ? "" : "&" + option1), true);
     xhr.send();
+}
+
+Table.prototype.empty = function(target) {
+    target.style.minWidth = (document.querySelector("#ac-table-head").clientWidth - 2) + "px";
+    const empty = document.createElement("div");
+    empty.style.width = "100%";
+    empty.style.height = "50px";
+    empty.style.display = "flex";
+    empty.style.justifyContent = "center";
+    empty.style.alignItems = "center";
+    empty.style.fontWeight = "bold";
+    empty.innerText = "NO CONTENT";
+    target.appendChild(empty);
 }
