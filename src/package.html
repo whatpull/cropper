@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Auto Cropper</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="./css/common.css" rel="stylesheet" />
+        <link href="./subproject/css/maker.css" rel="stylesheet" />
+
+        <!-- 공통 -->
+        <script type="text/javascript" src="./js/common.js"></script>
+
+        <!-- 셀렉트박스 모듈 -->
+        <!-- <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" /> -->
+
+        <!-- 테이블 모듈 -->
+        <script type="text/javascript" src="./js/table_core_module.js"></script>
+        <link href="./css/table.css" rel="stylesheet" />
+
+        <!-- 팝업 모듈 -->
+        <script type="text/javascript" src="./js/popup_core_module.js"></script>
+
+        <script>
+            window.onload = function() {
+                common.menu();
+                common.expander();
+            }
+        </script>
+    </head>
+    <body class="ac">
+        <div class="wrapper">
+            <div class="content">
+
+            </div>
+            <div class="nav reduction">
+                <div class="nav-head">
+                    <div class="nav-head-expander">
+                        <i class="material-icons">
+                            first_page
+                        </i>
+                    </div>
+                    <div class="nav-head-logo">
+                        Auto Cropper
+                    </div>
+                </div>
+                <div class="nav-body">
+                    <div class="nav-body-menu">
+                        <div class="menu-item" data-page="edit">
+                            <i class="material-icons">
+                                crop_free
+                            </i>
+                            edit
+                        </div>
+                        <div class="menu-item" data-page="auto">
+                            <i class="material-icons">
+                                style
+                            </i>
+                            auto
+                        </div>
+                        <div class="menu-item" data-page="creator">
+                            <i class="material-icons">
+                                people
+                            </i>
+                            creator
+                        </div>
+                        <div class="menu-item" data-page="maker">
+                            <i class="material-icons">
+                                build
+                            </i>
+                            maker
+                        </div>
+                        <div class="menu-item active" data-page="package">
+                            <i class="material-icons">
+                                how_to_vote
+                            </i>
+                            package
+                        </div>
+                        <div class="menu-item" data-page="product">
+                            <i class="material-icons">
+                                local_mall
+                            </i>
+                            product
+                        </div>
+                    </div>
+                    <div class="nav-body-content">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
