@@ -419,7 +419,6 @@ Cropper.prototype._handleAreaImage = function(e) {
                 // [모드 변환]
                 this.context_worker.globalCompositeOperation = "source-over";
                 this.context_worker.drawImage(this.area_img, centerX, centerY, this.area_img.naturalWidth, this.area_img.naturalHeight);
-                console.log(this.selected_color);
                 this._handleColorDraw(this.context_worker, this.canvas_worker, this.selected_color);
                 if(this.data_set.mode === "autopacking") {
                     this._handleAssetDraw();
@@ -765,9 +764,6 @@ Cropper.prototype._handleResizableDiv = function(div) {
             // 부모를 기준으로 한 상대좌표[절대 좌표의 연산 공식] // 절대공식 참조
             original_x = (window.pageXOffset + element.getBoundingClientRect().left) - (window.pageXOffset + this.target.getBoundingClientRect().left);
             original_y = (window.pageYOffset + element.getBoundingClientRect().top) - (window.pageYOffset + this.target.getBoundingClientRect().top);
-
-            console.log(this.target.getBoundingClientRect().left);
-            console.log(this.target.getBoundingClientRect().top);
 
             original_mouse_x = e.pageX;
             original_mouse_y = e.pageY;

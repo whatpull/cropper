@@ -316,20 +316,14 @@
                         error = 0;
                     }).catch(function(error) {
                         if(error.type === "option") {
+                            const promise_array = [];
                             for(temp_productId of temp_productIds) {
-                                var xhr = new XMLHttpRequest();
-                                xhr.onreadystatechange = function(e) {
-                                    if (xhr.readyState == 4) {
-                                        if(xhr.status == 200) {
-                                            const result = JSON.parse(xhr.responseText);
-                                        } else {
-                                            console.log("xhr error");
-                                        }
-                                    }
-                                }
-                                xhr.open("DELETE", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/" + temp_productId, true);
-                                xhr.send();
+                                promise_array.push(postProductDisabled(temp_productId));
                             }
+                            // 에러로 인한 상품 삭제 전체 성공시 상품 성공 아이디 초기화
+                            Promise.all(promise_array).then(function(values) {
+                                temp_productIds = [];
+                            });
                         }
                         alert("상품 등록에 실패하였습니다.");
                         isRun = false;
@@ -338,7 +332,6 @@
                 });
 
                 // [서비스] 상품 생성
-                // [크로스 오리진 에러 공유]
                 function postProduct(param, temp) {
                     return new Promise(function(resolve, reject) {
                         var xhr = new XMLHttpRequest();
@@ -411,6 +404,25 @@
                         }
                         xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/option", true);
                         xhr.send(param);
+                    });
+                }
+
+                // [서비스] 상품 삭제(DISABLED 처리), 오류 후처리
+                function postProductDisabled(productId) {
+                    return new Promise(function(resolve, reject) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    const result = JSON.parse(xhr.responseText);
+                                    resolve("success");
+                                } else {
+                                    reject("error");
+                                }
+                            }
+                        }.bind(temp_productId)
+                        xhr.open("DELETE", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/" + productId, true);
+                        xhr.send();
                     });
                 }
             }
