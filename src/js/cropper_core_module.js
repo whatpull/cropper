@@ -485,7 +485,6 @@ Cropper.prototype._handleAssetDraw = function() {
         
         this._handleEffectDraw(this.data_set.effect_img);
     }.bind(this);
-    // console.log(this.data_set.asset_img);
     this.upload_img.src = this.data_set.asset_img;
 }
 
@@ -777,8 +776,6 @@ Cropper.prototype._handleResizableDiv = function(div) {
         }.bind(this));
 
         function resize(e) {
-            console.log(e.pageX - original_mouse_x);
-            console.log(e.pageY - original_mouse_y);
             if(shift_down) { // [시프트] 비율축소
                 if (resizer.classList.contains('bottom-right')) {
                     let width = original_width + ((e.pageX - original_mouse_x)  * (original_width / original_height)) + (e.pageY - original_mouse_y);
@@ -963,7 +960,7 @@ Cropper.prototype._handleSendFile = function(canvas) {
             if(xhr.status == 200) {
                 console.log(xhr.responseText);
             } else {
-                console.log("Error loading page\n");
+                console.log("xhr error");
             }
         }
     };
@@ -1115,6 +1112,5 @@ Cropper.prototype.getParam = function() {
 
 // [데이터] 변수(이미지) 저장
 Cropper.prototype.setBlob = function() {
-    console.log(this._handleCanvasConvertBlob(this.canvas));
     this.param_set.image = this._handleCanvasConvertBlob(this.canvas);
 }

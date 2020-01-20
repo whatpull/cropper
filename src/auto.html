@@ -322,7 +322,6 @@
                                     if (xhr.readyState == 4) {
                                         if(xhr.status == 200) {
                                             const result = JSON.parse(xhr.responseText);
-                                            console.log(result);
                                         } else {
                                             console.log("xhr error");
                                         }
@@ -364,7 +363,7 @@
                                         if(JSON.stringify(temp) === JSON.stringify(cropper.getParam())) {
                                             // 변수 생성
                                             const param = new FormData();
-                                            // param.append("productId", productId);
+                                            param.append("productId", productId);
                                             param.append('optionName1', optionName1);
                                             param.append("optionName2", optionName2);
                                             param.append('image', cropper.getParam().image, "option_thumbnail.png");

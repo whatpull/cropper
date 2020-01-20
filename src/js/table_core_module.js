@@ -8,7 +8,7 @@ function Table(url) {
 
 // 페이지 처리
 // https://sjh010.tistory.com/1
-Table.prototype.paging = function(currentPage, callback) {
+Table.prototype.paging = function(currentPage, callback, option1) {
     const target = document.querySelector("#ac-table-paging");
     target.innerHTML = "";
 
@@ -32,7 +32,7 @@ Table.prototype.paging = function(currentPage, callback) {
     if(prev_block > 0) { // append prev
         prev_block_div.addEventListener("click", function(e) {
             e.preventDefault();
-            this.body("page=" + (Number(prev_block) - 1), callback);
+            this.body("page=" + (Number(prev_block) - 1), callback, option1);
         }.bind(this));
     } else {
         prev_block_div.classList.add("disabled");
@@ -47,7 +47,7 @@ Table.prototype.paging = function(currentPage, callback) {
     if(prev >= 1) { // append prev
         prev_div.addEventListener("click", function(e) {
             e.preventDefault();
-            this.body("page=" + (Number(prev) - 1), callback);
+            this.body("page=" + (Number(prev) - 1), callback, option1);
         }.bind(this));
     } else {
         prev_div.classList.add("disabled");
@@ -62,7 +62,7 @@ Table.prototype.paging = function(currentPage, callback) {
         num_div.addEventListener("click", function(e) {
             e.preventDefault();
             const i = e.target.getAttribute("id").split("num-")[1];
-            this.body("page=" + (Number(i) - 1), callback);
+            this.body("page=" + (Number(i) - 1), callback, option1);
         }.bind(this));
         target.appendChild(num_div);
     }
@@ -76,7 +76,7 @@ Table.prototype.paging = function(currentPage, callback) {
     if(next <= this.totalPages) { // append prev
         next_div.addEventListener("click", function(e) {
             e.preventDefault();
-            this.body("page=" + (Number(next) - 1), callback);
+            this.body("page=" + (Number(next) - 1), callback, option1);
         }.bind(this));
     } else {
         next_div.classList.add("disabled");
@@ -91,7 +91,7 @@ Table.prototype.paging = function(currentPage, callback) {
     if(last < this.totalPages) { // append next
         next_block_div.addEventListener("click", function(e) {
             e.preventDefault();
-            this.body("page=" + (Number(next_block) - 1), callback);
+            this.body("page=" + (Number(next_block) - 1), callback, option1);
         }.bind(this));
     } else {
         next_block_div.classList.add("disabled");
@@ -101,7 +101,7 @@ Table.prototype.paging = function(currentPage, callback) {
     document.querySelector("#num-"+currentPage).classList.add("active");
 }
 
-Table.prototype.body = function(data, callback) {
+Table.prototype.body = function(page, callback, option1) {
     const target = document.querySelector("#ac-table");
     target.innerHTML = "";
 
@@ -118,7 +118,7 @@ Table.prototype.body = function(data, callback) {
                 this.size = result.size;
                 this.totalPages = result.totalPages;
 
-                this.paging(currentPage, callback);
+                this.paging(currentPage, callback, option1);
 
                 for(item of list) {
                     if(typeof callback === "function") {
@@ -141,6 +141,6 @@ Table.prototype.body = function(data, callback) {
             }
         }
     }.bind(this);
-    xhr.open("GET", this.url + (typeof data === "undefined" ? "" : "?" + data), true);
+    xhr.open("GET", this.url + (typeof page === "undefined" ? "" : "?" + page) + (typeof option1 === "undefined" ? "" : "&" + option1), true);
     xhr.send();
 }
