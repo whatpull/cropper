@@ -102,6 +102,7 @@
 
                     // 이름
                     const name_div = document.createElement("div");
+                    name_div.style.marginTop = "20px";
                     const name_label = document.createElement("div");
                     name_label.innerText = "이름 : ";
                     name_label.style.width = "100px";
@@ -111,13 +112,12 @@
                     name.style.padding = "5px";
                     name.style.fontSize = "15px";
                     name.setAttribute("name", "creatorName");
-                    name_div.style.marginTop = "20px";
-                    // name_div.style.width = "300px";
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
 
                     // 계정
                     const id_div = document.createElement("div");
+                    id_div.style.marginTop = "20px";
                     const id_label = document.createElement("div");
                     id_label.innerText = "아이디 : ";
                     id_label.style.width = "100px";
@@ -127,13 +127,12 @@
                     id.style.padding = "5px";
                     id.style.fontSize = "15px";
                     id.setAttribute("name", "userId");
-                    id_div.style.marginTop = "20px";
-                    // id_div.style.width = "300px";
                     id_div.appendChild(id_label);
                     id_div.appendChild(id);
 
                     // 계좌 번호
                     const account_no_div = document.createElement("div");
+                    account_no_div.style.marginTop = "20px";
                     const account_no_label = document.createElement("div");
                     account_no_label.innerText = "계좌번호 : ";
                     account_no_label.style.width = "100px";
@@ -143,13 +142,12 @@
                     account_no.style.padding = "5px";
                     account_no.style.fontSize = "15px";
                     account_no.setAttribute("name", "accountNo");
-                    account_no_div.style.marginTop = "20px";
-                    // account_no_div.style.width = "300px";
                     account_no_div.appendChild(account_no_label);
                     account_no_div.appendChild(account_no);
 
                     // 은행 코드
                     const bank_code_div = document.createElement("div");
+                    bank_code_div.style.marginTop = "20px";
                     const bank_code_label = document.createElement("div");
                     bank_code_label.innerText = "은행코드 : ";
                     bank_code_label.style.width = "100px";
@@ -160,13 +158,12 @@
                     bank_code.style.fontSize = "15px";
                     bank_code.setAttribute("name", "bankCode");
                     bank_code.value = "1111";
-                    bank_code_div.style.marginTop = "20px";
-                    // bank_code_div.style.width = "300px";
                     bank_code_div.appendChild(bank_code_label);
                     bank_code_div.appendChild(bank_code);
 
                     // 은행 이름
                     const bank_name_div = document.createElement("div");
+                    bank_name_div.style.marginTop = "20px";
                     const bank_name_label = document.createElement("div");
                     bank_name_label.innerText = "은행이름 : ";
                     bank_name_label.style.width = "100px";
@@ -176,13 +173,12 @@
                     bank_name.style.padding = "5px";
                     bank_name.style.fontSize = "15px";
                     bank_name.setAttribute("name", "bankName");
-                    bank_name_div.style.marginTop = "20px";
-                    // bank_name_div.style.width = "300px";
                     bank_name_div.appendChild(bank_name_label);
                     bank_name_div.appendChild(bank_name);
 
                     // 계좌주 이름
                     const owner_name_div = document.createElement("div");
+                    owner_name_div.style.marginTop = "20px";
                     const owner_name_label = document.createElement("div");
                     owner_name_label.innerText = "계좌주 : ";
                     owner_name_label.style.width = "100px";
@@ -192,8 +188,6 @@
                     owner_name.style.padding = "5px";
                     owner_name.style.fontSize = "15px";
                     owner_name.setAttribute("name", "ownerName");
-                    owner_name_div.style.marginTop = "20px";
-                    // owner_name_div.style.width = "300px";
                     owner_name_div.appendChild(owner_name_label);
                     owner_name_div.appendChild(owner_name);
 
@@ -213,12 +207,13 @@
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
                         // 하나씩 파싱해서 데이터 저장
-                        const creator_name = document.querySelector("#creator-name").value;
-                        const user_id = document.querySelector("#user-id").value;
-                        const account_no = document.querySelector("#account-no").value;
-                        const bank_code = document.querySelector("#bank-code").value;
-                        const bank_name = document.querySelector("#bank-name").value;
-                        const owner_name = document.querySelector("#owner-name").value;
+                        const form = document.querySelector("#creator-regist");
+                        const creator_name = form.querySelector("#creator-name").value;
+                        const user_id = form.querySelector("#user-id").value;
+                        const account_no = form.querySelector("#account-no").value;
+                        const bank_code = form.querySelector("#bank-code").value;
+                        const bank_name = form.querySelector("#bank-name").value;
+                        const owner_name = form.querySelector("#owner-name").value;
 
                         var data = new FormData();
 

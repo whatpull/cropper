@@ -259,14 +259,15 @@
                         e.preventDefault();
 
                         // 하나씩 파싱해서 데이터 저장
-                        const maker_name = document.querySelector("#regist-maker-name").value;
-                        const maker_contact = document.querySelector("#regist-maker-contact").value;
-                        const maker_email = document.querySelector("#regist-maker-email").value;
-                        const corp_reg_no = document.querySelector("#regist-corp-reg-no").value;
-                        const delivery_address = document.querySelector("#regist-delivery-address").value;
-                        const delivery_address_zipcode = document.querySelector("#regist-delivery-address-zipcode").value;
-                        const return_address = document.querySelector("#regist-return-address").value;
-                        const return_address_zipcode = document.querySelector("#regist-return-address-zipcode").value;
+                        const form = document.querySelector("#maker-regist");
+                        const maker_name = form.querySelector("#regist-maker-name").value;
+                        const maker_contact = form.querySelector("#regist-maker-contact").value;
+                        const maker_email = form.querySelector("#regist-maker-email").value;
+                        const corp_reg_no = form.querySelector("#regist-corp-reg-no").value;
+                        const delivery_address = form.querySelector("#regist-delivery-address").value;
+                        const delivery_address_zipcode = form.querySelector("#regist-delivery-address-zipcode").value;
+                        const return_address = form.querySelector("#regist-return-address").value;
+                        const return_address_zipcode = form.querySelector("#regist-return-address-zipcode").value;
 
                         var data = new FormData();
 
@@ -361,6 +362,7 @@
 
                     // 번호
                     const id_div = document.createElement("div");
+                    id_div.style.marginTop = "20px";
                     const id_label = document.createElement("div");
                     id_label.innerText = "번호 : ";
                     id_label.style.fontWeight = "bold";
@@ -370,12 +372,12 @@
                     id.style.fontSize = "15px";
                     id.setAttribute("name", "id");
                     id.readOnly = true;
-                    id_div.style.marginTop = "20px";
                     id_div.appendChild(id_label);
                     id_div.appendChild(id);
 
                     // 이름
                     const name_div = document.createElement("div");
+                    name_div.style.marginTop = "20px";
                     const name_label = document.createElement("div");
                     name_label.innerText = "제조사 이름 : ";
                     name_label.style.fontWeight = "bold";
@@ -384,7 +386,6 @@
                     name.style.padding = "5px";
                     name.style.fontSize = "15px";
                     name.setAttribute("name", "name");
-                    name_div.style.marginTop = "20px";
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
 
@@ -503,15 +504,16 @@
                         e.preventDefault();
 
                         // 하나씩 파싱해서 데이터 저장
-                        const maker_id = document.querySelector("#editor-maker-id").value;
-                        const maker_name = document.querySelector("#editor-maker-name").value;
-                        const maker_contact = document.querySelector("#editor-maker-contact").value;
-                        const maker_email = document.querySelector("#editor-maker-email").value;
-                        const corp_reg_no = document.querySelector("#editor-corp-reg-no").value;
-                        const delivery_address = document.querySelector("#editor-delivery-address").value;
-                        const delivery_address_zipcode = document.querySelector("#editor-delivery-address-zipcode").value;
-                        const return_address = document.querySelector("#editor-return-address").value;
-                        const return_address_zipcode = document.querySelector("#editor-return-address-zipcode").value;
+                        const form = document.querySelector("#maker-editor");
+                        const maker_id = form.querySelector("#editor-maker-id").value;
+                        const maker_name = form.querySelector("#editor-maker-name").value;
+                        const maker_contact = form.querySelector("#editor-maker-contact").value;
+                        const maker_email = form.querySelector("#editor-maker-email").value;
+                        const corp_reg_no = form.querySelector("#editor-corp-reg-no").value;
+                        const delivery_address = form.querySelector("#editor-delivery-address").value;
+                        const delivery_address_zipcode = form.querySelector("#editor-delivery-address-zipcode").value;
+                        const return_address = form.querySelector("#editor-return-address").value;
+                        const return_address_zipcode = form.querySelector("#editor-return-address-zipcode").value;
 
                         var data = new FormData();
 

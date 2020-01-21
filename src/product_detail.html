@@ -41,7 +41,6 @@
                             if (xhr.status == 200) {
                                 const result = JSON.parse(xhr.responseText);
                                 const data = result.result;
-                                console.log(data);
                                 parsing(data);
                             } else {
                                 console.log("xhr error");
@@ -109,6 +108,41 @@
                             this.removeChild(link);
                         });
 
+                        const edit_btn = document.createElement("div");
+                        edit_btn.innerText = "EDIT";
+                        edit_btn.style.position = "absolute";
+                        edit_btn.style.top = "0px";
+                        edit_btn.style.right = "0px";
+                        edit_btn.style.width = "100px";
+                        edit_btn.style.minHeight = "20px";
+                        edit_btn.style.backgroundColor = "#4286f4";
+                        edit_btn.style.color = "#FFFFFF";
+                        edit_btn.style.borderTop = "1px solid #e2e2e2";
+                        edit_btn.style.borderLeft = "1px solid #e2e2e2";
+                        edit_btn.style.display = "flex";
+                        edit_btn.style.justifyContent = "center";
+                        edit_btn.style.alignItems = "center";
+                        edit_btn.style.cursor = "pointer";
+                        edit_btn.setAttribute("data-id", option.id);
+                        edit_btn.addEventListener("click", function(e) {
+                            e.preventDefault();
+
+                            const optionId = this.getAttribute("data-id");
+                            for(option of options) {
+                                if(option.id == optionId) {
+                                    const form = document.querySelector("#option-editor");
+                                    form.querySelector("#editor-option-id").value = option.id;
+                                    form.querySelector("#editor-option1-name").value = option.option_name1;
+                                    form.querySelector("#editor-option2-name").value = option.option_name2;
+                                    form.querySelector("#editor-image-path").value = option.imagePath;
+                                    form.querySelector("#editor-mockup-image").value = option.mockupImage;
+                                    form.querySelector("#editor-option-status").value = option.status;
+                                }
+                            }
+
+                            popup_editor.open();
+                        });
+
                         const option_item_div = document.createElement("div");
                         option_item_div.id = "option-item";
                         option_item_div.style.position = "relative";
@@ -117,9 +151,197 @@
                         option_item_div.style.backgroundSize = "cover";
                         option_item_div.classList.add("option-item");
                         option_item_div.appendChild(download_btn);
+                        option_item_div.appendChild(edit_btn);
                         option_list.appendChild(option_item_div);
                     }
                 }
+
+                const popup_editor = new Popup();
+                // 실제 팝업창에 그려질 form 문 작성
+                popup_editor.init(function(popup) {
+                    const form = document.createElement("form");
+                    form.id = "option-editor";
+                    form.style.display = "flex";
+                    form.style.flexDirection = "column";
+                    form.style.alignItems = "center";
+                    form.style.maxHeight = "600px";
+                    form.style.padding = "0px 30px";
+                    form.style.overflowY = "auto";
+                    form.style.overflowX = "hidden";
+
+                    // 타이틀
+                    const title_div = document.createElement("div");
+                    title_div.innerText = "옵션 수정";
+                    title_div.style.fontSize = "20px";
+                    title_div.style.fontWeight = "bold";
+                    title_div.style.marginTop = "20px";
+                    title_div.style.color = "#4286f4";
+
+                    // 번호
+                    const id_div = document.createElement("div");
+                    id_div.style.marginTop = "20px";
+                    const id_label = document.createElement("div");
+                    id_label.innerText = "번호 : ";
+                    id_label.style.fontWeight = "bold";
+                    const id = document.createElement("input");
+                    id.id = "editor-option-id";
+                    id.style.padding = "5px";
+                    id.style.fontSize = "15px";
+                    id.setAttribute("name", "id");
+                    id.readOnly = true;
+                    id_div.appendChild(id_label);
+                    id_div.appendChild(id);
+
+                    // 옵션 이름1
+                    const option1_div = document.createElement("div");
+                    option1_div.style.marginTop = "20px";
+                    const option1_label = document.createElement("div");
+                    option1_label.innerText = "옵션 이름1 : ";
+                    option1_label.style.fontWeight = "bold";
+                    const option1 = document.createElement("input");
+                    option1.id = "editor-option1-name";
+                    option1.style.padding = "5px";
+                    option1.style.fontSize = "15px";
+                    option1.setAttribute("name", "optionName1");
+                    option1_div.appendChild(option1_label);
+                    option1_div.appendChild(option1);
+
+                    // 옵션 이름2
+                    const option2_div = document.createElement("div");
+                    option2_div.style.marginTop = "20px";
+                    const option2_label = document.createElement("div");
+                    option2_label.innerText = "옵션 이름2 : ";
+                    option2_label.style.fontWeight = "bold";
+                    const option2 = document.createElement("input");
+                    option2.id = "editor-option2-name";
+                    option2.style.padding = "5px";
+                    option2.style.fontSize = "15px";
+                    option2.setAttribute("name", "optionName2");
+                    option2_div.appendChild(option2_label);
+                    option2_div.appendChild(option2);
+
+                    // 이미지 경로(상대경로)
+                    const image_path_div = document.createElement("div");
+                    image_path_div.style.marginTop = "20px";
+                    const image_path_label = document.createElement("div");
+                    image_path_label.innerText = "이미지 경로 : ";
+                    image_path_label.style.fontWeight = "bold";
+                    const image_path = document.createElement("input");
+                    image_path.id = "editor-image-path";
+                    image_path.style.padding = "5px";
+                    image_path.style.fontSize = "15px";
+                    image_path.setAttribute("name", "imagePath");
+                    image_path_div.appendChild(image_path_label);
+                    image_path_div.appendChild(image_path);
+
+                    // 완성된 상품 이미지
+                    const mockup_image_div = document.createElement("div");
+                    mockup_image_div.style.marginTop = "20px";
+                    const mockup_image_label = document.createElement("div");
+                    mockup_image_label.innerText = "상품 이미지 : ";
+                    mockup_image_label.style.fontWeight = "bold";
+                    const mockup_image = document.createElement("input");
+                    mockup_image.id = "editor-mockup-image";
+                    mockup_image.style.padding = "5px";
+                    mockup_image.style.fontSize = "15px";
+                    mockup_image.setAttribute("name", "mockupImage");
+                    mockup_image_div.appendChild(mockup_image_label);
+                    mockup_image_div.appendChild(mockup_image);
+
+                    // 상태
+                    const status_div = document.createElement("div");
+                    status_div.style.marginTop = "20px";
+                    const status_label = document.createElement("div");
+                    status_label.innerText = "상태(Y, N) : ";
+                    status_label.style.fontWeight = "bold";
+                    const status = document.createElement("input");
+                    status.id = "editor-option-status";
+                    status.style.padding = "5px";
+                    status.style.fontSize = "15px";
+                    status.setAttribute("name", "status");
+                    status_div.appendChild(status_label);
+                    status_div.appendChild(status);
+
+                    // 버튼
+                    const submit_btn = document.createElement("div");
+                    submit_btn.innerText = "수정";
+                    submit_btn.style.width = "100px";
+                    submit_btn.style.minHeight = "40px";
+                    submit_btn.style.marginTop = "20px";
+                    submit_btn.style.marginBottom = "20px";
+                    submit_btn.style.backgroundColor = "#FFFFFF";
+                    submit_btn.style.border = "1px solid #e2e2e2";
+                    submit_btn.style.display = "flex";
+                    submit_btn.style.justifyContent = "center";
+                    submit_btn.style.alignItems = "center";
+                    submit_btn.style.cursor = "pointer";
+                    submit_btn.addEventListener("click", function(e) {
+                        e.preventDefault();
+
+                        // 하나씩 파싱해서 데이터 저장
+                        const form = document.querySelector("#option-editor");
+                        const option_id = form.querySelector("#editor-option-id").value;
+                        const option_name1 = form.querySelector("#editor-option1-name").value;
+                        const option_name2 = form.querySelector("#editor-option2-name").value;
+                        const image_path = form.querySelector("#editor-image-path").value;
+                        const mockup_image = form.querySelector("#editor-mockup-image").value;
+                        const status = form.querySelector("#editor-option-status").value;
+
+                        var data = new FormData();
+
+                        if(option_id !== "") {
+                            data.append("id", option_id);
+                        }
+                        if(option_name1 !== "") {
+                            data.append("optionName1", option_name1);
+                        }
+                        if(option_name2 !== "") {
+                            data.append("optionName2", option_name2);
+                        }
+                        if(image_path !== "") {
+                            data.append("imagePath", image_path);
+                        }
+                        if(mockup_image !== "") {
+                            data.append("mockupImage", mockup_image);
+                        }
+                        if(status !== "") {
+                            data.append("status", status);
+                        }
+
+                        sendEditor(data);
+                    });
+
+                    // 데이터 전송
+                    function sendEditor(data) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    const id = window.location.search.substring(1).split("=")[1];
+                                    const result = JSON.parse(xhr.responseText);
+                                    popup_editor.close();
+                                    fetch(id);
+                                    alert("수정에 성공하였습니다.");
+                                } else {
+                                    alert("수정에 실패하였습니다.");
+                                }
+                            }
+                        }
+                        xhr.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/option", true);
+                        xhr.send(data);
+                    }
+
+                    form.appendChild(title_div);
+                    form.appendChild(id_div);
+                    form.appendChild(option1_div);
+                    form.appendChild(option2_div);
+                    form.appendChild(image_path_div);
+                    form.appendChild(mockup_image_div);
+                    form.appendChild(status_div);
+                    form.appendChild(submit_btn);
+
+                    popup.appendChild(form);
+                });
             }
         </script>
     </head>

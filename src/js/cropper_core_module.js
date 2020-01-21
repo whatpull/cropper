@@ -125,6 +125,8 @@ Cropper.prototype.init = function() {
         this.target.style.width = canvas_style_length;
         this.target.style.border = "1px solid #e2e2e2";
         this.target.style.alignItems = "flex-start";
+    } else if (this.data_set.mode === "editor") {
+        this.target.style.backgroundColor = "#f4f4f4";
     }
     this.target.classList.add("cropper");
     document.querySelector(".editor").appendChild(this.target);
