@@ -1,0 +1,79 @@
+.ac .wrapper .content {
+    display: flex;
+    flex-direction: row;
+}
+
+.ac .nav .nav-head .nav-head-expander {
+    cursor: not-allowed;
+}
+
+.ac .wrapper .content .info {
+    flex: 0 0 300px;
+    border-right: 1px solid #e2e2e2;
+    padding: 20px;
+}
+
+.ac .wrapper .content .info .package {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* border: 1px solid #e2e2e2; */
+    background-color: #fafafa;
+    border-radius: 10px;
+}
+
+.ac .wrapper .content .info .package .thumbnail {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid #e2e2e2;
+    background-color: #ffffff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.ac .wrapper .content .info .package .name {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.ac .wrapper .content .info .package .creator {
+    margin-top: 10px;
+}
+
+.ac .wrapper .content .info .option-regist-btn {
+    margin-top: 10px;
+    height: 40px;
+    border: 1px solid #e2e2e2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.ac .wrapper .content .data {
+    flex: 1;
+    padding: 20px;
+}
+
+.ac .wrapper .content .data .option-list {
+    width: calc(100% - 20px);
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #e2e2e2;
+    background-color: #fafafa;
+    justify-content: flex-start;
+    align-content: flex-start;
+    padding: 10px;
+}
+
+.ac .wrapper .content .data .option-list .option-item {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #e2e2e2;
+    background-color: #ffffff;
+    margin: 10px;
+}

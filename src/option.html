@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Auto Cropper</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="./css/common.css" rel="stylesheet" />
+        <link href="./subproject/css/option.css" rel="stylesheet" />
+
+        <script src="http://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
+
+        <!-- 공통 -->
+        <script type="text/javascript" src="./js/common.js"></script>
+
+        <!-- 오토크로퍼 모듈 -->
+        <script type="text/javascript" src="./js/cropper_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/cropper.css" />
+
+        <!-- 셀렉트박스 모듈 -->
+        <!-- <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" /> -->
+
+        <!-- 테이블 모듈 -->
+        <script type="text/javascript" src="./js/table_core_module.js"></script>
+        <link href="./css/table.css" rel="stylesheet" />
+
+        <!-- 팝업 모듈 -->
+        <script type="text/javascript" src="./js/popup_core_module.js"></script>
+
+        <script>
+            window.onload = function() {
+                const host = window.location.host;
+
+                common.menu();
+                common.expander();
+
+                palette_color = {
+                    color01: "#ffffff",
+                    color02: "#B6B5B5",
+                    color03: "#54B689",
+                    color04: "#A093D6",
+                    color05: "#7BB2E3",
+                    color06: "#D34249",
+                }
+                
+                // 아이디를 통해 크리에이터 정보 조회
+                const id = window.location.search.substring(1).split("=")[1];
+
+                // 데이터 획득
+                function fetch(id) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function(e) {
+                        if (xhr.readyState == 4) {
+                            if (xhr.status == 200) {
+                                const result = JSON.parse(xhr.responseText);
+                                const data = result.result;
+                                parsing(data);
+                            } else {
+                                console.log("xhr error");
+                            }
+                        }
+                    }
+                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + id, true);
+                    xhr.send();
+                }
+                fetch(id);
+
+                // 데이터 파싱[+ UI생성]
+                function parsing(data) {
+                    document.querySelector("#package-name").innerText = data.name;
+                    document.querySelector("#package-creator").innerText = data.packageCreator.name;
+
+                    const option_list = document.querySelector("#option-list");
+                    option_list.innerHTML = "";
+
+                    // 리스트 만들기 - 캔버스 활용여부, 옵션네임 활용여부
+                    const options = data.packageOptions;
+                    for(option of options) {
+                        // console.log(option);
+                        let path = option.imagePath;
+                        const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
+                        const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
+                        const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
+                        const color_code = option.mockFilling;
+
+                        if(host === "127.0.0.1:5500" 
+                            || host === "localhost:5500" 
+                            || host === "192.167.0.177:5500") {
+                            path = "/cropper/src" + path;
+                        }
+
+                        const temp = new Cropper({
+                            mode: "autopacking",
+                            mock_img: path + mock_img,
+                            area_img: path + area_img,
+                            asset_img: undefined,
+                            effect_img: path + effect_img,
+                            color_code: color_code,
+                            canvas_size: "200px"
+                        }, {
+                            top: parseFloat(option.mockTop),
+                            left: parseFloat(option.mockLeft),
+                            width: parseFloat(option.mockWidth),
+                            height: parseFloat(option.mockHeight)
+                        }, palette_color);
+                        temp.init();
+
+                        // 수정버튼 넣을 방법 확인
+                        // 옵션데이터 넣을 방법 확인
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body class="ac">
+        <div class="wrapper">
+            <div class="content">
+                <div class="info">
+                    <div class="package">
+                        <div id="package-thumbnail" class="thumbnail"></div>
+                        <div id="package-name" class="name"></div>
+                        <div id="package-creator" class="creator"></div>
+                    </div>
+                    <div id="option-regist-btn" class="option-regist-btn">옵션 등록</div>
+                </div>
+                <div class="data">
+                    <div id="option-list" class="option-list editor">
+                    </div>
+                </div>
+            </div>
+            <div class="nav reduction">
+                <div class="nav-head">
+                    <div class="nav-head-expander">
+                        <i class="material-icons">
+                            first_page
+                        </i>
+                    </div>
+                    <div class="nav-head-logo">
+                        Auto Cropper
+                    </div>
+                </div>
+                <div class="nav-body">
+                    <div class="nav-body-menu">
+                        <div class="menu-item" data-page="edit">
+                            <i class="material-icons">
+                                crop_free
+                            </i>
+                            edit
+                        </div>
+                        <div class="menu-item" data-page="auto">
+                            <i class="material-icons">
+                                style
+                            </i>
+                            auto
+                        </div>
+                        <div class="menu-item" data-page="creator">
+                            <i class="material-icons">
+                                people
+                            </i>
+                            creator
+                        </div>
+                        <div class="menu-item" data-page="maker">
+                            <i class="material-icons">
+                                build
+                            </i>
+                            maker
+                        </div>
+                        <div class="menu-item active" data-page="package">
+                            <i class="material-icons">
+                                how_to_vote
+                            </i>
+                            package
+                        </div>
+                        <div class="menu-item" data-page="product">
+                            <i class="material-icons">
+                                local_mall
+                            </i>
+                            product
+                        </div>
+                    </div>
+                    <div class="nav-body-content">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
