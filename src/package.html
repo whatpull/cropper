@@ -94,6 +94,171 @@
 
                     target.appendChild(row);
                 }
+
+                const popup_regist = new Popup();
+                // 실제 팝업창에 그려질 form 문 작성
+                popup_regist.init(function(popup) {
+                    const form = document.createElement("form");
+                    form.id = "package-regist";
+                    form.style.display = "flex";
+                    form.style.flexDirection = "column";
+                    form.style.alignItems = "center";
+                    form.style.maxHeight = "600px";
+                    form.style.padding = "0px 30px";
+                    form.style.overflowY = "auto";
+                    form.style.overflowX = "hidden";
+
+                    // 타이틀
+                    const title_div = document.createElement("div");
+                    title_div.innerText = "패키지 등록"
+                    title_div.style.fontSize = "20px";
+                    title_div.style.marginTop = "20px";
+                    title_div.style.fontWeight = "bold";
+                    title_div.style.color = "#4286f4";
+
+                    // 이름
+                    const name_div = document.createElement("div");
+                    name_div.style.marginTop = "20px";
+                    const name_label = document.createElement("div");
+                    name_label.innerText = "이름 : ";
+                    name_label.style.width = "100px";
+                    name_label.style.fontWeight = "bold";
+                    const name = document.createElement("input");
+                    name.id = "package-name";
+                    name.style.padding = "5px";
+                    name.style.fontSize = "15px";
+                    name.setAttribute("name", "name");
+                    name_div.appendChild(name_label);
+                    name_div.appendChild(name);
+
+                    // 설명
+                    const detail_div = document.createElement("div");
+                    detail_div.style.marginTop = "20px";
+                    const detail_label = document.createElement("div");
+                    detail_label.innerText = "설명 : ";
+                    detail_label.style.width = "100px";
+                    detail_label.style.fontWeight = "bold";
+                    const detail = document.createElement("input");
+                    detail.id = "package-detail";
+                    detail.style.padding = "5px";
+                    detail.style.fontSize = "15px";
+                    detail.setAttribute("name", "detail");
+                    detail_div.appendChild(detail_label);
+                    detail_div.appendChild(detail);
+
+                    // 비용
+                    const price_cost_div = document.createElement("div");
+                    price_cost_div.style.marginTop = "20px";
+                    const price_cost_label = document.createElement("div");
+                    price_cost_label.innerText = "비용 : ";
+                    price_cost_label.style.width = "100px";
+                    price_cost_label.style.fontWeight = "bold";
+                    const price_cost = document.createElement("input");
+                    price_cost.id = "price-cost";
+                    price_cost.style.padding = "5px";
+                    price_cost.style.fontSize = "15px";
+                    price_cost.setAttribute("name", "packagePrice.cost");
+                    price_cost_div.appendChild(price_cost_label);
+                    price_cost_div.appendChild(price_cost);
+
+                    // 가격
+                    const price_div = document.createElement("div");
+                    price_div.style.marginTop = "20px";
+                    const price_label = document.createElement("div");
+                    price_label.innerText = "가격 : ";
+                    price_label.style.width = "100px";
+                    price_label.style.fontWeight = "bold";
+                    const price = document.createElement("input");
+                    price.id = "package-price";
+                    price.style.padding = "5px";
+                    price.style.fontSize = "15px";
+                    price.setAttribute("name", "packagePrice.price");
+                    price_div.appendChild(price_label);
+                    price_div.appendChild(price);
+
+                    // 시작일
+                    const start_date_div = document.createElement("div");
+                    start_date_div.style.marginTop = "20px";
+                    const start_date_label = document.createElement("div");
+                    start_date_label.innerText = "시작일 : ";
+                    start_date_label.style.width = "100px";
+                    start_date_label.style.fontWeight = "bold";
+                    const start_date = document.createElement("input");
+                    start_date.id = "start-date";
+                    start_date.style.padding = "5px";
+                    start_date.style.fontSize = "15px";
+                    start_date.setAttribute("name", "packagePrice.startDate");
+                    start_date_div.appendChild(start_date_label);
+                    start_date_div.appendChild(bank_name);
+
+                    // 종료일
+                    const end_date_div = document.createElement("div");
+                    end_date_div.style.marginTop = "20px";
+                    const end_date_label = document.createElement("div");
+                    end_date_label.innerText = "종료일 : ";
+                    end_date_label.style.width = "100px";
+                    end_date_label.style.fontWeight = "bold";
+                    const end_date = document.createElement("input");
+                    end_date.id = "end-date";
+                    end_date.style.padding = "5px";
+                    end_date.style.fontSize = "15px";
+                    end_date.setAttribute("name", "packagePrice.endDate");
+                    end_date_div.appendChild(end_date_label);
+                    end_date_div.appendChild(end_date);
+
+                    // 버튼
+                    const submit_btn = document.createElement("div");
+                    submit_btn.innerText = "등록";
+                    submit_btn.style.width = "100px";
+                    submit_btn.style.minHeight = "40px";
+                    submit_btn.style.marginTop = "20px";
+                    submit_btn.style.marginBottom = "20px";
+                    submit_btn.style.backgroundColor = "#FFFFFF";
+                    submit_btn.style.border = "1px solid #e2e2e2";
+                    submit_btn.style.display = "flex";
+                    submit_btn.style.justifyContent = "center";
+                    submit_btn.style.alignItems = "center";
+                    submit_btn.style.cursor = "pointer";
+                    submit_btn.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        // 하나씩 파싱해서 데이터 저장
+                        const form = document.querySelector("#creator-regist");
+                        const creator_name = form.querySelector("#creator-name").value;
+                        const user_id = form.querySelector("#user-id").value;
+                        const account_no = form.querySelector("#account-no").value;
+                        const bank_code = form.querySelector("#bank-code").value;
+                        const bank_name = form.querySelector("#bank-name").value;
+                        const owner_name = form.querySelector("#owner-name").value;
+
+                        var data = new FormData();
+
+                        if(creator_name !== "") {
+                            data.append("creatorName", creator_name);
+                        }
+                        if(user_id !== "") {
+                            data.append("userId", user_id);
+                        }
+                        if(account_no !== "" && bank_code !== "" && bank_name !== "" && owner_name !== "") {
+                            data.append("productCreatorAccounts[0].accountNo", account_no);
+                            data.append("productCreatorAccounts[0].bankCode", bank_code);
+                            data.append("productCreatorAccounts[0].bankName", bank_name);
+                            data.append("productCreatorAccounts[0].ownerName", owner_name);
+                        }
+
+                        send(data);
+                    });
+
+                    form.appendChild(title_div);
+                    form.appendChild(name_div);
+                    form.appendChild(id_div);
+                    form.appendChild(account_no_div);
+                    form.appendChild(bank_code_div);
+                    form.appendChild(bank_name_div);
+                    form.appendChild(owner_name_div);
+                    form.appendChild(submit_btn);
+
+                    popup.appendChild(form);
+                });
             }
         </script>
     </head>

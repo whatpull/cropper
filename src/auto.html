@@ -99,8 +99,12 @@
                                             temp.setParam({
                                                 "packageId": packageId,
                                                 "packageCreatorId": packageCreatorId,
-                                                "packageName": packageName
+                                                "packageName": packageName,
+                                                "optionName1": option.optionName1,
+                                                "optionName2": option.optionName2
                                             });
+
+                                            console.log(temp.getParam());
                                             // 활용 데이터 입력
                                             croppers.push(temp);
                                         }
@@ -159,7 +163,9 @@
                                         temp.setParam({
                                             "packageId": packageId,
                                             "packageCreatorId": packageCreatorId,
-                                            "packageName": packageName
+                                            "packageName": packageName,
+                                            "optionName1": option.optionName1,
+                                            "optionName2": option.optionName2
                                         });
                                         croppers.push(temp);
                                     }
@@ -344,8 +350,8 @@
                                     const productId = result.result.id;
                                     temp_productIds.push(productId);
                                     // 2. 옵션이름1, 옵션이름2 // start-date, end-date 처리를 어떻게 할 것인가? (입력받기에는 너무 많은 숫자)
-                                    const optionName1 = "미정";
-                                    const optionName2 = "미정";
+                                    // const optionName1 = "미정";
+                                    // const optionName2 = "미정";
                                     // 현재 달의 첫번째일 - 1달, 마지막일 + 1달
                                     const startDate = moment().startOf('month').subtract(1, 'month').format("YYYYMMDDHHmmss");
                                     const endDate = moment().endOf('month').add(900, 'years').format("YYYYMMDDHHmmss");
@@ -357,8 +363,8 @@
                                             // 변수 생성
                                             const param = new FormData();
                                             param.append("productId", productId);
-                                            param.append('optionName1', optionName1);
-                                            param.append("optionName2", optionName2);
+                                            param.append('optionName1', cropper.getParam().optionName1);
+                                            param.append("optionName2", cropper.getParam().optionName2);
                                             param.append('image', cropper.getParam().image, "option_thumbnail.png");
                                             param.append("startDate", startDate);
                                             param.append("endDate", endDate);
