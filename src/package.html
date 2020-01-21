@@ -11,8 +11,8 @@
         <script type="text/javascript" src="./js/common.js"></script>
 
         <!-- 셀렉트박스 모듈 -->
-        <!-- <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
-        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" /> -->
+        <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" />
 
         <!-- 테이블 모듈 -->
         <script type="text/javascript" src="./js/table_core_module.js"></script>
@@ -28,6 +28,8 @@
             window.onload = function() {
                 common.menu();
                 common.expander();
+
+                let editor_package_creator;
 
                 const table = new Table("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packages");
                 table.body("page=0", bodydata);
@@ -84,7 +86,6 @@
 
                         // popup 수정
                         const form = document.querySelector("#package-editor");
-                        console.log(item);
                         form.querySelector("#editor-package-id").value = item.id;
                         form.querySelector("#editor-package-name").value = item.name;
                         form.querySelector("#editor-package-detail").value = item.detail;
@@ -93,6 +94,7 @@
                         form.querySelector("#editor-start-date").value = moment(item.packagePrice.startDate).format("YYYY-MM-DDThh:mm:ss.SSS");
                         form.querySelector("#editor-end-date").value = moment(item.packagePrice.endDate).format("YYYY-MM-DDThh:mm:ss.SSS");
 
+                        editor_package_creator.select(item.packageCreator.id);
                         popup_editor.open();
                     });
 
@@ -159,6 +161,22 @@
                     name.setAttribute("name", "name");
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
+
+                    // 크리에이터
+                    const creator_wrapper_div = document.createElement("div");
+                    creator_wrapper_div.style.marginTop = "20px";
+                    const creator_label = document.createElement("div");
+                    creator_label.innerText = "제조사 : ";
+                    creator_label.style.width = "100px";
+                    creator_label.style.fontWeight = "bold";
+                    const creator_div = document.createElement("div");
+                    creator_div.classList.add("ac-selector", "regist-selectbox-package-creator");
+                    creator_div.style.width = "302px";
+                    const creator_select = document.createElement("select");
+                    creator_select.id = "regist-select";
+                    creator_div.appendChild(creator_select);
+                    creator_wrapper_div.appendChild(creator_label);
+                    creator_wrapper_div.appendChild(creator_div);
 
                     // 설명
                     const detail_div = document.createElement("div");
@@ -257,11 +275,64 @@
                     submit_btn.style.cursor = "pointer";
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
-                        // 등록 개발예정
+
+                        // 하나씩 파싱해서 데이터 저장
+                        const form = document.querySelector("#package-regist");
+                        const package_name = form.querySelector("#regist-package-name").value;
+                        const package_creator = form.querySelector(".regist-selectbox-package-creator #regist-select").options[form.querySelector(".regist-selectbox-package-creator #regist-select").selectedIndex].value;
+                        const package_detail = form.querySelector("#regist-package-detail").value;
+                        const price_cost = form.querySelector("#regist-price-cost").value;
+                        const package_price = form.querySelector("#regist-package-price").value;
+                        const start_date = form.querySelector("#regist-start-date").value;
+                        const end_date = form.querySelector("#regist-end-date").value;
+
+                        var data = new FormData();
+
+                        if(package_name !== "") {
+                            data.append("name", package_name);
+                        }
+                        if(package_detail !== "") {
+                            data.append("detail", package_detail);
+                        }
+                        if(price_cost !== "") {
+                            data.append("packagePrice.cost", price_cost);
+                        }
+                        if(package_price !== "") {
+                            data.append("packagePrice.price", package_price);
+                        }
+                        if(start_date !== "") {
+                            data.append("packagePrice.startDate", moment(start_date).format("YYYYMMDDHHmmss"));
+                        }
+                        if(end_date !== "") {
+                            data.append("packagePrice.endDate", moment(end_date).format("YYYYMMDDHHmmss"));
+                        }
+
+                        sendRegist(data);
                     });
+
+                    // 데이터 전송
+                    function sendRegist(data) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    const result = JSON.parse(xhr.responseText);
+                                    const data = result.result;
+                                    popup_regist.close();
+                                    table.body("page=0", bodydata);
+                                    alert("등록에 성공하였습니다.");
+                                } else {
+                                    alert("등록에 실패하였습니다.");
+                                }
+                            }
+                        }
+                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package", true);
+                        xhr.send(data);
+                    }
 
                     form.appendChild(title_div);
                     form.appendChild(name_div);
+                    form.appendChild(creator_wrapper_div);
                     form.appendChild(detail_div);
                     form.appendChild(price_cost_div);
                     form.appendChild(price_div);
@@ -270,6 +341,20 @@
                     form.appendChild(submit_btn);
 
                     popup.appendChild(form);
+                    
+                    const package_creator = new SelectBox("regist-selectbox-package-creator", function(value) {});
+                    package_creator.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreators?size=2147483647", function(list, target) {
+                        const option_default = document.createElement("option");
+                        option_default.innerText = "제조사";
+                        target.appendChild(option_default);
+
+                        for(item of list) {
+                            const option = document.createElement("option");
+                            option.value = item.id;
+                            option.innerText = item.name;
+                            target.appendChild(option);
+                        }
+                    }, false);
                 });
 
                 // [버튼] 등록
@@ -330,6 +415,22 @@
                     name.setAttribute("name", "name");
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
+
+                    // 크리에이터
+                    const creator_wrapper_div = document.createElement("div");
+                    creator_wrapper_div.style.marginTop = "20px";
+                    const creator_label = document.createElement("div");
+                    creator_label.innerText = "제조사 : ";
+                    creator_label.style.width = "100px";
+                    creator_label.style.fontWeight = "bold";
+                    const creator_div = document.createElement("div");
+                    creator_div.classList.add("ac-selector", "editor-selectbox-package-creator");
+                    creator_div.style.width = "302px";
+                    const creator_select = document.createElement("select");
+                    creator_select.id = "editor-select";
+                    creator_div.appendChild(creator_select);
+                    creator_wrapper_div.appendChild(creator_label);
+                    creator_wrapper_div.appendChild(creator_div);
 
                     // 설명
                     const detail_div = document.createElement("div");
@@ -434,6 +535,7 @@
                     form.appendChild(title_div);
                     form.appendChild(id_div);
                     form.appendChild(name_div);
+                    form.appendChild(creator_wrapper_div);
                     form.appendChild(detail_div);
                     form.appendChild(price_cost_div);
                     form.appendChild(price_div);
@@ -442,6 +544,20 @@
                     form.appendChild(submit_btn);
 
                     popup.appendChild(form);
+
+                    editor_package_creator = new SelectBox("editor-selectbox-package-creator", function(value) {});
+                    editor_package_creator.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreators?size=2147483647", function(list, target) {
+                        const option_default = document.createElement("option");
+                        option_default.innerText = "제조사";
+                        target.appendChild(option_default);
+
+                        for(item of list) {
+                            const option = document.createElement("option");
+                            option.value = item.id;
+                            option.innerText = item.name;
+                            target.appendChild(option);
+                        }
+                    });
                 });
             }
         </script>

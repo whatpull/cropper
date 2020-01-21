@@ -28,6 +28,7 @@ SelectBox.prototype.setting = function() {
             /* [옵션 아이템]: */
             this.c = document.createElement("DIV");
             this.c.innerHTML = this.selElmnt.options[j].innerHTML;
+            this.c.setAttribute("value", this.selElmnt.options[j].value);
             this.c.addEventListener("click", function(e) {
                 /* [선택된 아이템 - 셀렉트 박스 업데이트] */
                 var target = e.target;
@@ -88,9 +89,9 @@ SelectBox.prototype.setting = function() {
     document.addEventListener("click", closeAllSelect);
 }
 
-SelectBox.prototype.init = function(url, callback) {
+SelectBox.prototype.init = function(url, callback, isFirstSelected) {
     if(typeof url === "string") {
-        const target = document.querySelector("#select");
+        const target = this.x[0].getElementsByTagName("select")[0];
         target.innerHTML = "";
     
         var xhr = new XMLHttpRequest();
@@ -104,9 +105,11 @@ SelectBox.prototype.init = function(url, callback) {
                         callback(list, target);
                         this.setting();
                         // 첫번째 강제선택
-                        const first = document.querySelectorAll(".select-items")[0];
-                        if(typeof first.children[0] === "object") {
-                            first.children[0].click();
+                        if(typeof isFirstSelected === "undefined" || isFirstSelected) {
+                            const first = this.x[0].querySelectorAll(".select-items")[0];
+                            if(typeof first.children[0] === "object") {
+                                first.children[0].click();
+                            }
                         }
                     }
                 } else {
@@ -120,9 +123,21 @@ SelectBox.prototype.init = function(url, callback) {
         this.setting();
 
         // 첫번째 강제선택
-        const first = document.querySelectorAll(".select-items")[0];
-        if(typeof first === "object") {
-            first.children[0].click();
+        if(typeof isFirstSelected === "undefined" || isFirstSelected) {
+            const first = this.x[0].querySelectorAll(".select-items")[0];
+            if(typeof first === "object") {
+                first.children[0].click();
+            }
+        }
+    }
+}
+
+// 원하는 값 선택
+SelectBox.prototype.select = function(value) {
+    const select_items = this.x[0].querySelectorAll(".select-items")[0];
+    for(select_item of select_items.children) {
+        if(select_item.getAttribute("value") == value) {
+            select_item.click();
         }
     }
 }

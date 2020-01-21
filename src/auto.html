@@ -189,10 +189,10 @@
                     croppers = [];
                 }
 
-                const product = new SelectBox("selectbox-creator", function(value) {
+                const creator = new SelectBox("selectbox-creator", function(value) {
                     fetch(value);
                 });
-                product.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators?size=2147483647", function(list, target) {
+                creator.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators?size=2147483647", function(list, target) {
                     const option_default = document.createElement("option");
                     option_default.innerText = "크리에이터";
                     target.appendChild(option_default);
