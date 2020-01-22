@@ -59,6 +59,7 @@ function Cropper(data_set, edit_image, palette_color) {
     this.data_set = data_set;
 
     // 변수(파라미터)
+    this.distinct_param;
     this.param_set;
 
     // 편집이미지
@@ -1108,8 +1109,14 @@ Cropper.prototype.destroy = function() {
 }
 
 // [데이터] 변수(파라미터) 저장
-Cropper.prototype.setParam = function(param_set) {
+Cropper.prototype.setParam = function(distinct_param, param_set) {
+    this.distinct_param = distinct_param;
     this.param_set = param_set;
+}
+
+// [데이터] 변수(파라미터) 중복제거를 위한 조회
+Cropper.prototype.getDistinctParam = function() {
+    return this.distinct_param;
 }
 
 // [데이터] 변수(파라미터) 조회
@@ -1119,5 +1126,10 @@ Cropper.prototype.getParam = function() {
 
 // [데이터] 변수(이미지) 저장
 Cropper.prototype.setBlob = function() {
-    this.param_set.image = this._handleCanvasConvertBlob(this.canvas);
+    this.distinct_param.image = this._handleCanvasConvertBlob(this.canvas);
+}
+
+// [document] 타겟 획득
+Cropper.prototype.getTarget = function() {
+    return this.target;
 }

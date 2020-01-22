@@ -70,11 +70,17 @@
 }
 
 .ac .wrapper .content .data .option-list {
-    width: 100%;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
     display: flex;
     flex-wrap: wrap;
     border: 1px solid #e2e2e2;
     background-color: #fafafa;
+    justify-content: flex-start;
+    align-content: flex-start;
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .ac .wrapper .content .data .option-list .option-item {

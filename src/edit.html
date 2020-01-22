@@ -69,9 +69,9 @@
                                     // 옵션 데이터가 없는 경우
                                 } else {
                                     let path = option.imagePath;
-                                    const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
-                                    const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
-                                    const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
+                                    const mock_img = option.mockupImage.find(item => item.indexOf("_effect") == -1 && item.indexOf("_area") == -1);
+                                    const area_img = option.mockupImage.find(item => item.indexOf("_area") > -1);
+                                    const effect_img = option.mockupImage.find(item => item.indexOf("_effect") > -1);
                                     const color_code = option.mockFilling;
 
                                     if(host === "127.0.0.1:5500" 

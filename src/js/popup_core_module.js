@@ -3,6 +3,7 @@ function Popup() {
     this.dim;
     this.popup;
     this.data;
+    this.param;
 }
 
 // 초기화
@@ -17,6 +18,7 @@ Popup.prototype.init = function(form) {
     this.dim.style.display = "none";
     this.dim.style.justifyContent = "center";
     this.dim.style.alignItems = "center";
+    this.dim.style.zIndex = "999";
     this.dim.addEventListener("click", function(e) {
         e.preventDefault();
         this.dim.style.display = "none";
@@ -30,7 +32,7 @@ Popup.prototype.init = function(form) {
     this.popup.style.borderRadius = "10px";
     this.popup.style.overflowY = "hidden";
     this.popup.style.overflowX = "hidden";
-    this.popup.style.zIndex = "1";
+    this.popup.style.zIndex = "1000";
     this.popup.addEventListener("click", function(e) {
         e.stopPropagation();
     });
@@ -59,4 +61,14 @@ Popup.prototype.open = function() {
 Popup.prototype.close = function() {
     this.popup.querySelector("form").reset();
     this.dim.style.display = "none";
+}
+
+// [데이터] 저장
+Popup.prototype.setParam = function(param) {
+    this.param = param;
+}
+
+// [데이터] 조회
+Popup.prototype.getParam = function() {
+    return this.param;
 }

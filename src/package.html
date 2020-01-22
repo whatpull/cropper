@@ -294,6 +294,9 @@
                         if(package_detail !== "") {
                             data.append("detail", package_detail);
                         }
+                        if(package_creator !== "") {
+                            data.append("packageCreator.id", package_creator);
+                        }
                         if(price_cost !== "") {
                             data.append("packagePrice.cost", price_cost);
                         }
@@ -529,8 +532,67 @@
                     submit_btn.style.cursor = "pointer";
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
-                        // 수정 개발예정
+
+                        // 하나씩 파싱해서 데이터 저장
+                        const form = document.querySelector("#package-editor");
+                        const package_id = form.querySelector("#editor-package-id").value;
+                        const package_name = form.querySelector("#editor-package-name").value;
+                        const package_creator = form.querySelector(".editor-selectbox-package-creator #editor-select").options[form.querySelector(".editor-selectbox-package-creator #editor-select").selectedIndex].value;
+                        const package_detail = form.querySelector("#editor-package-detail").value;
+                        const price_cost = form.querySelector("#editor-price-cost").value;
+                        const package_price = form.querySelector("#editor-package-price").value;
+                        const start_date = form.querySelector("#editor-start-date").value;
+                        const end_date = form.querySelector("#editor-end-date").value;
+
+                        var data = new FormData();
+
+                        if(package_id !== "") {
+                            data.append("id", package_id);
+                        }
+                        if(package_name !== "") {
+                            data.append("name", package_name);
+                        }
+                        if(package_detail !== "") {
+                            data.append("detail", package_detail);
+                        }
+                        if(package_creator !== "") {
+                            data.append("packageCreator.id", package_creator);
+                        }
+                        if(price_cost !== "") {
+                            data.append("packagePrice.cost", price_cost);
+                        }
+                        if(package_price !== "") {
+                            data.append("packagePrice.price", package_price);
+                        }
+                        if(start_date !== "") {
+                            data.append("packagePrice.startDate", moment(start_date).format("YYYYMMDDHHmmss"));
+                        }
+                        if(end_date !== "") {
+                            data.append("packagePrice.endDate", moment(end_date).format("YYYYMMDDHHmmss"));
+                        }
+
+                        sendEditor(data);
                     });
+
+                    // 데이터 전송
+                    function sendEditor(data) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    const result = JSON.parse(xhr.responseText);
+                                    const data = result.result;
+                                    popup_editor.close();
+                                    table.body("page=0", bodydata);
+                                    alert("등록에 성공하였습니다.");
+                                } else {
+                                    alert("등록에 실패하였습니다.");
+                                }
+                            }
+                        }
+                        xhr.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package", true);
+                        xhr.send(data);
+                    }
 
                     form.appendChild(title_div);
                     form.appendChild(id_div);

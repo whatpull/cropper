@@ -27,6 +27,9 @@
         <!-- 팝업 모듈 -->
         <script type="text/javascript" src="./js/popup_core_module.js"></script>
 
+        <!-- 모멘트JS -->
+        <script src="./libs/moment/moment.min.js"></script>
+
         <script>
             window.onload = function() {
                 const host = window.location.host;
@@ -104,11 +107,610 @@
                             height: parseFloat(option.mockHeight)
                         }, palette_color);
                         temp.init();
+                        temp.setParam(undefined, option);
 
                         // 수정버튼 넣을 방법 확인
                         // 옵션데이터 넣을 방법 확인
+                        const edit_btn = document.createElement("div");
+                        edit_btn.innerText = "EDIT";
+                        edit_btn.style.position = "absolute";
+                        edit_btn.style.bottom = "0px";
+                        edit_btn.style.right = "0px";
+                        edit_btn.style.width = "100px";
+                        edit_btn.style.minHeight = "20px";
+                        edit_btn.style.backgroundColor = "#4286f4";
+                        edit_btn.style.color = "#FFFFFF";
+                        edit_btn.style.borderTop = "1px solid #e2e2e2";
+                        edit_btn.style.borderLeft = "1px solid #e2e2e2";
+                        edit_btn.style.display = "flex";
+                        edit_btn.style.justifyContent = "center";
+                        edit_btn.style.alignItems = "center";
+                        edit_btn.style.cursor = "pointer";
+                        edit_btn.style.zIndex = "4";
+                        edit_btn.setAttribute("data-id", option.id);
+                        edit_btn.addEventListener("click", function(e) {
+                            e.preventDefault();
+                            // 수정버튼
+                            console.log(temp.getParam());
+                        });
+                        const target = temp.getTarget();
+                        target.appendChild(edit_btn);
                     }
                 }
+
+                // 등록 팝업
+                const popup_regist = new Popup();
+                // 실제 팝업창에 그려질 form 문 작성
+                popup_regist.setParam(new FormData());	// formData 생성
+                popup_regist.init(function(popup) {
+                    const form = document.createElement("form");
+                    form.id = "option-regist";
+                    form.style.display = "flex";
+                    form.style.flexDirection = "column";
+                    form.style.alignItems = "center";
+                    form.style.maxHeight = "600px";
+                    form.style.padding = "0px 30px";
+                    form.style.overflowY = "auto";
+                    form.style.overflowX = "hidden";
+
+                    // 타이틀
+                    const title_div = document.createElement("div");
+                    title_div.innerText = "옵션 등록"
+                    title_div.style.fontSize = "20px";
+                    title_div.style.marginTop = "20px";
+                    title_div.style.fontWeight = "bold";
+                    title_div.style.color = "#4286f4";
+
+                    // 옵션 이름1
+                    const option_name1_div = document.createElement("div");
+                    option_name1_div.style.marginTop = "20px";
+                    const option_name1_label = document.createElement("div");
+                    option_name1_label.innerText = "옵션 이름1 : ";
+                    option_name1_label.style.width = "200px";
+                    option_name1_label.style.fontWeight = "bold";
+                    const option_name1 = document.createElement("input");
+                    option_name1.id = "regist-option-name1";
+                    option_name1.style.padding = "5px";
+                    option_name1.style.fontSize = "15px";
+                    option_name1.style.width = "288px";
+                    option_name1.setAttribute("name", "optionName1");
+                    option_name1_div.appendChild(option_name1_label);
+                    option_name1_div.appendChild(option_name1);
+
+                    // 옵션 이름2
+                    const option_name2_div = document.createElement("div");
+                    option_name2_div.style.marginTop = "20px";
+                    const option_name2_label = document.createElement("div");
+                    option_name2_label.innerText = "옵션 이름2 : ";
+                    option_name2_label.style.width = "200px";
+                    option_name2_label.style.fontWeight = "bold";
+                    const option_name2 = document.createElement("input");
+                    option_name2.id = "regist-option-name2";
+                    option_name2.style.padding = "5px";
+                    option_name2.style.fontSize = "15px";
+                    option_name2.style.width = "288px";
+                    option_name2.setAttribute("name", "optionName2");
+                    option_name2_div.appendChild(option_name2_label);
+                    option_name2_div.appendChild(option_name2);
+
+                    // 비용
+                    const cost_div = document.createElement("div");
+                    cost_div.style.marginTop = "20px";
+                    const cost_label = document.createElement("div");
+                    cost_label.innerText = "비용 : ";
+                    cost_label.style.width = "200px";
+                    cost_label.style.fontWeight = "bold";
+                    const cost = document.createElement("input");
+                    cost.id = "regist-option-cost";
+                    cost.style.padding = "5px";
+                    cost.style.fontSize = "15px";
+                    cost.style.width = "288px";
+                    cost.setAttribute("name", "cost");
+                    cost_div.appendChild(cost_label);
+                    cost_div.appendChild(cost);
+
+                    // 가격
+                    const price_div = document.createElement("div");
+                    price_div.style.marginTop = "20px";
+                    const price_label = document.createElement("div");
+                    price_label.innerText = "가격 : ";
+                    price_label.style.width = "200px";
+                    price_label.style.fontWeight = "bold";
+                    const price = document.createElement("input");
+                    price.id = "regist-option-price";
+                    price.style.padding = "5px";
+                    price.style.fontSize = "15px";
+                    price.style.width = "288px";
+                    price.setAttribute("name", "price");
+                    price_div.appendChild(price_label);
+                    price_div.appendChild(price);
+
+                    // 이미지 위치
+                    const image_path_div = document.createElement("div");
+                    image_path_div.style.marginTop = "20px";
+                    const image_path_label = document.createElement("div");
+                    image_path_label.innerText = "이미지 위치(자동입력) : ";
+                    image_path_label.style.width = "200px";
+                    image_path_label.style.fontWeight = "bold";
+                    const image_path = document.createElement("input");
+                    image_path.id = "regist-option-image-path";
+                    image_path.style.padding = "5px";
+                    image_path.style.fontSize = "15px";
+                    image_path.style.width = "288px";
+                    image_path.setAttribute("name", "imagePath");
+                    image_path.setAttribute("readonly", true);
+                    image_path_div.appendChild(image_path_label);
+                    image_path_div.appendChild(image_path);
+
+                    // mock 배경색
+                    const mock_filling_div = document.createElement("div");
+                    mock_filling_div.style.marginTop = "20px";
+                    const mock_filling_label = document.createElement("div");
+                    mock_filling_label.innerText = "에셋 배경색 : ";
+                    mock_filling_label.style.width = "200px";
+                    mock_filling_label.style.fontWeight = "bold";
+                    const mock_filling = document.createElement("input");
+                    mock_filling.id = "regist-option-mock-filling";
+                    mock_filling.style.padding = "5px";
+                    mock_filling.style.fontSize = "15px";
+                    mock_filling.style.width = "288px";
+                    mock_filling.setAttribute("name", "mockFilling");
+                    mock_filling_div.appendChild(mock_filling_label);
+                    mock_filling_div.appendChild(mock_filling);
+
+                    // mock 높이
+                    const mock_height_div = document.createElement("div");
+                    mock_height_div.style.marginTop = "20px";
+                    const mock_height_label = document.createElement("div");
+                    mock_height_label.innerText = "에셋 높이 : ";
+                    mock_height_label.style.width = "200px";
+                    mock_height_label.style.fontWeight = "bold";
+                    const mock_height = document.createElement("input");
+                    mock_height.id = "regist-option-mock-height";
+                    mock_height.style.padding = "5px";
+                    mock_height.style.fontSize = "15px";
+                    mock_height.style.width = "288px";
+                    mock_height.setAttribute("name", "mockHeight");
+                    mock_height_div.appendChild(mock_height_label);
+                    mock_height_div.appendChild(mock_height);
+
+                    // mock 길이
+                    const mock_width_div = document.createElement("div");
+                    mock_width_div.style.marginTop = "20px";
+                    const mock_width_label = document.createElement("div");
+                    mock_width_label.innerText = "에셋 길이 : ";
+                    mock_width_label.style.width = "200px";
+                    mock_width_label.style.fontWeight = "bold";
+                    const mock_width = document.createElement("input");
+                    mock_width.id = "regist-option-mock-width";
+                    mock_width.style.padding = "5px";
+                    mock_width.style.fontSize = "15px";
+                    mock_width.style.width = "288px";
+                    mock_width.setAttribute("name", "mockWidth");
+                    mock_width_div.appendChild(mock_width_label);
+                    mock_width_div.appendChild(mock_width);
+
+                    // mock 위치 TOP
+                    const mock_top_div = document.createElement("div");
+                    mock_top_div.style.marginTop = "20px";
+                    const mock_top_label = document.createElement("div");
+                    mock_top_label.innerText = "에셋 위치 TOP : ";
+                    mock_top_label.style.width = "200px";
+                    mock_top_label.style.fontWeight = "bold";
+                    const mock_top = document.createElement("input");
+                    mock_top.id = "regist-option-mock-top";
+                    mock_top.style.padding = "5px";
+                    mock_top.style.fontSize = "15px";
+                    mock_top.style.width = "288px";
+                    mock_top.setAttribute("name", "mockTop");
+                    mock_top_div.appendChild(mock_top_label);
+                    mock_top_div.appendChild(mock_top);
+
+                    // mock 위치 LEFT
+                    const mock_left_div = document.createElement("div");
+                    mock_left_div.style.marginTop = "20px";
+                    const mock_left_label = document.createElement("div");
+                    mock_left_label.innerText = "에셋 위치 LEFT : ";
+                    mock_left_label.style.width = "200px";
+                    mock_left_label.style.fontWeight = "bold";
+                    const mock_left = document.createElement("input");
+                    mock_left.id = "regist-option-mock-left";
+                    mock_left.style.padding = "5px";
+                    mock_left.style.fontSize = "15px";
+                    mock_left.style.width = "288px";
+                    mock_left.setAttribute("name", "mockLeft");
+                    mock_left_div.appendChild(mock_left_label);
+                    mock_left_div.appendChild(mock_left);
+
+                    // mock 이미지 배열
+                    const mock_image_array_div = document.createElement("div");
+                    mock_image_array_div.style.marginTop = "20px";
+                    const mock_image_array_label = document.createElement("div");
+                    mock_image_array_label.innerText = "MOCK 파일 리스트(자동입력) : ";
+                    mock_image_array_label.style.width = "200px";
+                    mock_image_array_label.style.fontWeight = "bold";
+                    const mock_image_array = document.createElement("input");
+                    mock_image_array.id = "regist-option-mock-image-array";
+                    mock_image_array.style.padding = "5px";
+                    mock_image_array.style.fontSize = "15px";
+                    mock_image_array.style.width = "288px";
+                    mock_image_array.setAttribute("name", "mockupImage");
+                    mock_image_array.setAttribute("readonly", true);
+                    mock_image_array_div.appendChild(mock_image_array_label);
+                    mock_image_array_div.appendChild(mock_image_array);
+
+                    // mock 이미지 base
+                    const mock_image_base_div = document.createElement("div");
+                    mock_image_base_div.style.marginTop = "20px";
+                    const mock_image_base_label = document.createElement("div");
+                    mock_image_base_label.innerText = "MOCK 기본 이미지(?.png) : ";
+                    mock_image_base_label.style.width = "250px";
+                    mock_image_base_label.style.fontWeight = "bold";
+                    const mock_image_base = document.createElement("input");
+                    mock_image_base.type = "file";
+                    mock_image_base.id = "regist-option-mock-image-base";
+                    mock_image_base.style.padding = "5px";
+                    mock_image_base.style.fontSize = "15px";
+                    mock_image_base.style.width = "288px";
+                    mock_image_base.setAttribute("name", "images");
+                    mock_image_base.addEventListener("change", function(e) {
+                        const reader = new FileReader();
+                        let filename = typeof e.target.files[0] === "object" ? e.target.files[0].name : "new_file.png";
+                        // 영역
+                        if(filename.indexOf("_area") > -1) {
+                            filename = filename.substring(0, filename.indexOf("_area")) + filename.substring(filename.indexOf("_area") + "_area".length, filename.length);
+                        }
+                        // 효과
+                        if(filename.indexOf("_effect") > -1) {
+                            filename = filename.substring(0, filename.indexOf("_effect")) + filename.substring(filename.indexOf("_effect") + "_effect".length, filename.length);
+                        }
+                        console.log(filename);
+                        reader.onload = function(event) {
+                            mock_image_base.setAttribute("disabled", true);
+                            const result = event.target.result;
+                            const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
+                            const array = [];
+                            for (let i = 0; i < blob_bin.length; i++) {
+                                array.push(blob_bin.charCodeAt(i));
+                            }
+                            const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+                            popup_regist.getParam().append("images", blob, filename);	            // file data 추가
+
+                            // 사이즈
+                            var size = 0;
+                            for(let pair of popup_regist.getParam().entries()) { size++; }
+                            if(size == 3) {
+                                if(confirm("정말 업로드를 진행하시겠습니다.")) {
+                                    optionImageUpload(popup_regist.getParam());
+                                } else {
+                                    popup_regist.setParam(new FormData());
+                                    mock_image_base.removeAttribute("disabled");
+                                    mock_image_area.removeAttribute("disabled");
+                                    mock_image_effect.removeAttribute("disabled");
+                                }
+                            }
+                        }
+                        reader.readAsDataURL(e.target.files[0]);
+                    });
+                    mock_image_base_div.appendChild(mock_image_base_label);
+                    mock_image_base_div.appendChild(mock_image_base);
+
+                    // mock 이미지 area
+                    const mock_image_area_div = document.createElement("div");
+                    mock_image_area_div.style.marginTop = "20px";
+                    const mock_image_area_label = document.createElement("div");
+                    mock_image_area_label.innerText = "MOCK 범위 이미지(?_area.png) : ";
+                    mock_image_area_label.style.width = "250px";
+                    mock_image_area_label.style.fontWeight = "bold";
+                    const mock_image_area = document.createElement("input");
+                    mock_image_area.type = "file";
+                    mock_image_area.id = "regist-option-mock-image-area";
+                    mock_image_area.style.padding = "5px";
+                    mock_image_area.style.fontSize = "15px";
+                    mock_image_area.style.width = "288px";
+                    mock_image_area.setAttribute("name", "images[1]");
+                    mock_image_area.addEventListener("change", function(e) {
+                        const reader = new FileReader();
+                        let filename = typeof e.target.files[0] === "object" ? e.target.files[0].name : "new_file.png";
+                        // 효과
+                        if(filename.indexOf("_effect") > -1) {
+                            filename = filename.substring(0, filename.indexOf("_effect")) + filename.substring(filename.indexOf("_effect") + "_effect".length, filename.length);
+                        }
+                        // 영역
+                        if(filename.indexOf("_area") == -1) {
+                            filename = filename.substring(0, filename.indexOf(".")) + "_area" + filename.substring(filename.indexOf("."), filename.length);
+                        }
+                        console.log(filename);
+                        reader.onload = function(event) {
+                            mock_image_area.setAttribute("disabled", true);
+                            const result = event.target.result;
+                            const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
+                            const array = [];
+                            for (let i = 0; i < blob_bin.length; i++) {
+                                array.push(blob_bin.charCodeAt(i));
+                            }
+                            const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+                            popup_regist.getParam().append("images", blob, filename);	            // file data 추가
+
+                            // 사이즈
+                            var size = 0;
+                            for(let pair of popup_regist.getParam().entries()) { size++; }
+                            if(size == 3) {
+                                if(confirm("정말 업로드를 진행하시겠습니다.")) {
+                                    optionImageUpload(popup_regist.getParam());
+                                } else {
+                                    popup_regist.setParam(new FormData());
+                                    mock_image_base.removeAttribute("disabled");
+                                    mock_image_area.removeAttribute("disabled");
+                                    mock_image_effect.removeAttribute("disabled");
+                                }
+                            }
+                        }
+                        reader.readAsDataURL(e.target.files[0]);
+                    });
+                    mock_image_area_div.appendChild(mock_image_area_label);
+                    mock_image_area_div.appendChild(mock_image_area);
+
+                    // mock 이미지 effect
+                    const mock_image_effect_div = document.createElement("div");
+                    mock_image_effect_div.style.marginTop = "20px";
+                    const mock_image_effect_label = document.createElement("div");
+                    mock_image_effect_label.innerText = "MOCK 효과 이미지(?_effect.png) : ";
+                    mock_image_effect_label.style.width = "250px";
+                    mock_image_effect_label.style.fontWeight = "bold";
+                    const mock_image_effect = document.createElement("input");
+                    mock_image_effect.type = "file";
+                    mock_image_effect.id = "regist-option-mock-image-effect";
+                    mock_image_effect.style.padding = "5px";
+                    mock_image_effect.style.fontSize = "15px";
+                    mock_image_effect.style.width = "288px";
+                    mock_image_effect.setAttribute("name", "images");
+                    mock_image_effect.addEventListener("change", function(e) {
+                        const reader = new FileReader();
+                        let filename = typeof e.target.files[0] === "object" ? e.target.files[0].name : "new_file.png";
+                        // 영역
+                        if(filename.indexOf("_area") > -1) {
+                            filename = filename.substring(0, filename.indexOf("_area")) + filename.substring(filename.indexOf("_area") + "_area".length, filename.length);
+                        }
+                        // 효과
+                        if(filename.indexOf("_effect") == -1) {
+                            filename = filename.substring(0, filename.indexOf(".")) + "_effect" + filename.substring(filename.indexOf("."), filename.length);
+                        }
+                        console.log(filename);
+                        reader.onload = function(event) {
+                            mock_image_effect.setAttribute("disabled", true);
+                            const result = event.target.result;
+                            const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
+                            const array = [];
+                            for (let i = 0; i < blob_bin.length; i++) {
+                                array.push(blob_bin.charCodeAt(i));
+                            }
+                            const blob = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+                            popup_regist.getParam().append("images", blob, filename);	            // file data 추가
+                            
+                            // 사이즈
+                            var size = 0;
+                            for(let pair of popup_regist.getParam().entries()) { size++; }
+                            if(size == 3) {
+                                if(confirm("정말 업로드를 진행하시겠습니다.")) {
+                                    optionImageUpload(popup_regist.getParam());
+                                } else {
+                                    popup_regist.setParam(new FormData());
+                                    mock_image_base.value = "";
+                                    mock_image_area.value = "";
+                                    mock_image_effect.value = "";
+                                    mock_image_base.removeAttribute("disabled");
+                                    mock_image_area.removeAttribute("disabled");
+                                    mock_image_effect.removeAttribute("disabled");
+                                }
+                            }
+                        }
+                        reader.readAsDataURL(e.target.files[0]);
+                    });
+                    mock_image_effect_div.appendChild(mock_image_effect_label);
+                    mock_image_effect_div.appendChild(mock_image_effect);
+
+                    // 옵션 적용 시작일
+                    const start_date_div = document.createElement("div");
+                    start_date_div.style.marginTop = "20px";
+                    const start_date_label = document.createElement("div");
+                    start_date_label.innerText = "옵션 적용 시작일 : ";
+                    start_date_label.style.width = "200px";
+                    start_date_label.style.fontWeight = "bold";
+                    const start_date = document.createElement("input");
+                    start_date.id = "regist-start-date";
+                    start_date.type = "datetime-local";
+                    start_date.style.padding = "5px";
+                    start_date.style.fontSize = "15px";
+                    start_date.style.width = "288px";
+                    start_date.setAttribute("name", "startDate");
+                    start_date_div.appendChild(start_date_label);
+                    start_date_div.appendChild(start_date);
+
+                    // 옵션 적용 종료일
+                    const end_date_div = document.createElement("div");
+                    end_date_div.style.marginTop = "20px";
+                    const end_date_label = document.createElement("div");
+                    end_date_label.innerText = "옵션 적용 종료일 : ";
+                    end_date_label.style.width = "200px";
+                    end_date_label.style.fontWeight = "bold";
+                    const end_date = document.createElement("input");
+                    end_date.id = "regist-end-date";
+                    end_date.type = "datetime-local";
+                    end_date.style.padding = "5px";
+                    end_date.style.fontSize = "15px";
+                    end_date.style.width = "288px";
+                    end_date.setAttribute("name", "endDate");
+                    end_date_div.appendChild(end_date_label);
+                    end_date_div.appendChild(end_date);
+
+                    // 버튼
+                    const submit_btn = document.createElement("div");
+                    submit_btn.innerText = "등록";
+                    submit_btn.style.width = "100px";
+                    submit_btn.style.minHeight = "40px";
+                    submit_btn.style.marginTop = "20px";
+                    submit_btn.style.marginBottom = "20px";
+                    submit_btn.style.backgroundColor = "#FFFFFF";
+                    submit_btn.style.border = "1px solid #e2e2e2";
+                    submit_btn.style.display = "flex";
+                    submit_btn.style.justifyContent = "center";
+                    submit_btn.style.alignItems = "center";
+                    submit_btn.style.cursor = "pointer";
+                    submit_btn.addEventListener("click", function(e) {
+                        e.preventDefault();
+
+                        // 하나씩 파싱해서 데이터 저장
+                        const form = document.querySelector("#option-regist");
+                        const option_name1 = form.querySelector("#regist-option-name1").value;
+                        const option_name2 = form.querySelector("#regist-option-name2").value;
+                        const option_cost = form.querySelector("#regist-option-cost").value;
+                        const option_price = form.querySelector("#regist-option-price").value;
+                        const image_path = form.querySelector("#regist-option-image-path").value;
+                        const mock_filling = form.querySelector("#regist-option-mock-filling").value;
+                        const mock_height = form.querySelector("#regist-option-mock-height").value;
+                        const mock_width = form.querySelector("#regist-option-mock-width").value;
+                        const mock_top = form.querySelector("#regist-option-mock-top").value;
+                        const mock_left = form.querySelector("#regist-option-mock-left").value;
+                        const mock_image_array = form.querySelector("#regist-option-mock-image-array").value.split(",");
+                        const start_date = form.querySelector("#regist-start-date").value;
+                        const end_date = form.querySelector("#regist-end-date").value;
+
+                        var data = new FormData();
+
+                        if(option_name1 !== "") {
+                            data.append("optionName1", option_name1);
+                        }
+                        if(option_name2 !== "") {
+                            data.append("optionName2", option_name2);
+                        }
+                        if(option_cost !== "") {
+                            data.append("cost", option_cost);
+                        }
+                        if(option_price !== "") {
+                            data.append("price", option_price);
+                        }
+                        if(image_path !== "") {
+                            data.append("imagePath", image_path);
+                        }
+                        if(mock_filling !== "") {
+                            data.append("mockFilling", mock_filling);
+                        }
+                        if(mock_height !== "") {
+                            data.append("mockHeight", mock_height);
+                        }
+                        if(mock_width !== "") {
+                            data.append("mockWidth", mock_width);
+                        }
+                        if(mock_top !== "") {
+                            data.append("mockTop", mock_top);
+                        }
+                        if(mock_left !== "") {
+                            data.append("mockLeft", mock_left);
+                        }
+                        if(typeof mock_image_array === "object") {
+                            for(mock_image of mock_image_array) {
+                                data.append("mockupImage", mock_image);
+                            }
+                        }
+                        if(start_date !== "") {
+                            data.append("startDate", moment(start_date).format("YYYYMMDDHHmmss").trim());
+                        }
+                        if(end_date !== "") {
+                            data.append("endDate", moment(end_date).format("YYYYMMDDHHmmss").trim());
+                        }
+                        data.append("guideline", "-");
+                        data.append("packageId", window.location.search.substring(1).split("=")[1]);
+                        data.append("status", 'Y');
+
+                        sendRegist(data);
+                    });
+
+                    // 데이터 전송
+                    function sendRegist(data) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    const id = window.location.search.substring(1).split("=")[1];
+                                    const result = JSON.parse(xhr.responseText);
+                                    fetch(id);
+                                    popup_regist.close();
+                                    alert("등록에 성공하였습니다.");
+                                    popup_regist.setParam(new FormData());
+                                    mock_image_base.value = "";
+                                    mock_image_area.value = "";
+                                    mock_image_effect.value = "";
+                                    mock_image_base.removeAttribute("disabled");
+                                    mock_image_area.removeAttribute("disabled");
+                                    mock_image_effect.removeAttribute("disabled");
+                                } else {
+                                    alert("등록에 실패하였습니다.");
+                                }
+                            }
+                        }
+                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/option", true);
+                        xhr.send(data);
+                    }
+
+                    form.appendChild(title_div);
+                    form.appendChild(option_name1_div);
+                    form.appendChild(option_name2_div);
+                    form.appendChild(cost_div);
+                    form.appendChild(price_div);
+                    form.appendChild(image_path_div);
+                    form.appendChild(mock_filling_div);
+                    form.appendChild(mock_height_div);
+                    form.appendChild(mock_width_div);
+                    form.appendChild(mock_top_div);
+                    form.appendChild(mock_left_div);
+                    form.appendChild(mock_image_array_div);
+                    form.appendChild(mock_image_base_div);
+                    form.appendChild(mock_image_area_div);
+                    form.appendChild(mock_image_effect_div);
+                    form.appendChild(start_date_div);
+                    form.appendChild(end_date_div);
+                    form.appendChild(submit_btn);
+
+                    popup.appendChild(form);
+
+                    // [서비스] 옵션 이미지 업로드
+                    function optionImageUpload(data) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(e) {
+                            if (xhr.readyState == 4) {
+                                if(xhr.status == 200) {
+                                    const result = JSON.parse(xhr.responseText);
+                                    // 값 등록
+                                    image_path.value = result.result.imagePath;
+                                    mock_image_array.value = result.result.fileNames.join();
+                                    console.log(result);
+                                    alert("업로드에 성공하였습니다.");
+                                } else {
+                                    const result = JSON.parse(xhr.responseText);
+                                    alert("업로드에 실패하였습니다.\n" + result.message);
+                                    popup_regist.setParam(new FormData());
+                                    mock_image_base.value = "";
+                                    mock_image_area.value = "";
+                                    mock_image_effect.value = "";
+                                    mock_image_base.removeAttribute("disabled");
+                                    mock_image_area.removeAttribute("disabled");
+                                    mock_image_effect.removeAttribute("disabled");
+                                }
+                            }
+                        }
+                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/upload/packageOptions", true);
+                        xhr.send(data);
+                    }
+                });
+
+                // [버튼] 등록
+                document.querySelector("#option-regist-btn").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    popup_regist.open();
+                });
+
+                // 수정 팝업
             }
         </script>
     </head>

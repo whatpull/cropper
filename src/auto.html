@@ -96,15 +96,18 @@
                                                 height: parseFloat(option.mockHeight)
                                             }, palette_color);
                                             temp.init();
-                                            temp.setParam({
-                                                "packageId": packageId,
-                                                "packageCreatorId": packageCreatorId,
-                                                "packageName": packageName,
-                                                "optionName1": option.optionName1,
-                                                "optionName2": option.optionName2
-                                            });
-
-                                            console.log(temp.getParam());
+                                            temp.setParam(
+                                                {
+                                                    "packageId": packageId,
+                                                    "packageCreatorId": packageCreatorId,
+                                                    "packageName": packageName
+                                                },
+                                                {
+                                                    "optionId": option.id,
+                                                    "optionName1": option.optionName1,
+                                                    "optionName2": option.optionName2
+                                                }
+                                            );
                                             // 활용 데이터 입력
                                             croppers.push(temp);
                                         }
@@ -135,9 +138,9 @@
                                     const options = result.result.packageOptions;
                                     for(option of options) {
                                         let path = option.imagePath;
-                                        const mock_img = option.mockupImage.find(item => item.indexOf("effect") == -1 && item.indexOf("area") == -1);
-                                        const area_img = option.mockupImage.find(item => item.indexOf("area") > -1);
-                                        const effect_img = option.mockupImage.find(item => item.indexOf("effect") > -1);
+                                        const mock_img = option.mockupImage.find(item => item.indexOf("_effect") == -1 && item.indexOf("_area") == -1);
+                                        const area_img = option.mockupImage.find(item => item.indexOf("_area") > -1);
+                                        const effect_img = option.mockupImage.find(item => item.indexOf("_effect") > -1);
                                         const color_code = option.mockFilling;
 
                                         if(host === "127.0.0.1:5500" 
@@ -160,13 +163,18 @@
                                             height: parseFloat(option.mockHeight)
                                         }, palette_color);
                                         temp.init();
-                                        temp.setParam({
-                                            "packageId": packageId,
-                                            "packageCreatorId": packageCreatorId,
-                                            "packageName": packageName,
-                                            "optionName1": option.optionName1,
-                                            "optionName2": option.optionName2
-                                        });
+                                        temp.setParam(
+                                            {
+                                                "packageId": packageId,
+                                                "packageCreatorId": packageCreatorId,
+                                                "packageName": packageName
+                                            },
+                                            {
+                                                "optionId": option.id,
+                                                "optionName1": option.optionName1,
+                                                "optionName2": option.optionName2
+                                            }
+                                        );
                                         croppers.push(temp);
                                     }
                                     resolve("success");
@@ -291,7 +299,7 @@
                     let temp_array = {"param": []};
                     for(cropper of croppers) {
                         cropper.setBlob(); // 이미지 데이터 변수에 저장
-                        const param = cropper.getParam();
+                        const param = cropper.getDistinctParam();
                         temp_array.param.push(param);
                     }
                     temp_array = common.uniqueArray(temp_array);
@@ -359,15 +367,16 @@
                                     // 상품 생성[프로덕트 아이디를 일치시키위한 작업]
                                     const promise_array = [];
                                     for(cropper of croppers) {
-                                        if(JSON.stringify(temp) === JSON.stringify(cropper.getParam())) {
+                                        if(JSON.stringify(temp) === JSON.stringify(cropper.getDistinctParam())) {
                                             // 변수 생성
                                             const param = new FormData();
                                             param.append("productId", productId);
                                             param.append('optionName1', cropper.getParam().optionName1);
                                             param.append("optionName2", cropper.getParam().optionName2);
-                                            param.append('image', cropper.getParam().image, "option_thumbnail.png");
+                                            param.append('image', cropper.getDistinctParam().image, "option_thumbnail.png");
                                             param.append("startDate", startDate);
                                             param.append("endDate", endDate);
+                                            param.append("status", "Y");
                                             
                                             promise_array.push(postOption(param));
                                         }
