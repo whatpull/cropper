@@ -99,7 +99,7 @@
                             asset_img: undefined,
                             effect_img: path + effect_img,
                             color_code: color_code,
-                            canvas_size: "200px"
+                            canvas_size: "250px"
                         }, {
                             top: parseFloat(option.mockTop),
                             left: parseFloat(option.mockLeft),
@@ -109,19 +109,17 @@
                         temp.init();
                         temp.setParam(undefined, option);
 
-                        // 수정버튼 넣을 방법 확인
                         // 옵션데이터 넣을 방법 확인
                         const edit_btn = document.createElement("div");
-                        edit_btn.innerText = "EDIT";
+                        edit_btn.innerText = "";
                         edit_btn.style.position = "absolute";
-                        edit_btn.style.bottom = "0px";
-                        edit_btn.style.right = "0px";
-                        edit_btn.style.width = "100px";
+                        edit_btn.style.top = "20px";
+                        edit_btn.style.right = "20px";
+                        edit_btn.style.width = "20px";
                         edit_btn.style.minHeight = "20px";
-                        edit_btn.style.backgroundColor = "#4286f4";
+                        edit_btn.style.backgroundColor = "#8fd5b5";
+                        edit_btn.style.borderRadius = "50%";
                         edit_btn.style.color = "#FFFFFF";
-                        edit_btn.style.borderTop = "1px solid #e2e2e2";
-                        edit_btn.style.borderLeft = "1px solid #e2e2e2";
                         edit_btn.style.display = "flex";
                         edit_btn.style.justifyContent = "center";
                         edit_btn.style.alignItems = "center";
@@ -151,7 +149,23 @@
                             console.log(temp.getParam());
                         });
                         const target = temp.getTarget();
+
+                        const hover_div = document.createElement("div");
+                        hover_div.classList.add("hover-div");
+
+                        const hover_option_name = document.createElement("div");
+                        hover_option_name.classList.add("hover-option-name");
+                        hover_option_name.innerText = option.optionName1 + " - " + option.optionName2;
+
+                        const hover_option_package_creator = document.createElement("div");
+                        hover_option_package_creator.classList.add("hover-option-package-creator");
+                        hover_option_package_creator.innerText = data.packageCreator.name;
+
+                        hover_div.appendChild(hover_option_name);
+                        hover_div.appendChild(hover_option_package_creator);
+
                         target.appendChild(edit_btn);
+                        target.appendChild(hover_div);
                     }
                 }
 
@@ -1406,11 +1420,15 @@
             <div class="content">
                 <div class="info">
                     <div class="package">
-                        <div id="package-thumbnail" class="thumbnail"></div>
-                        <div id="package-name" class="name"></div>
-                        <div id="package-creator" class="creator"></div>
+                        <!-- <div id="package-thumbnail" class="thumbnail"></div> -->
+                        <div class="package-data">
+                            <div id="package-creator" class="creator"></div>
+                            <div id="package-name" class="name"></div>
+                        </div>
                     </div>
-                    <div id="option-regist-btn" class="option-regist-btn">옵션 등록</div>
+                    <div class="upload">
+                        <div id="option-regist-btn" class="option-regist-btn">옵션 등록</div>
+                    </div>
                 </div>
                 <div class="data">
                     <div id="option-list" class="option-list editor">
