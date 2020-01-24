@@ -71,12 +71,13 @@
                     column_05.innerText = item.corpRegNo;
                     column_05.classList.add("ac-table-column");
 
-                    const btn_detail = document.createElement("div");
-                    // btn_detail.id = "ac-btn-detail";
-                    btn_detail.setAttribute("data-id", item.id);
-                    btn_detail.innerText = "수정";
-                    btn_detail.classList.add("ac-table-btn-editor");
-                    btn_detail.addEventListener("click", function(e) {
+                    const btn_editor = document.createElement("div");
+                    // btn_editor.id = "ac-btn-detail";
+                    btn_editor.setAttribute("data-id", item.id);
+                    btn_editor.innerText = "수정";
+                    btn_editor.classList.add("btn");
+                    btn_editor.classList.add("ac-table-btn-editor");
+                    btn_editor.addEventListener("click", function(e) {
                         e.preventDefault();
                         // popup 수정
                         const form = document.querySelector("#maker-editor");
@@ -97,7 +98,7 @@
                     column_06.id = "ac-maker-setting";
                     column_06.style.width = "150px";
                     column_06.classList.add("ac-table-column");
-                    column_06.appendChild(btn_detail);
+                    column_06.appendChild(btn_editor);
 
                     row.appendChild(column_01);
                     row.appendChild(column_02);
@@ -659,22 +660,26 @@
                 </div>
             </div>
             <div class="content">
-                <div id="ac-btn-regist" class="ac-table-btn-regist">
-                    등록
-                </div>
-                <div id="ac-table-paging" class="ac-table-paging">
-
-                </div>
-                <div id="ac-table-head" class="ac-table-head">
-                    <div class="column">번호</div>
-                    <div class="column">이름</div>
-                    <div class="column">연락처</div>
-                    <div class="column">이메일</div>
-                    <div class="column">사업자 번호</div>
-                    <div class="column">관리</div>
-                </div>
-                <div id="ac-table" class="ac-table">
-
+                <div class="ac-table">
+                    <div class="ac-table-tool">
+                        <div id="ac-btn-regist" class="ac-table-btn-regist">
+                            등록 +
+                        </div>
+                    </div>
+                    <div id="ac-table-head" class="ac-table-head">
+                        <div class="column">번호</div>
+                        <div class="column">이름</div>
+                        <div class="column">연락처</div>
+                        <div class="column">이메일</div>
+                        <div class="column">사업자 번호</div>
+                        <div class="column">관리</div>
+                    </div>
+                    <div id="ac-table-body" class="ac-table-body">
+    
+                    </div>
+                    <div id="ac-table-paging" class="ac-table-paging">
+    
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,45 +1,72 @@
 .ac-table {
-    width: fit-content;
-    border: 1px solid #e2e2e2;
+    min-width: 1024px;
+    max-width: 1024px;
 }
 
-.ac-table .ac-table-row {
-    height: 80px;
-    border-bottom: 1px solid #e2e2e2;
+.ac-table-body {
+    width: 100%;
+    font-family: NotoSansCJKkr;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    color: #4d4d4d;
+}
+
+.ac-table-body .ac-table-row {
+    height: 60px;
+    box-shadow: inset 0 -1px 0 0 #d5d5d5;
     display: flex;
 }
 
-.ac-table .ac-table-row:last-child {
+.ac-table-body .ac-table-row:last-child {
     border-bottom: none;
 }
 
-.ac-table .ac-table-row .ac-table-column {
+.ac-table-body .ac-table-row .ac-table-column {
+    flex: 1;
     height: 100%;
-    border-right: 1px solid #e2e2e2;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.ac-table .ac-table-row .ac-table-column:last-child {
+.ac-table-body .ac-table-row .ac-table-column:last-child {
     border-right: 0px;
 }
 
-.ac-table .ac-table-row .ac-table-column .ac-table-btn-detail,
-.ac-table .ac-table-row .ac-table-column .ac-table-btn-editor,
-.ac-table .ac-table-row .ac-table-column .ac-table-btn-download {
-    width: 100px;
-    height: 40px;
+.ac-table-body .ac-table-row .ac-table-column .btn {
+    width: 33px;
+    height: 23px;
+    border-radius: 16px;
+    border: solid 1.1px #8fd5b5;
+    font-family: NotoSansCJKkr;
+    font-size: 11px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #8fd5b5;
+}
+
+.ac-table-body .ac-table-row .ac-table-column .ac-table-btn-detail,
+.ac-table-body .ac-table-row .ac-table-column .ac-table-btn-editor,
+.ac-table-body .ac-table-row .ac-table-column .ac-table-btn-download {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    border: 1px solid #e2e2e2;
 }
 
 .ac-table-paging {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    margin-top: 65px;
 }
 
 .ac-table-paging .btn {
@@ -49,33 +76,76 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    font-family: NotoSansCJKkr;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #878787;
 }
 
 .ac-table-paging .btn.disabled {
     opacity: 0.5;
 }
 
-.ac-table-paging .btn-num.active{
-    color: #4286f4;
+.ac-table-paging .btn-num.active {
+    border-radius: 50%;
+    background-color: #8fd5b5;
+    color: #ffffff;
     font-weight: bold;
 }
 
 .ac-table-head {
+    width: 100%;
     display: flex;
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #4d4d4d;
 }
 
 .ac-table-head .column {
-    border: 1px solid #e2e2e2;
-    background-color: #fafafa;
+    flex: 1;
+    background-color: #ebebeb;
     border-bottom: none;
     border-right: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
+    height: 65px;
     font-weight: bold;
 }
 
-.ac-table-head .column:last-child {
-    border-right: 1px solid #e2e2e2;
+.ac-table-tool {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ac-table .ac-table-tool .ac-table-btn-regist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 110px;
+    height: 45px;
+    border-radius: 22px;
+    background-color: #8fd5b5;
+    font-family: NotoSansCJKkr;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
 }

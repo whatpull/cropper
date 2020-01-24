@@ -67,8 +67,10 @@
                     const btn_download = document.createElement("div");
                     btn_download.id = "ac-btn-download";
                     btn_download.style.marginRight = "10px";
+                    btn_download.style.width = "53px";
                     btn_download.setAttribute("data-url", item.productImagePath);
                     btn_download.innerText = "다운로드";
+                    btn_download.classList.add("btn");
                     btn_download.classList.add("ac-table-btn-download");
                     btn_download.addEventListener("click", function(e) {
                         e.preventDefault();
@@ -93,6 +95,7 @@
                     btn_detail.id = "ac-btn-detail";
                     btn_detail.setAttribute("data-id", item.id);
                     btn_detail.innerText = "상세";
+                    btn_detail.classList.add("btn");
                     btn_detail.classList.add("ac-table-btn-detail");
                     btn_detail.addEventListener("click", function(e) {
                         e.preventDefault();
@@ -192,19 +195,26 @@
                 </div>
             </div>
             <div class="content">
-                <div id="ac-table-paging" class="ac-table-paging">
-
-                </div>
-                <div id="ac-table-head" class="ac-table-head">
-                    <div class="column">번호</div>
-                    <div class="column">상품명</div>
-                    <div class="column">크리에이터</div>
-                    <div class="column">상태</div>
-                    <div class="column">제조사</div>
-                    <div class="column">관리</div>
-                </div>
-                <div id="ac-table" class="ac-table">
-
+                <div class="ac-table">
+                    <div class="ac-table-tool">
+                        <div id="ac-btn-regist" class="ac-table-btn-regist">
+                            등록
+                        </div>
+                    </div>
+                    <div id="ac-table-head" class="ac-table-head">
+                        <div class="column">번호</div>
+                        <div class="column">상품명</div>
+                        <div class="column">크리에이터</div>
+                        <div class="column">상태</div>
+                        <div class="column">제조사</div>
+                        <div class="column">관리</div>
+                    </div>
+                    <div id="ac-table-body" class="ac-table-body">
+    
+                    </div>
+                    <div id="ac-table-paging" class="ac-table-paging">
+    
+                    </div>
                 </div>
             </div>
         </div>

@@ -59,6 +59,7 @@
                     btn_detail.id = "ac-btn-detail";
                     btn_detail.setAttribute("data-id", item.id);
                     btn_detail.innerText = "상세";
+                    btn_detail.classList.add("btn");
                     btn_detail.classList.add("ac-table-btn-detail");
                     btn_detail.addEventListener("click", function(e) {
                         e.preventDefault();
@@ -347,20 +348,24 @@
                 </div>
             </div>
             <div class="content">
-                <div id="ac-btn-regist" class="ac-table-btn-regist">
-                    등록
-                </div>
-                <div id="ac-table-paging" class="ac-table-paging">
-
-                </div>
-                <div id="ac-table-head" class="ac-table-head">
-                    <div class="column">번호</div>
-                    <div class="column">아이디</div>
-                    <div class="column">이름</div>
-                    <div class="column">관리</div>
-                </div>
-                <div id="ac-table" class="ac-table">
-
+                <div class="ac-table">
+                    <div class="ac-table-tool">
+                        <div id="ac-btn-regist" class="ac-table-btn-regist">
+                            등록 +
+                        </div>
+                    </div>
+                    <div id="ac-table-head" class="ac-table-head">
+                        <div class="column">번호</div>
+                        <div class="column">아이디</div>
+                        <div class="column">이름</div>
+                        <div class="column">관리</div>
+                    </div>
+                    <div id="ac-table-body" class="ac-table-body">
+    
+                    </div>
+                    <div id="ac-table-paging" class="ac-table-paging">
+    
+                    </div>
                 </div>
             </div>
         </div>

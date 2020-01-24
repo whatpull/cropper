@@ -24,19 +24,19 @@ Table.prototype.paging = function(currentPage, callback, option1) {
     const next = currentPage + 1;
 
     // [버튼] 블락
-    const prev_block_div = document.createElement("div");
-    prev_block_div.id = "prev-block";
-    prev_block_div.innerText = "<<";
-    prev_block_div.classList.add("btn", "btn-prev-block");
-    target.appendChild(prev_block_div);
-    if(prev_block > 0) { // append prev
-        prev_block_div.addEventListener("click", function(e) {
-            e.preventDefault();
-            this.body("page=" + (Number(prev_block) - 1), callback, option1);
-        }.bind(this));
-    } else {
-        prev_block_div.classList.add("disabled");
-    }
+    // const prev_block_div = document.createElement("div");
+    // prev_block_div.id = "prev-block";
+    // prev_block_div.innerText = "<<";
+    // prev_block_div.classList.add("btn", "btn-prev-block");
+    // target.appendChild(prev_block_div);
+    // if(prev_block > 0) { // append prev
+    //     prev_block_div.addEventListener("click", function(e) {
+    //         e.preventDefault();
+    //         this.body("page=" + (Number(prev_block) - 1), callback, option1);
+    //     }.bind(this));
+    // } else {
+    //     prev_block_div.classList.add("disabled");
+    // }
 
     // [버튼] 이전
     const prev_div = document.createElement("div");
@@ -83,26 +83,26 @@ Table.prototype.paging = function(currentPage, callback, option1) {
     }
 
     // [버튼] 블락
-    const next_block_div = document.createElement("div");
-    next_block_div.id = "next-block";
-    next_block_div.innerHTML = ">>";
-    next_block_div.classList.add("btn", "btn-next-block");
-    target.appendChild(next_block_div);
-    if(last < this.totalPages) { // append next
-        next_block_div.addEventListener("click", function(e) {
-            e.preventDefault();
-            this.body("page=" + (Number(next_block) - 1), callback, option1);
-        }.bind(this));
-    } else {
-        next_block_div.classList.add("disabled");
-    }
+    // const next_block_div = document.createElement("div");
+    // next_block_div.id = "next-block";
+    // next_block_div.innerHTML = ">>";
+    // next_block_div.classList.add("btn", "btn-next-block");
+    // target.appendChild(next_block_div);
+    // if(last < this.totalPages) { // append next
+    //     next_block_div.addEventListener("click", function(e) {
+    //         e.preventDefault();
+    //         this.body("page=" + (Number(next_block) - 1), callback, option1);
+    //     }.bind(this));
+    // } else {
+    //     next_block_div.classList.add("disabled");
+    // }
 
     // 활성화된 페이지
     document.querySelector("#num-"+currentPage).classList.add("active");
 }
 
 Table.prototype.body = function(page, callback, option1) {
-    const target = document.querySelector("#ac-table");
+    const target = document.querySelector("#ac-table-body");
     target.innerHTML = "";
 
     var xhr = new XMLHttpRequest();

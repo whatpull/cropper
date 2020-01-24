@@ -28,11 +28,11 @@
 .select-selected:after {
     position: absolute;
     content: "";
-    top: 19px;
+    top: 20px;
     right: 10px;
     width: 0;
     height: 0;
-    border: 9px solid transparent;
+    border: 6px solid transparent;
     border-color: #8fd5b5 transparent transparent transparent;
     transition: all ease 0.5s;
 }
@@ -41,7 +41,7 @@
 .select-selected.select-arrow-active:after {
     border-color: transparent transparent #8fd5b5 transparent;
     /* transform: rotate( 180deg ); */
-    top: 10px;
+    top: 12px;
 }
 
 /* 옵션 아이템: */
