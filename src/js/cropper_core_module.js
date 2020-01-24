@@ -138,7 +138,7 @@ Cropper.prototype.init = function() {
     this.mode_div.id = "mode-div";
     this.mode_div.innerText = mode_title;
     if(this.data_set.mode === "autopacking") {
-        this.target.appendChild(this.mode_div);
+        // this.target.appendChild(this.mode_div);
     }
 
     // [생성] 편집 기능

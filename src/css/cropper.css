@@ -21,6 +21,11 @@ body {
     /* padding: 0px 70px 0px 0px; */
 }
 
+/* 마지막 요소 - 마진 제거 */
+.cropper:last-child {
+    margin-bottom: 0px !important;
+}
+
 .cropper #loader {
     position: absolute;
     z-index: 2;

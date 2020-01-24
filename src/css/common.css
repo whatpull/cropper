@@ -8,14 +8,16 @@ body {
 
 /* 스크롤바 */
 ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 12px;
+    height: 12px;
 }
 ::-webkit-scrollbar-thumb {
     border: 2px solid rgba(0, 0, 0, 0);
     background-clip: padding-box;
-    border-radius: 5.5px;
-    background-color: rgba(142, 142, 142, 0.9);
+    /* border-radius: 5.5px; */
+    /* background-color: rgba(142, 142, 142, 0.9); */
+    border-radius: 3px;
+    background-color: #d0e9da;
 }
 ::-webkit-scrollbar-button {
     display: none;
@@ -144,7 +146,6 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
 }
 
 .ac .nav {
