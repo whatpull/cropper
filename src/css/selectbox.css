@@ -1,7 +1,16 @@
 .ac-selector {
     position: relative;
     font-family: Arial;
-    box-shadow: 0 0 0 1px #e2e2e2 inset; 
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px #8fd5b5 inset;
+    font-family: NotoSansCJKkr;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #878787;
 }
 
 .ac-selector select {
@@ -11,7 +20,7 @@
 .select-selected {
     /* background-color: rgb(172, 172, 172); */
     background-color: transparent;
-    text-align: right !important;
+    text-align: left !important;
     margin-right: 10px;
 }
 
@@ -19,20 +28,20 @@
 .select-selected:after {
     position: absolute;
     content: "";
-    top: 15px;
+    top: 19px;
     right: 10px;
     width: 0;
     height: 0;
-    border: 6px solid transparent;
-    border-color: #1c1c1c transparent transparent transparent;
+    border: 9px solid transparent;
+    border-color: #8fd5b5 transparent transparent transparent;
     transition: all ease 0.5s;
 }
 
 /* 블릿(활성화): */
 .select-selected.select-arrow-active:after {
-    border-color: transparent transparent #1c1c1c transparent;
+    border-color: transparent transparent #8fd5b5 transparent;
     /* transform: rotate( 180deg ); */
-    top: 7px;
+    top: 10px;
 }
 
 /* 옵션 아이템: */
@@ -44,9 +53,9 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: -0.3px;
-    text-align: right;
+    text-align: left;
     color: #6c6c6c;
-    padding: 8px 24px;
+    padding: 15px 24px;
     cursor: pointer;
     text-align: left;
 }
@@ -55,13 +64,13 @@
 .select-items {
     position: absolute;
     background-color: #ffffff;
-    top: 100%;
+    top: calc(100% - 5px);
     left: 0;
     right: 0;
     z-index: 99;
     max-height: 215px;
     overflow: auto;
-    border: 1px solid #e1e1e1;
+    box-shadow: 3px 3px 9px 0 rgba(0, 0, 0, 0.08);
 }
 
 /* 닫기: */

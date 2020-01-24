@@ -1,30 +1,51 @@
 .ac .nav .nav-body .nav-body-content .ac-info {
-    margin-top: 10px;
-    border: 1px solid #e2e2e2;
+    margin-top: 40px;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    font-family: NotoSansCJKkr;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
 }
 
 .ac .nav .nav-body .nav-body-content .ac-info-button {
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid #e2e2e2;
+    width: 183px;
+    border-radius: 27.5px;
+    background-color: #8fd5b5;
+    margin: 20px auto 0 auto;
+    padding: 15px;
+    color: #ffffff;
     text-align: center;
     cursor: pointer;
+    font-family: NotoSansCJKkr;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #f8f8f8;
 }
 
 .ac .nav .nav-body .nav-body-content .ac-info .ac-info-item {
-    border-bottom: 1px solid #e2e2e2;
-    font-size: 12px;
-    padding: 10px;
+    box-shadow: inset 0 -1px 0 0 #ebebeb;
+    padding: 11px 15px;
     display: flex;
     flex-direction: row;
+    color: #54b689;
 }
 
 .ac .nav .nav-body .nav-body-content .ac-info .ac-info-item .value {
     flex: 1;
     text-align: right;
     text-transform: uppercase;
+    color: #4d4d4d;
 }
 
 .ac .nav .nav-body .nav-body-content .ac-info .ac-info-item:last-child {
-    border-bottom: none;
+    box-shadow: none;
 }
