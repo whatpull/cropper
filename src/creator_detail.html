@@ -192,7 +192,7 @@
                 function parsing(data) {
                     document.querySelector("#profile-id").innerText = data.userId;
                     document.querySelector("#profile-name").innerText = data.creatorName;
-                    document.querySelector("#accounts-info").innerText = data.productCreatorAccounts[0].bankName + " | " + data.productCreatorAccounts[0].ownerName;
+                    document.querySelector("#accounts-info").innerText = data.productCreatorAccounts[0].bankName;
                     document.querySelector("#accounts-no").innerHTML = data.productCreatorAccounts[0].accountNo;
                 }
 
@@ -312,18 +312,24 @@
                 <div class="info">
                     <div class="profile">
                         <div id="profile-thumbnail" class="thumbnail"></div>
-                        <div id="profile-id" class="id">account</div>
-                        <div id="profile-name" class="name"></div>
+                        <div class="profile-data">
+                            <div class="profiles">
+                                <div id="profile-id" class="id"></div>
+                                <div id="profile-name" class="name"></div>
+                            </div>
+                            <div class="accounts">
+                                <div id="accounts-info" class="info"></div>
+                                <div id="accounts-no" class="number"></div>
+                                <div id="accounts-regist-btn" class="accounts-regist-btn"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="accounts">
-                        <div id="accounts-info"></div>
-                        <div id="accounts-no"></div>
+                    <div class="upload">
+                        <input id="asset-file" type="file"/>
+                        <div id="asset-file-btn" class="asset-file-btn">파일 업로드 + </div>
                     </div>
-                    <div id="accounts-regist-btn" class="accounts-regist-btn">계좌 수정</div>
                 </div>
                 <div class="data">
-                    <input id="asset-file" type="file"/>
-                    <div id="asset-file-btn" class="asset-file-btn">파일 업로드</div>
                     <div id="asset-list" class="asset-list">
                     </div>
                 </div>

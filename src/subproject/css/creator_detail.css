@@ -1,6 +1,8 @@
 .ac .wrapper .content {
+    height: calc(100vh - 205px);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    padding: 50px;
 }
 
 .ac .nav .nav-head .nav-head-expander {
@@ -8,93 +10,153 @@
 }
 
 .ac .wrapper .content .info {
-    flex: 0 0 300px;
-    border-right: 1px solid #e2e2e2;
-    padding: 20px;
+    display: flex;
+    flex-direction: row;
 }
 
 .ac .wrapper .content .info .profile {
+    flex: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 20px;
     /* border: 1px solid #e2e2e2; */
-    background-color: #fafafa;
     border-radius: 10px;
 }
 
-.ac .wrapper .content .info .profile .thumbnail {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 3px solid #e2e2e2;
-    background-color: #ffffff;
-}
-
-.ac .wrapper .content .info .profile .id {
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-.ac .wrapper .content .info .profile .name {
-    margin-top: 10px;
-}
-
-.ac .wrapper .content .info .accounts {
-    margin-top: 10px;
+.ac .wrapper .content .info .upload {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #e2e2e2;
-    padding: 10px;
+    align-items: flex-end;
 }
 
-.ac .wrapper .content .info .accounts-regist-btn {
-    margin-top: 10px;
-    height: 40px;
-    border: 1px solid #e2e2e2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.ac .wrapper .content .data {
-    flex: 1;
-    padding: 20px;
-}
-
-.ac .wrapper .content .data #asset-file {
+.ac .wrapper .content .info .upload #asset-file {
     width: 0px;
     height: 0px;
     display: none;
 }
 
-.ac .wrapper .content .data .asset-file-btn {
-    width: 140px;
-    height: 40px;
-    border: 1px solid #e2e2e2;
+.ac .wrapper .content .info .upload .asset-file-btn {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    width: 140px;
+    height: 45px;
+    border-radius: 22px;
+    background-color: #8fd5b5;
+    font-family: NotoSansCJKkr;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+}
+
+.ac .wrapper .content .info .profile .thumbnail {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: #d5d5d5;
+    margin-right: 10px;
+}
+
+.ac .wrapper .content .info .profile .profile-data {
+    flex: 1;
+}
+
+.ac .wrapper .content .info .profile .profile-data .profiles {
+    display: flex;
+    flex-direction: row;
+}
+
+.ac .wrapper .content .info .profile .profile-data .accounts {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+}
+
+.ac .wrapper .content .info .profile .profile-data .profiles .id {
+    margin-right: 5px;
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #4d4d4d;
+}
+
+.ac .wrapper .content .info .profile .profile-data .profiles .name {
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #878787;
+}
+
+.ac .wrapper .content .info .profile .profile-data .accounts .info {
+    margin-right: 5px;
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #878787;
+}
+
+.ac .wrapper .content .info .profile .profile-data .accounts .number {
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #878787;
+}
+
+.ac .wrapper .content .info .accounts-regist-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: solid 0.8px #8fd5b5;
+    background-color: #8fd5b5;
+    margin-left: 5px;
+}
+
+.ac .wrapper .content .data {
+    flex: 1;
+    margin-top: 45px;
 }
 
 .ac .wrapper .content .data .asset-list {
-    margin-top: 20px;
-    width: 100%;
+    width: calc(100% - 150px);
+    height: calc(100% - 150px);
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid #e2e2e2;
-    background-color: #fafafa;
+    border-radius: 5px;
+    background-color: #ffffff;
+    padding: 75px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .ac .wrapper .content .data .asset-list .asset-item {
-    width: 200px;
-    height: 200px;
-    border: 1px solid #e2e2e2;
+    width: 250px;
+    height: 250px;
+    border: 1px solid #ebebeb;
     background-color: #ffffff;
-    margin: 10px;
+    margin-right: 45px;
 }
