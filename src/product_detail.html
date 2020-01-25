@@ -56,8 +56,7 @@
                 function parsing(data) {
                     document.querySelector("#product-thumbnail").style.backgroundImage = "url('" + data.productImagePath + "')";
                     document.querySelector("#product-name").innerText = data.name;
-                    document.querySelector("#product-creator").innerText = data.creatorName;
-                    document.querySelector("#product-package-creator").innerHTML = data.packageCreatorName;
+                    document.querySelector("#product-creator").innerText = data.creatorName + " ‧ " + data.packageCreatorName;
                     document.querySelector("#product-cost").innerText = common.numberWithCommas(data.productPrice.cost) + "원";
                     document.querySelector("#product-price").innerHTML = common.numberWithCommas(data.productPrice.price) + "원";
 
@@ -74,21 +73,21 @@
                         }
 
                         const download_btn = document.createElement("div");
-                        download_btn.innerText = "DOWNLOAD";
+                        download_btn.innerText = "";
                         download_btn.setAttribute("data-url", img);
                         download_btn.style.position = "absolute";
-                        download_btn.style.bottom = "0px";
-                        download_btn.style.right = "0px";
-                        download_btn.style.width = "100px";
+                        download_btn.style.top = "50px";
+                        download_btn.style.right = "20px";
+                        download_btn.style.width = "20px";
                         download_btn.style.minHeight = "20px";
-                        download_btn.style.backgroundColor = "#4286f4";
+                        download_btn.style.backgroundColor = "#8fd5b5";
+                        download_btn.style.borderRadius = "50%";
                         download_btn.style.color = "#FFFFFF";
-                        download_btn.style.borderTop = "1px solid #e2e2e2";
-                        download_btn.style.borderLeft = "1px solid #e2e2e2";
                         download_btn.style.display = "flex";
                         download_btn.style.justifyContent = "center";
                         download_btn.style.alignItems = "center";
                         download_btn.style.cursor = "pointer";
+                        download_btn.style.zIndex = "4";
                         download_btn.addEventListener("click", function(e) {
                             e.preventDefault();
                             // 파일 다운로드 구현
@@ -109,20 +108,20 @@
                         });
 
                         const edit_btn = document.createElement("div");
-                        edit_btn.innerText = "EDIT";
+                        edit_btn.innerText = "";
                         edit_btn.style.position = "absolute";
-                        edit_btn.style.top = "0px";
-                        edit_btn.style.right = "0px";
-                        edit_btn.style.width = "100px";
+                        edit_btn.style.top = "20px";
+                        edit_btn.style.right = "20px";
+                        edit_btn.style.width = "20px";
                         edit_btn.style.minHeight = "20px";
-                        edit_btn.style.backgroundColor = "#4286f4";
+                        edit_btn.style.backgroundColor = "#8fd5b5";
+                        edit_btn.style.borderRadius = "50%";
                         edit_btn.style.color = "#FFFFFF";
-                        edit_btn.style.borderTop = "1px solid #e2e2e2";
-                        edit_btn.style.borderLeft = "1px solid #e2e2e2";
                         edit_btn.style.display = "flex";
                         edit_btn.style.justifyContent = "center";
                         edit_btn.style.alignItems = "center";
                         edit_btn.style.cursor = "pointer";
+                        edit_btn.style.zIndex = "4";
                         edit_btn.setAttribute("data-id", option.id);
                         edit_btn.addEventListener("click", function(e) {
                             e.preventDefault();
@@ -150,8 +149,25 @@
                         option_item_div.style.backgroundPosition = "center";
                         option_item_div.style.backgroundSize = "cover";
                         option_item_div.classList.add("option-item");
+
+                        const hover_div = document.createElement("div");
+                        hover_div.classList.add("hover-div");
+
+                        const hover_option_name = document.createElement("div");
+                        hover_option_name.classList.add("hover-option-name");
+                        hover_option_name.innerText = option.option_name1 + " - " + option.option_name2;
+
+                        const hover_option_package_creator = document.createElement("div");
+                        hover_option_package_creator.classList.add("hover-option-package-creator");
+                        hover_option_package_creator.innerText = data.creatorName;
+
+                        hover_div.appendChild(hover_option_name);
+                        hover_div.appendChild(hover_option_package_creator);
+
                         option_item_div.appendChild(download_btn);
                         option_item_div.appendChild(edit_btn);
+                        option_item_div.appendChild(hover_div);
+
                         option_list.appendChild(option_item_div);
                     }
                 }
@@ -422,15 +438,18 @@
                 <div class="info">
                     <div class="product">
                         <div id="product-thumbnail" class="thumbnail"></div>
-                        <div id="product-name" class="name"></div>
-                        <div id="product-creator" class="creator"></div>
-                        <div id="product-package-creator" class="creator"></div>
+                        <div class="product-data">
+                            <div id="product-name" class="name"></div>
+                            <div id="product-creator" class="creator"></div>
+                        </div>
+                        <div class="price">
+                            <div id="product-cost"></div>
+                            <div id="product-price"></div>
+                        </div>
                     </div>
-                    <div class="price">
-                        <div id="product-cost"></div>
-                        <div id="product-price"></div>
+                    <div class="update">
+                        <div id="price-update-btn" class="price-update-btn"></div>
                     </div>
-                    <div id="price-update-btn" class="price-update-btn">가격 수정</div>
                 </div>
                 <div class="data">
                     <div id="option-list" class="option-list">
