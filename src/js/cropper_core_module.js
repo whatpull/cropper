@@ -35,6 +35,7 @@ function Cropper(data_set, edit_image, palette_color) {
     this.input;
     
     // 버튼
+    this.button_div;
     this.button_download;
     this.button_upload;
     this.button_palette;
@@ -197,6 +198,20 @@ Cropper.prototype._handleFunction = function(visibility) {
         // this.target.appendChild(this.button_download);
     }
 
+    // [생성] 버튼 툴
+    this.button_div = document.createElement("div");
+    this.button_div.style.position = "absolute";
+    this.button_div.style.width = "50px";
+    this.button_div.style.height = "150px";
+    this.button_div.style.borderRadius = "25px";
+    this.button_div.style.backgroundColor = "#ebebeb";
+    this.button_div.style.boxShadow = "inset 0 -1px 0 0 #ebebeb";
+    this.button_div.style.display = "flex";
+    this.button_div.style.flexDirection = "column";
+    this.button_div.style.justifyContent = "center";
+    this.button_div.style.top = "25px";
+    this.button_div.style.right = "25px";
+
     // [생성] 파일 업로드 태그
     this.input = document.createElement("input");
     this.input.type = "file";
@@ -224,7 +239,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     // [생성] 팔레트 버튼
     this.button_palette = document.createElement("button");
     this.button_palette.id = "btn-palette";
-    this.button_palette.classList.add("btn");
+    this.button_palette.classList.add("btn", "color-picker");
     this.button_palette.addEventListener("click", function(e) {
         e.preventDefault();
     });
@@ -238,7 +253,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.palette_div.id = "palette-div";
     this.button_palette.addEventListener("click", function(e) {
         e.preventDefault();
-        this.palette_div.classList.toggle("visible");
+        // this.palette_div.classList.toggle("visible");
         // 팔레트 하위 버튼 설정시 사용
         // if(this.palette_div.classList.contains("visible")) {
         //     this.button_initailize.style.top = "404px";
@@ -262,7 +277,7 @@ Cropper.prototype._handleFunction = function(visibility) {
             this._handleDraw();
         }
     }.bind(this));
-    this.palette_div.appendChild(this.palette_color_div_01);
+    // this.palette_div.appendChild(this.palette_color_div_01);
 
     // [팔레트] 2번 색상
     this.palette_color_div_02 = document.createElement("div");
@@ -279,7 +294,7 @@ Cropper.prototype._handleFunction = function(visibility) {
             this._handleDraw();
         }
     }.bind(this));
-    this.palette_div.appendChild(this.palette_color_div_02);
+    // this.palette_div.appendChild(this.palette_color_div_02);
 
     // [팔레트] 3번 색상
     this.palette_color_div_03 = document.createElement("div");
@@ -296,7 +311,7 @@ Cropper.prototype._handleFunction = function(visibility) {
             this._handleDraw();
         }
     }.bind(this));
-    this.palette_div.appendChild(this.palette_color_div_03);
+    // this.palette_div.appendChild(this.palette_color_div_03);
 
     // [팔레트] 4번 색상
     this.palette_color_div_04 = document.createElement("div");
@@ -313,7 +328,7 @@ Cropper.prototype._handleFunction = function(visibility) {
             this._handleDraw();
         }
     }.bind(this));
-    this.palette_div.appendChild(this.palette_color_div_04);
+    // this.palette_div.appendChild(this.palette_color_div_04);
 
     // [팔레트] 5번 색상
     this.palette_color_div_05 = document.createElement("div");
@@ -330,7 +345,7 @@ Cropper.prototype._handleFunction = function(visibility) {
             this._handleDraw();
         }
     }.bind(this));
-    this.palette_div.appendChild(this.palette_color_div_05);
+    // this.palette_div.appendChild(this.palette_color_div_05);
 
     // [팔레트] 6번 색상
     this.palette_color_div_06 = document.createElement("div");
@@ -347,7 +362,7 @@ Cropper.prototype._handleFunction = function(visibility) {
             this._handleDraw();
         }
     }.bind(this));
-    this.palette_div.appendChild(this.palette_color_div_06);
+    // this.palette_div.appendChild(this.palette_color_div_06);
 
     // [생성] 초기화 버튼
     this.button_initailize = document.createElement("button");
@@ -368,11 +383,61 @@ Cropper.prototype._handleFunction = function(visibility) {
         // this.button_palette.style.top = "50px";
         // this.palette_div.style.top = "110px";
     } else if(this.data_set.mode === "editor") {
-        this.target.appendChild(this.button_upload);
-        this.target.appendChild(this.button_palette);
-        this.target.appendChild(this.palette_div);
-        this.target.appendChild(this.button_initailize);
+        this.button_div.appendChild(this.button_upload);
+        this.button_div.appendChild(this.button_palette);
+        this.button_div.appendChild(this.button_initailize);
+        // this.target.appendChild(this.palette_div);
+        this.target.appendChild(this.button_div);
+        this._handlePalette();
+        // this.target.appendChild(this.button_upload);
+        // this.target.appendChild(this.button_palette);
+        // this.target.appendChild(this.palette_div);
+        // this.target.appendChild(this.button_initailize);
     }
+}
+
+Cropper.prototype._handlePalette = function() {
+    const pickr = Pickr.create({
+        el: '.color-picker',
+        container: '.editor',
+        position: 'left-end',
+        useAsButton: true,
+        theme: 'monolith', // or 'monolith', or 'nano'
+        defaultRepresentation: 'HEX',
+        swatches: [
+            '#d5d5d5',
+            '#b6b5b5',
+            '#54b689',
+            '#a093d6',
+            '#7bb2e3',
+            '#d3424a'
+        ],
+        components: {
+            // Main components
+            palette: true,
+            preview: false,
+            opacity: false,
+            hue: true,
+            // Input / output Options
+            interaction: {
+                hex: false,
+                input: true,
+                clear: true
+            }
+        }
+    });
+    pickr.on('change', (color, instance) => {
+        setTimeout(function() {
+            this.selected_color = "#" + color.toHEXA().join('');
+            this._handleColorDraw(this.context_worker, this.canvas_worker, this.selected_color);
+            
+            if(this.data_set.mode === "autopacking") {
+                this._handleAssetDraw();
+            } else if(this.data_set.mode === "editor") {
+                this._handleDraw();
+            }
+        }.bind(this), 0);
+    });
 }
 
 // [생성] 상품 이미지
