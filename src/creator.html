@@ -20,6 +20,7 @@
 
         <!-- 팝업 모듈 -->
         <script type="text/javascript" src="./js/popup_core_module.js"></script>
+        <link href="./css/popup.css" rel="stylesheet" />
 
         <script>
             window.onload = function() {
@@ -80,7 +81,7 @@
                     target.appendChild(row);
                 }
 
-                const popup_regist = new Popup();
+                const popup_regist = new Popup("크리에이터 등록");
                 // 실제 팝업창에 그려질 form 문 작성
                 popup_regist.init(function(popup) {
                     const form = document.createElement("form");
@@ -88,31 +89,19 @@
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
                     form.style.alignItems = "center";
-                    form.style.maxHeight = "600px";
                     form.style.padding = "0px 30px";
-                    form.style.overflowY = "auto";
-                    form.style.overflowX = "hidden";
-
-                    // 타이틀
-                    const title_div = document.createElement("div");
-                    title_div.innerText = "크리에이터 등록"
-                    title_div.style.fontSize = "20px";
-                    title_div.style.marginTop = "20px";
-                    title_div.style.fontWeight = "bold";
-                    title_div.style.color = "#4286f4";
 
                     // 이름
                     const name_div = document.createElement("div");
-                    name_div.style.marginTop = "20px";
+                    name_div.style.marginTop = "45px";
                     const name_label = document.createElement("div");
-                    name_label.innerText = "이름 : ";
-                    name_label.style.width = "100px";
-                    name_label.style.fontWeight = "bold";
+                    name_label.innerText = "이름";
+                    name_label.classList.add("popup-label");
                     const name = document.createElement("input");
                     name.id = "creator-name";
-                    name.style.padding = "5px";
-                    name.style.fontSize = "15px";
+                    name.classList.add("popup-input");
                     name.setAttribute("name", "creatorName");
+                    name.setAttribute("autocomplete", "off");
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
 
@@ -120,14 +109,13 @@
                     const id_div = document.createElement("div");
                     id_div.style.marginTop = "20px";
                     const id_label = document.createElement("div");
-                    id_label.innerText = "아이디 : ";
-                    id_label.style.width = "100px";
-                    id_label.style.fontWeight = "bold";
+                    id_label.innerText = "아이디";
+                    id_label.classList.add("popup-label");
                     const id = document.createElement("input");
                     id.id = "user-id";
-                    id.style.padding = "5px";
-                    id.style.fontSize = "15px";
+                    id.classList.add("popup-input");
                     id.setAttribute("name", "userId");
+                    id.setAttribute("autocomplete", "off");
                     id_div.appendChild(id_label);
                     id_div.appendChild(id);
 
@@ -135,14 +123,13 @@
                     const account_no_div = document.createElement("div");
                     account_no_div.style.marginTop = "20px";
                     const account_no_label = document.createElement("div");
-                    account_no_label.innerText = "계좌번호 : ";
-                    account_no_label.style.width = "100px";
-                    account_no_label.style.fontWeight = "bold";
+                    account_no_label.innerText = "계좌번호";
+                    account_no_label.classList.add("popup-label");
                     const account_no = document.createElement("input");
                     account_no.id = "account-no";
-                    account_no.style.padding = "5px";
-                    account_no.style.fontSize = "15px";
+                    account_no.classList.add("popup-input");
                     account_no.setAttribute("name", "accountNo");
+                    account_no.setAttribute("autocomplete", "off");
                     account_no_div.appendChild(account_no_label);
                     account_no_div.appendChild(account_no);
 
@@ -150,15 +137,13 @@
                     const bank_code_div = document.createElement("div");
                     bank_code_div.style.marginTop = "20px";
                     const bank_code_label = document.createElement("div");
-                    bank_code_label.innerText = "은행코드 : ";
-                    bank_code_label.style.width = "100px";
-                    bank_code_label.style.fontWeight = "bold";
+                    bank_code_label.innerText = "은행코드";
+                    bank_code_label.classList.add("popup-label");
                     const bank_code = document.createElement("input");
                     bank_code.id = "bank-code";
-                    bank_code.style.padding = "5px";
-                    bank_code.style.fontSize = "15px";
+                    bank_code.classList.add("popup-input");
                     bank_code.setAttribute("name", "bankCode");
-                    bank_code.value = "1111";
+                    bank_code.setAttribute("autocomplete", "off");
                     bank_code_div.appendChild(bank_code_label);
                     bank_code_div.appendChild(bank_code);
 
@@ -166,14 +151,13 @@
                     const bank_name_div = document.createElement("div");
                     bank_name_div.style.marginTop = "20px";
                     const bank_name_label = document.createElement("div");
-                    bank_name_label.innerText = "은행이름 : ";
-                    bank_name_label.style.width = "100px";
-                    bank_name_label.style.fontWeight = "bold";
+                    bank_name_label.innerText = "은행이름";
+                    bank_name_label.classList.add("popup-label");
                     const bank_name = document.createElement("input");
                     bank_name.id = "bank-name";
-                    bank_name.style.padding = "5px";
-                    bank_name.style.fontSize = "15px";
+                    bank_name.classList.add("popup-input");
                     bank_name.setAttribute("name", "bankName");
+                    bank_name.setAttribute("autocomplete", "off");
                     bank_name_div.appendChild(bank_name_label);
                     bank_name_div.appendChild(bank_name);
 
@@ -181,30 +165,20 @@
                     const owner_name_div = document.createElement("div");
                     owner_name_div.style.marginTop = "20px";
                     const owner_name_label = document.createElement("div");
-                    owner_name_label.innerText = "계좌주 : ";
-                    owner_name_label.style.width = "100px";
-                    owner_name_label.style.fontWeight = "bold";
+                    owner_name_label.innerText = "계좌주";
+                    owner_name_label.classList.add("popup-label");
                     const owner_name = document.createElement("input");
                     owner_name.id = "owner-name";
-                    owner_name.style.padding = "5px";
-                    owner_name.style.fontSize = "15px";
+                    owner_name.classList.add("popup-input");
                     owner_name.setAttribute("name", "ownerName");
+                    owner_name.setAttribute("autocomplete", "off");
                     owner_name_div.appendChild(owner_name_label);
                     owner_name_div.appendChild(owner_name);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
-                    submit_btn.innerText = "등록";
-                    submit_btn.style.width = "100px";
-                    submit_btn.style.minHeight = "40px";
-                    submit_btn.style.marginTop = "20px";
-                    submit_btn.style.marginBottom = "20px";
-                    submit_btn.style.backgroundColor = "#FFFFFF";
-                    submit_btn.style.border = "1px solid #e2e2e2";
-                    submit_btn.style.display = "flex";
-                    submit_btn.style.justifyContent = "center";
-                    submit_btn.style.alignItems = "center";
-                    submit_btn.style.cursor = "pointer";
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
                         // 하나씩 파싱해서 데이터 저장
@@ -234,7 +208,6 @@
                         send(data);
                     });
 
-                    form.appendChild(title_div);
                     form.appendChild(name_div);
                     form.appendChild(id_div);
                     form.appendChild(account_no_div);

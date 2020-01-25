@@ -20,6 +20,7 @@
 
         <!-- 팝업 모듈 -->
         <script type="text/javascript" src="./js/popup_core_module.js"></script>
+        <link href="./css/popup.css" rel="stylesheet" />
 
         <!-- 모멘트JS -->
         <script src="./libs/moment/moment.min.js"></script>
@@ -127,7 +128,7 @@
                     target.appendChild(row);
                 }
 
-                const popup_regist = new Popup();
+                const popup_regist = new Popup("패키지 등록");
                 // 실제 팝업창에 그려질 form 문 작성
                 popup_regist.init(function(popup) {
                     const form = document.createElement("form");
@@ -135,32 +136,19 @@
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
                     form.style.alignItems = "center";
-                    form.style.maxHeight = "600px";
                     form.style.padding = "0px 30px";
-                    form.style.overflowY = "auto";
-                    form.style.overflowX = "hidden";
-
-                    // 타이틀
-                    const title_div = document.createElement("div");
-                    title_div.innerText = "패키지 등록"
-                    title_div.style.fontSize = "20px";
-                    title_div.style.marginTop = "20px";
-                    title_div.style.fontWeight = "bold";
-                    title_div.style.color = "#4286f4";
 
                     // 이름
                     const name_div = document.createElement("div");
                     name_div.style.marginTop = "20px";
                     const name_label = document.createElement("div");
-                    name_label.innerText = "이름 : ";
-                    name_label.style.width = "100px";
-                    name_label.style.fontWeight = "bold";
+                    name_label.innerText = "이름";
+                    name_label.classList.add("popup-label");
                     const name = document.createElement("input");
                     name.id = "regist-package-name";
-                    name.style.padding = "5px";
-                    name.style.fontSize = "15px";
-                    name.style.width = "288px";
+                    name.classList.add("popup-input");
                     name.setAttribute("name", "name");
+                    name.setAttribute("autocomplete", "off");
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
 
@@ -168,12 +156,11 @@
                     const creator_wrapper_div = document.createElement("div");
                     creator_wrapper_div.style.marginTop = "20px";
                     const creator_label = document.createElement("div");
-                    creator_label.innerText = "제조사 : ";
-                    creator_label.style.width = "100px";
-                    creator_label.style.fontWeight = "bold";
+                    creator_label.innerText = "제조사";                    
+                    creator_label.classList.add("popup-label");
                     const creator_div = document.createElement("div");
                     creator_div.classList.add("ac-selector", "regist-selectbox-package-creator");
-                    creator_div.style.width = "302px";
+                    creator_div.style.width = "520px";
                     const creator_select = document.createElement("select");
                     creator_select.id = "regist-select";
                     creator_div.appendChild(creator_select);
@@ -184,15 +171,13 @@
                     const detail_div = document.createElement("div");
                     detail_div.style.marginTop = "20px";
                     const detail_label = document.createElement("div");
-                    detail_label.innerText = "설명 : ";
-                    detail_label.style.width = "100px";
-                    detail_label.style.fontWeight = "bold";
+                    detail_label.innerText = "설명";
+                    detail_label.classList.add("popup-label");
                     const detail = document.createElement("input");
                     detail.id = "regist-package-detail";
-                    detail.style.padding = "5px";
-                    detail.style.fontSize = "15px";
-                    detail.style.width = "288px";
+                    detail.classList.add("popup-input");
                     detail.setAttribute("name", "detail");
+                    detail.setAttribute("autocomplete", "off");
                     detail_div.appendChild(detail_label);
                     detail_div.appendChild(detail);
 
@@ -200,15 +185,13 @@
                     const price_cost_div = document.createElement("div");
                     price_cost_div.style.marginTop = "20px";
                     const price_cost_label = document.createElement("div");
-                    price_cost_label.innerText = "비용 : ";
-                    price_cost_label.style.width = "100px";
-                    price_cost_label.style.fontWeight = "bold";
+                    price_cost_label.innerText = "비용";
+                    price_cost_label.classList.add("popup-label");
                     const price_cost = document.createElement("input");
                     price_cost.id = "regist-price-cost";
-                    price_cost.style.padding = "5px";
-                    price_cost.style.fontSize = "15px";
-                    price_cost.style.width = "288px";
+                    price_cost.classList.add("popup-input");
                     price_cost.setAttribute("name", "packagePrice.cost");
+                    price_cost.setAttribute("autocomplete", "off");
                     price_cost_div.appendChild(price_cost_label);
                     price_cost_div.appendChild(price_cost);
 
@@ -216,15 +199,13 @@
                     const price_div = document.createElement("div");
                     price_div.style.marginTop = "20px";
                     const price_label = document.createElement("div");
-                    price_label.innerText = "가격 : ";
-                    price_label.style.width = "100px";
-                    price_label.style.fontWeight = "bold";
+                    price_label.innerText = "가격";
+                    price_label.classList.add("popup-label");
                     const price = document.createElement("input");
                     price.id = "regist-package-price";
-                    price.style.padding = "5px";
-                    price.style.fontSize = "15px";
-                    price.style.width = "288px";
+                    price.classList.add("popup-input");
                     price.setAttribute("name", "packagePrice.price");
+                    price.setAttribute("autocomplete", "off");
                     price_div.appendChild(price_label);
                     price_div.appendChild(price);
 
@@ -232,16 +213,14 @@
                     const start_date_div = document.createElement("div");
                     start_date_div.style.marginTop = "20px";
                     const start_date_label = document.createElement("div");
-                    start_date_label.innerText = "가격 시작일 : ";
-                    start_date_label.style.width = "100px";
-                    start_date_label.style.fontWeight = "bold";
+                    start_date_label.innerText = "가격 시작일";
+                    start_date_label.classList.add("popup-label");
                     const start_date = document.createElement("input");
                     start_date.id = "regist-start-date";
                     start_date.type = "datetime-local";
-                    start_date.style.padding = "5px";
-                    start_date.style.fontSize = "15px";
-                    start_date.style.width = "288px";
+                    start_date.classList.add("popup-input");
                     start_date.setAttribute("name", "packagePrice.startDate");
+                    start_date.setAttribute("autocomplete", "off");
                     start_date_div.appendChild(start_date_label);
                     start_date_div.appendChild(start_date);
 
@@ -249,32 +228,21 @@
                     const end_date_div = document.createElement("div");
                     end_date_div.style.marginTop = "20px";
                     const end_date_label = document.createElement("div");
-                    end_date_label.innerText = "가격 종료일 : ";
-                    end_date_label.style.width = "100px";
-                    end_date_label.style.fontWeight = "bold";
+                    end_date_label.innerText = "가격 종료일";
+                    end_date_label.classList.add("popup-label");
                     const end_date = document.createElement("input");
                     end_date.id = "regist-end-date";
                     end_date.type = "datetime-local";
-                    end_date.style.padding = "5px";
-                    end_date.style.fontSize = "15px";
-                    end_date.style.width = "288px";
+                    end_date.classList.add("popup-input");
                     end_date.setAttribute("name", "packagePrice.endDate");
+                    end_date.setAttribute("autocomplete", "off");
                     end_date_div.appendChild(end_date_label);
                     end_date_div.appendChild(end_date);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
-                    submit_btn.innerText = "등록";
-                    submit_btn.style.width = "100px";
-                    submit_btn.style.minHeight = "40px";
-                    submit_btn.style.marginTop = "20px";
-                    submit_btn.style.marginBottom = "20px";
-                    submit_btn.style.backgroundColor = "#FFFFFF";
-                    submit_btn.style.border = "1px solid #e2e2e2";
-                    submit_btn.style.display = "flex";
-                    submit_btn.style.justifyContent = "center";
-                    submit_btn.style.alignItems = "center";
-                    submit_btn.style.cursor = "pointer";
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
 
@@ -335,7 +303,6 @@
                         xhr.send(data);
                     }
 
-                    form.appendChild(title_div);
                     form.appendChild(name_div);
                     form.appendChild(creator_wrapper_div);
                     form.appendChild(detail_div);
@@ -359,7 +326,7 @@
                             option.innerText = item.name;
                             target.appendChild(option);
                         }
-                    }, false);
+                    }, false, "input");
                 });
 
                 // [버튼] 등록
@@ -368,7 +335,7 @@
                     popup_regist.open();
                 });
 
-                const popup_editor = new Popup();
+                const popup_editor = new Popup("패키지 수정");
                 // 실제 팝업창에 그려질 form 문 작성
                 popup_editor.init(function(popup) {
                     const form = document.createElement("form");
@@ -376,31 +343,19 @@
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
                     form.style.alignItems = "center";
-                    form.style.maxHeight = "600px";
                     form.style.padding = "0px 30px";
-                    form.style.overflowY = "auto";
-                    form.style.overflowX = "hidden";
-
-                    // 타이틀
-                    const title_div = document.createElement("div");
-                    title_div.innerText = "패키지 수정"
-                    title_div.style.fontSize = "20px";
-                    title_div.style.marginTop = "20px";
-                    title_div.style.fontWeight = "bold";
-                    title_div.style.color = "#4286f4";
 
                     // 번호
                     const id_div = document.createElement("div");
                     id_div.style.marginTop = "20px";
                     const id_label = document.createElement("div");
-                    id_label.innerText = "번호 : ";
-                    id_label.style.fontWeight = "bold";
+                    id_label.innerText = "번호";
+                    id_label.classList.add("popup-label");
                     const id = document.createElement("input");
                     id.id = "editor-package-id";
-                    id.style.padding = "5px";
-                    id.style.fontSize = "15px";
-                    id.style.width = "288px";
+                    id.classList.add("popup-input");
                     id.setAttribute("name", "id");
+                    id.setAttribute("autocomplete", "off");
                     id.readOnly = true;
                     id_div.appendChild(id_label);
                     id_div.appendChild(id);
@@ -409,15 +364,13 @@
                     const name_div = document.createElement("div");
                     name_div.style.marginTop = "20px";
                     const name_label = document.createElement("div");
-                    name_label.innerText = "이름 : ";
-                    name_label.style.width = "100px";
-                    name_label.style.fontWeight = "bold";
+                    name_label.innerText = "이름";
+                    name_label.classList.add("popup-label");
                     const name = document.createElement("input");
                     name.id = "editor-package-name";
-                    name.style.padding = "5px";
-                    name.style.fontSize = "15px";
-                    name.style.width = "288px";
+                    name.classList.add("popup-input");
                     name.setAttribute("name", "name");
+                    name.setAttribute("autocomplete", "off");
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
 
@@ -425,12 +378,11 @@
                     const creator_wrapper_div = document.createElement("div");
                     creator_wrapper_div.style.marginTop = "20px";
                     const creator_label = document.createElement("div");
-                    creator_label.innerText = "제조사 : ";
-                    creator_label.style.width = "100px";
-                    creator_label.style.fontWeight = "bold";
+                    creator_label.innerText = "제조사";
+                    creator_label.classList.add("popup-label");
                     const creator_div = document.createElement("div");
                     creator_div.classList.add("ac-selector", "editor-selectbox-package-creator");
-                    creator_div.style.width = "302px";
+                    creator_div.style.width = "520px";
                     const creator_select = document.createElement("select");
                     creator_select.id = "editor-select";
                     creator_div.appendChild(creator_select);
@@ -441,15 +393,13 @@
                     const detail_div = document.createElement("div");
                     detail_div.style.marginTop = "20px";
                     const detail_label = document.createElement("div");
-                    detail_label.innerText = "설명 : ";
-                    detail_label.style.width = "100px";
-                    detail_label.style.fontWeight = "bold";
+                    detail_label.innerText = "설명";
+                    detail_label.classList.add("popup-label");
                     const detail = document.createElement("input");
                     detail.id = "editor-package-detail";
-                    detail.style.padding = "5px";
-                    detail.style.fontSize = "15px";
-                    detail.style.width = "288px";
+                    detail.classList.add("popup-input");
                     detail.setAttribute("name", "detail");
+                    detail.setAttribute("autocomplete", "off");
                     detail_div.appendChild(detail_label);
                     detail_div.appendChild(detail);
 
@@ -457,15 +407,13 @@
                     const price_cost_div = document.createElement("div");
                     price_cost_div.style.marginTop = "20px";
                     const price_cost_label = document.createElement("div");
-                    price_cost_label.innerText = "비용 : ";
-                    price_cost_label.style.width = "100px";
-                    price_cost_label.style.fontWeight = "bold";
+                    price_cost_label.innerText = "비용";
+                    price_cost_label.classList.add("popup-label");
                     const price_cost = document.createElement("input");
                     price_cost.id = "editor-price-cost";
-                    price_cost.style.padding = "5px";
-                    price_cost.style.fontSize = "15px";
-                    price_cost.style.width = "288px";
+                    price_cost.classList.add("popup-input");
                     price_cost.setAttribute("name", "packagePrice.cost");
+                    price_cost.setAttribute("autocomplete", "off");
                     price_cost_div.appendChild(price_cost_label);
                     price_cost_div.appendChild(price_cost);
 
@@ -473,15 +421,13 @@
                     const price_div = document.createElement("div");
                     price_div.style.marginTop = "20px";
                     const price_label = document.createElement("div");
-                    price_label.innerText = "가격 : ";
-                    price_label.style.width = "100px";
-                    price_label.style.fontWeight = "bold";
+                    price_label.innerText = "가격";
+                    price_label.classList.add("popup-label");
                     const price = document.createElement("input");
                     price.id = "editor-package-price";
-                    price.style.padding = "5px";
-                    price.style.fontSize = "15px";
-                    price.style.width = "288px";
+                    price.classList.add("popup-input");
                     price.setAttribute("name", "packagePrice.price");
+                    price.setAttribute("autocomplete", "off");
                     price_div.appendChild(price_label);
                     price_div.appendChild(price);
 
@@ -489,16 +435,14 @@
                     const start_date_div = document.createElement("div");
                     start_date_div.style.marginTop = "20px";
                     const start_date_label = document.createElement("div");
-                    start_date_label.innerText = "가격 시작일 : ";
-                    start_date_label.style.width = "100px";
-                    start_date_label.style.fontWeight = "bold";
+                    start_date_label.innerText = "가격 시작일";
+                    start_date_label.classList.add("popup-label");
                     const start_date = document.createElement("input");
                     start_date.id = "editor-start-date";
                     start_date.type = "datetime-local";
-                    start_date.style.padding = "5px";
-                    start_date.style.fontSize = "15px";
-                    start_date.style.width = "288px";
+                    start_date.classList.add("popup-input");
                     start_date.setAttribute("name", "packagePrice.startDate");
+                    start_date.setAttribute("autocomplete", "off");
                     start_date_div.appendChild(start_date_label);
                     start_date_div.appendChild(start_date);
 
@@ -506,32 +450,21 @@
                     const end_date_div = document.createElement("div");
                     end_date_div.style.marginTop = "20px";
                     const end_date_label = document.createElement("div");
-                    end_date_label.innerText = "가격 종료일 : ";
-                    end_date_label.style.width = "100px";
-                    end_date_label.style.fontWeight = "bold";
+                    end_date_label.innerText = "가격 종료일";
+                    end_date_label.classList.add("popup-label");
                     const end_date = document.createElement("input");
                     end_date.id = "editor-end-date";
                     end_date.type = "datetime-local";
-                    end_date.style.padding = "5px";
-                    end_date.style.fontSize = "15px";
-                    end_date.style.width = "288px";
+                    end_date.classList.add("popup-input");
                     end_date.setAttribute("name", "packagePrice.endDate");
+                    end_date.setAttribute("autocomplete", "off");
                     end_date_div.appendChild(end_date_label);
                     end_date_div.appendChild(end_date);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
-                    submit_btn.innerText = "수정";
-                    submit_btn.style.width = "100px";
-                    submit_btn.style.minHeight = "40px";
-                    submit_btn.style.marginTop = "20px";
-                    submit_btn.style.marginBottom = "20px";
-                    submit_btn.style.backgroundColor = "#FFFFFF";
-                    submit_btn.style.border = "1px solid #e2e2e2";
-                    submit_btn.style.display = "flex";
-                    submit_btn.style.justifyContent = "center";
-                    submit_btn.style.alignItems = "center";
-                    submit_btn.style.cursor = "pointer";
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
 
@@ -596,7 +529,6 @@
                         xhr.send(data);
                     }
 
-                    form.appendChild(title_div);
                     form.appendChild(id_div);
                     form.appendChild(name_div);
                     form.appendChild(creator_wrapper_div);
@@ -621,7 +553,7 @@
                             option.innerText = item.name;
                             target.appendChild(option);
                         }
-                    });
+                    }, false, "input");
                 });
             }
         </script>

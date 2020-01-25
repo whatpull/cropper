@@ -20,6 +20,7 @@
 
         <!-- 팝업 모듈 -->
         <script type="text/javascript" src="./js/popup_core_module.js"></script>
+        <link href="./css/popup.css" rel="stylesheet" />
 
         <script>
             window.onload = function() {
@@ -110,7 +111,7 @@
                     target.appendChild(row);
                 }
 
-                const popup_regist = new Popup();
+                const popup_regist = new Popup("제조사 등록");
                 // 실제 팝업창에 그려질 form 문 작성
                 popup_regist.init(function(popup) {
                     const form = document.createElement("form");
@@ -118,30 +119,19 @@
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
                     form.style.alignItems = "center";
-                    form.style.maxHeight = "600px";
                     form.style.padding = "0px 30px";
-                    form.style.overflowY = "auto";
-                    form.style.overflowX = "hidden";
-
-                    // 타이틀
-                    const title_div = document.createElement("div");
-                    title_div.innerText = "제조사 등록";
-                    title_div.style.fontSize = "20px";
-                    title_div.style.marginTop = "20px";
-                    title_div.style.fontWeight = "bold";
-                    title_div.style.color = "#4286f4";
 
                     // 이름
                     const name_div = document.createElement("div");
+                    name_div.style.marginTop = "45px";
                     const name_label = document.createElement("div");
-                    name_label.innerText = "제조사 이름 : ";
-                    name_label.style.fontWeight = "bold";
+                    name_label.innerText = "제조사 이름";
+                    name_label.classList.add("popup-label");
                     const name = document.createElement("input");
                     name.id = "regist-maker-name";
-                    name.style.padding = "5px";
-                    name.style.fontSize = "15px";
+                    name.classList.add("popup-input");
                     name.setAttribute("name", "name");
-                    name_div.style.marginTop = "20px";
+                    name.setAttribute("autocomplete", "off");
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
 
@@ -149,13 +139,13 @@
                     const contact_div = document.createElement("div");
                     contact_div.style.marginTop = "20px";
                     const contact_label = document.createElement("div");
-                    contact_label.innerText = "연락처 : ";
-                    contact_label.style.fontWeight = "bold";
+                    contact_label.innerText = "연락처";
+                    contact_label.classList.add("popup-label");
                     const contact = document.createElement("input");
                     contact.id = "regist-maker-contact";
-                    contact.style.padding = "5px";
-                    contact.style.fontSize = "15px";
+                    contact.classList.add("popup-input");
                     contact.setAttribute("name", "contact");
+                    contact.setAttribute("autocomplete", "off");
                     contact_div.appendChild(contact_label);
                     contact_div.appendChild(contact);
 
@@ -163,13 +153,13 @@
                     const email_div = document.createElement("div");
                     email_div.style.marginTop = "20px";
                     const email_label = document.createElement("div");
-                    email_label.innerText = "이메일 : ";
-                    email_label.style.fontWeight = "bold";
+                    email_label.innerText = "이메일";
+                    email_label.classList.add("popup-label");
                     const email = document.createElement("input");
                     email.id = "regist-maker-email";
-                    email.style.padding = "5px";
-                    email.style.fontSize = "15px";
+                    email.classList.add("popup-input");
                     email.setAttribute("name", "email");
+                    email.setAttribute("autocomplete", "off");
                     email_div.appendChild(email_label);
                     email_div.appendChild(email);
 
@@ -177,13 +167,13 @@
                     const corpregno_div = document.createElement("div");
                     corpregno_div.style.marginTop = "20px";
                     const corpregno_label = document.createElement("div");
-                    corpregno_label.innerText = "사업자 번호 : ";
-                    corpregno_label.style.fontWeight = "bold";
+                    corpregno_label.innerText = "사업자 번호";
+                    corpregno_label.classList.add("popup-label");
                     const corpregno = document.createElement("input");
                     corpregno.id = "regist-corp-reg-no";
-                    corpregno.style.padding = "5px";
-                    corpregno.style.fontSize = "15px";
+                    corpregno.classList.add("popup-input");
                     corpregno.setAttribute("name", "corpRegNo");
+                    corpregno.setAttribute("autocomplete", "off");
                     corpregno_div.appendChild(corpregno_label);
                     corpregno_div.appendChild(corpregno);
 
@@ -191,13 +181,13 @@
                     const delivery_address_div = document.createElement("div");
                     delivery_address_div.style.marginTop = "20px";
                     const delivery_address_label = document.createElement("div");
-                    delivery_address_label.innerText = "출고지 : ";
-                    delivery_address_label.style.fontWeight = "bold";
+                    delivery_address_label.innerText = "출고지";
+                    delivery_address_label.classList.add("popup-label");
                     const delivery_address = document.createElement("input");
                     delivery_address.id = "regist-delivery-address";
-                    delivery_address.style.padding = "5px";
-                    delivery_address.style.fontSize = "15px";
+                    delivery_address.classList.add("popup-input");
                     delivery_address.setAttribute("name", "deliveryAddress");
+                    delivery_address.setAttribute("autocomplete", "off");
                     delivery_address_div.appendChild(delivery_address_label);
                     delivery_address_div.appendChild(delivery_address);
 
@@ -205,13 +195,13 @@
                     const delivery_address_zipcode_div = document.createElement("div");
                     delivery_address_zipcode_div.style.marginTop = "20px";
                     const delivery_address_zipcode_label = document.createElement("div");
-                    delivery_address_zipcode_label.innerText = "출고지 우편번호 : ";
-                    delivery_address_zipcode_label.style.fontWeight = "bold";
+                    delivery_address_zipcode_label.innerText = "출고지 우편번호";
+                    delivery_address_zipcode_label.classList.add("popup-label");
                     const delivery_address_zipcode = document.createElement("input");
                     delivery_address_zipcode.id = "regist-delivery-address-zipcode";
-                    delivery_address_zipcode.style.padding = "5px";
-                    delivery_address_zipcode.style.fontSize = "15px";
+                    delivery_address_zipcode.classList.add("popup-input");
                     delivery_address_zipcode.setAttribute("name", "deliveryAddressZipCode");
+                    delivery_address_zipcode.setAttribute("autocomplete", "off");
                     delivery_address_zipcode_div.appendChild(delivery_address_zipcode_label);
                     delivery_address_zipcode_div.appendChild(delivery_address_zipcode);
 
@@ -219,13 +209,13 @@
                     const return_address_div = document.createElement("div");
                     return_address_div.style.marginTop = "20px";
                     const return_address_label = document.createElement("div");
-                    return_address_label.innerText = "반품지 : ";
-                    return_address_label.style.fontWeight = "bold";
+                    return_address_label.innerText = "반품지";
+                    return_address_label.classList.add("popup-label");
                     const return_address = document.createElement("input");
                     return_address.id = "regist-return-address";
-                    return_address.style.padding = "5px";
-                    return_address.style.fontSize = "15px";
+                    return_address.classList.add("popup-input");
                     return_address.setAttribute("name", "returnAddress");
+                    return_address.setAttribute("autocomplete", "off");
                     return_address_div.appendChild(return_address_label);
                     return_address_div.appendChild(return_address);
 
@@ -233,29 +223,20 @@
                     const return_address_zipcode_div = document.createElement("div");
                     return_address_zipcode_div.style.marginTop = "20px";
                     const return_address_zipcode_label = document.createElement("div");
-                    return_address_zipcode_label.innerText = "반품지 우편번호 : ";
-                    return_address_zipcode_label.style.fontWeight = "bold";
+                    return_address_zipcode_label.innerText = "반품지 우편번호";
+                    return_address_zipcode_label.classList.add("popup-label");
                     const return_address_zipcode = document.createElement("input");
                     return_address_zipcode.id = "regist-return-address-zipcode";
-                    return_address_zipcode.style.padding = "5px";
-                    return_address_zipcode.style.fontSize = "15px";
+                    return_address_zipcode.classList.add("popup-input");
                     return_address_zipcode.setAttribute("name", "returnAddressZipCode");
+                    return_address_zipcode.setAttribute("autocomplete", "off");
                     return_address_zipcode_div.appendChild(return_address_zipcode_label);
                     return_address_zipcode_div.appendChild(return_address_zipcode);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
-                    submit_btn.innerText = "등록";
-                    submit_btn.style.width = "100px";
-                    submit_btn.style.minHeight = "40px";
-                    submit_btn.style.marginTop = "20px";
-                    submit_btn.style.marginBottom = "20px";
-                    submit_btn.style.backgroundColor = "#FFFFFF";
-                    submit_btn.style.border = "1px solid #e2e2e2";
-                    submit_btn.style.display = "flex";
-                    submit_btn.style.justifyContent = "center";
-                    submit_btn.style.alignItems = "center";
-                    submit_btn.style.cursor = "pointer";
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
 
@@ -320,7 +301,6 @@
                         xhr.send(data);
                     }
 
-                    form.appendChild(title_div);
                     form.appendChild(name_div);
                     form.appendChild(contact_div);
                     form.appendChild(email_div);
@@ -340,7 +320,7 @@
                     popup_regist.open();
                 });
 
-                const popup_editor = new Popup();
+                const popup_editor = new Popup("제조사 수정");
                 // 실제 팝업창에 그려질 form 문 작성
                 popup_editor.init(function(popup) {
                     const form = document.createElement("form");
@@ -348,30 +328,19 @@
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
                     form.style.alignItems = "center";
-                    form.style.maxHeight = "600px";
                     form.style.padding = "0px 30px";
-                    form.style.overflowY = "auto";
-                    form.style.overflowX = "hidden";
-
-                    // 타이틀
-                    const title_div = document.createElement("div");
-                    title_div.innerText = "제조사 수정";
-                    title_div.style.fontSize = "20px";
-                    title_div.style.fontWeight = "bold";
-                    title_div.style.marginTop = "20px";
-                    title_div.style.color = "#4286f4";
 
                     // 번호
                     const id_div = document.createElement("div");
                     id_div.style.marginTop = "20px";
                     const id_label = document.createElement("div");
-                    id_label.innerText = "번호 : ";
-                    id_label.style.fontWeight = "bold";
+                    id_label.innerText = "번호";
+                    id_label.classList.add("popup-label");
                     const id = document.createElement("input");
                     id.id = "editor-maker-id";
-                    id.style.padding = "5px";
-                    id.style.fontSize = "15px";
+                    id.classList.add("popup-input");
                     id.setAttribute("name", "id");
+                    id.setAttribute("autocomplete", "off");
                     id.readOnly = true;
                     id_div.appendChild(id_label);
                     id_div.appendChild(id);
@@ -380,13 +349,13 @@
                     const name_div = document.createElement("div");
                     name_div.style.marginTop = "20px";
                     const name_label = document.createElement("div");
-                    name_label.innerText = "제조사 이름 : ";
-                    name_label.style.fontWeight = "bold";
+                    name_label.innerText = "제조사 이름";
+                    name_label.classList.add("popup-label");
                     const name = document.createElement("input");
                     name.id = "editor-maker-name";
-                    name.style.padding = "5px";
-                    name.style.fontSize = "15px";
+                    name.classList.add("popup-input");
                     name.setAttribute("name", "name");
+                    name.setAttribute("autocomplete", "off");
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
 
@@ -394,13 +363,13 @@
                     const contact_div = document.createElement("div");
                     contact_div.style.marginTop = "20px";
                     const contact_label = document.createElement("div");
-                    contact_label.innerText = "연락처 : ";
-                    contact_label.style.fontWeight = "bold";
+                    contact_label.innerText = "연락처";
+                    contact_label.classList.add("popup-label");
                     const contact = document.createElement("input");
                     contact.id = "editor-maker-contact";
-                    contact.style.padding = "5px";
-                    contact.style.fontSize = "15px";
+                    contact.classList.add("popup-input");
                     contact.setAttribute("name", "contact");
+                    contact.setAttribute("autocomplete", "off");
                     contact_div.appendChild(contact_label);
                     contact_div.appendChild(contact);
 
@@ -408,13 +377,13 @@
                     const email_div = document.createElement("div");
                     email_div.style.marginTop = "20px";
                     const email_label = document.createElement("div");
-                    email_label.innerText = "이메일 : ";
-                    email_label.style.fontWeight = "bold";
+                    email_label.innerText = "이메일";
+                    email_label.classList.add("popup-label");
                     const email = document.createElement("input");
                     email.id = "editor-maker-email";
-                    email.style.padding = "5px";
-                    email.style.fontSize = "15px";
+                    email.classList.add("popup-input");
                     email.setAttribute("name", "email");
+                    email.setAttribute("autocomplete", "off");
                     email_div.appendChild(email_label);
                     email_div.appendChild(email);
 
@@ -422,13 +391,13 @@
                     const corpregno_div = document.createElement("div");
                     corpregno_div.style.marginTop = "20px";
                     const corpregno_label = document.createElement("div");
-                    corpregno_label.innerText = "사업자 번호 : ";
-                    corpregno_label.style.fontWeight = "bold";
+                    corpregno_label.innerText = "사업자 번호";
+                    corpregno_label.classList.add("popup-label");
                     const corpregno = document.createElement("input");
                     corpregno.id = "editor-corp-reg-no";
-                    corpregno.style.padding = "5px";
-                    corpregno.style.fontSize = "15px";
+                    corpregno.classList.add("popup-input");
                     corpregno.setAttribute("name", "corpRegNo");
+                    corpregno.setAttribute("autocomplete", "off");
                     corpregno_div.appendChild(corpregno_label);
                     corpregno_div.appendChild(corpregno);
 
@@ -436,13 +405,13 @@
                     const delivery_address_div = document.createElement("div");
                     delivery_address_div.style.marginTop = "20px";
                     const delivery_address_label = document.createElement("div");
-                    delivery_address_label.innerText = "출고지 : ";
-                    delivery_address_label.style.fontWeight = "bold";
+                    delivery_address_label.innerText = "출고지";
+                    delivery_address_label.classList.add("popup-label");
                     const delivery_address = document.createElement("input");
                     delivery_address.id = "editor-delivery-address";
-                    delivery_address.style.padding = "5px";
-                    delivery_address.style.fontSize = "15px";
+                    delivery_address.classList.add("popup-input");
                     delivery_address.setAttribute("name", "deliveryAddress");
+                    delivery_address.setAttribute("autocomplete", "off");
                     delivery_address_div.appendChild(delivery_address_label);
                     delivery_address_div.appendChild(delivery_address);
 
@@ -450,13 +419,13 @@
                     const delivery_address_zipcode_div = document.createElement("div");
                     delivery_address_zipcode_div.style.marginTop = "20px";
                     const delivery_address_zipcode_label = document.createElement("div");
-                    delivery_address_zipcode_label.innerText = "출고지 우편번호 : ";
-                    delivery_address_zipcode_label.style.fontWeight = "bold";
+                    delivery_address_zipcode_label.innerText = "출고지 우편번호";
+                    delivery_address_zipcode_label.classList.add("popup-label");
                     const delivery_address_zipcode = document.createElement("input");
                     delivery_address_zipcode.id = "editor-delivery-address-zipcode";
-                    delivery_address_zipcode.style.padding = "5px";
-                    delivery_address_zipcode.style.fontSize = "15px";
+                    delivery_address_zipcode.classList.add("popup-input");
                     delivery_address_zipcode.setAttribute("name", "deliveryAddressZipCode");
+                    delivery_address_zipcode.setAttribute("autocomplete", "off");
                     delivery_address_zipcode_div.appendChild(delivery_address_zipcode_label);
                     delivery_address_zipcode_div.appendChild(delivery_address_zipcode);
 
@@ -464,13 +433,13 @@
                     const return_address_div = document.createElement("div");
                     return_address_div.style.marginTop = "20px";
                     const return_address_label = document.createElement("div");
-                    return_address_label.innerText = "반품지 : ";
-                    return_address_label.style.fontWeight = "bold";
+                    return_address_label.innerText = "반품지";
+                    return_address_label.classList.add("popup-label");
                     const return_address = document.createElement("input");
                     return_address.id = "editor-return-address";
-                    return_address.style.padding = "5px";
-                    return_address.style.fontSize = "15px";
+                    return_address.classList.add("popup-input");
                     return_address.setAttribute("name", "returnAddress");
+                    return_address.setAttribute("autocomplete", "off");
                     return_address_div.appendChild(return_address_label);
                     return_address_div.appendChild(return_address);
 
@@ -478,29 +447,20 @@
                     const return_address_zipcode_div = document.createElement("div");
                     return_address_zipcode_div.style.marginTop = "20px";
                     const return_address_zipcode_label = document.createElement("div");
-                    return_address_zipcode_label.innerText = "반품지 우편번호 : ";
-                    return_address_zipcode_label.style.fontWeight = "bold";
+                    return_address_zipcode_label.innerText = "반품지 우편번호";
+                    return_address_zipcode_label.classList.add("popup-label");
                     const return_address_zipcode = document.createElement("input");
                     return_address_zipcode.id = "editor-return-address-zipcode";
-                    return_address_zipcode.style.padding = "5px";
-                    return_address_zipcode.style.fontSize = "15px";
+                    return_address_zipcode.classList.add("popup-input");
                     return_address_zipcode.setAttribute("name", "returnAddressZipCode");
+                    return_address_zipcode.setAttribute("autocomplete", "off");
                     return_address_zipcode_div.appendChild(return_address_zipcode_label);
                     return_address_zipcode_div.appendChild(return_address_zipcode);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
-                    submit_btn.innerText = "수정";
-                    submit_btn.style.width = "100px";
-                    submit_btn.style.minHeight = "40px";
-                    submit_btn.style.marginTop = "20px";
-                    submit_btn.style.marginBottom = "20px";
-                    submit_btn.style.backgroundColor = "#FFFFFF";
-                    submit_btn.style.border = "1px solid #e2e2e2";
-                    submit_btn.style.display = "flex";
-                    submit_btn.style.justifyContent = "center";
-                    submit_btn.style.alignItems = "center";
-                    submit_btn.style.cursor = "pointer";
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
 
@@ -569,7 +529,6 @@
                         xhr.send(data);
                     }
 
-                    form.appendChild(title_div);
                     form.appendChild(id_div);
                     form.appendChild(name_div);
                     form.appendChild(contact_div);

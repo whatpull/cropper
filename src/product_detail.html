@@ -22,6 +22,7 @@
 
         <!-- 팝업 모듈 -->
         <script type="text/javascript" src="./js/popup_core_module.js"></script>
+        <link href="./css/popup.css" rel="stylesheet" />
 
         <script>
             window.onload = function() {
@@ -172,7 +173,7 @@
                     }
                 }
 
-                const popup_editor = new Popup();
+                const popup_editor = new Popup("옵션 수정");
                 // 실제 팝업창에 그려질 form 문 작성
                 popup_editor.init(function(popup) {
                     const form = document.createElement("form");
@@ -180,30 +181,19 @@
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
                     form.style.alignItems = "center";
-                    form.style.maxHeight = "600px";
                     form.style.padding = "0px 30px";
-                    form.style.overflowY = "auto";
-                    form.style.overflowX = "hidden";
-
-                    // 타이틀
-                    const title_div = document.createElement("div");
-                    title_div.innerText = "옵션 수정";
-                    title_div.style.fontSize = "20px";
-                    title_div.style.fontWeight = "bold";
-                    title_div.style.marginTop = "20px";
-                    title_div.style.color = "#4286f4";
 
                     // 번호
                     const id_div = document.createElement("div");
-                    id_div.style.marginTop = "20px";
+                    id_div.style.marginTop = "45px";
                     const id_label = document.createElement("div");
-                    id_label.innerText = "번호 : ";
-                    id_label.style.fontWeight = "bold";
+                    id_label.innerText = "번호";
+                    id_label.classList.add("popup-label");
                     const id = document.createElement("input");
                     id.id = "editor-option-id";
-                    id.style.padding = "5px";
-                    id.style.fontSize = "15px";
+                    id.classList.add("popup-input");
                     id.setAttribute("name", "id");
+                    id.setAttribute("autocomplete", "off");
                     id.readOnly = true;
                     id_div.appendChild(id_label);
                     id_div.appendChild(id);
@@ -212,13 +202,13 @@
                     const option1_div = document.createElement("div");
                     option1_div.style.marginTop = "20px";
                     const option1_label = document.createElement("div");
-                    option1_label.innerText = "옵션 이름1 : ";
-                    option1_label.style.fontWeight = "bold";
+                    option1_label.innerText = "옵션 이름1";
+                    option1_label.classList.add("popup-label");
                     const option1 = document.createElement("input");
                     option1.id = "editor-option1-name";
-                    option1.style.padding = "5px";
-                    option1.style.fontSize = "15px";
+                    option1.classList.add("popup-input");
                     option1.setAttribute("name", "optionName1");
+                    option1.setAttribute("autocomplete", "off");
                     option1_div.appendChild(option1_label);
                     option1_div.appendChild(option1);
 
@@ -226,13 +216,13 @@
                     const option2_div = document.createElement("div");
                     option2_div.style.marginTop = "20px";
                     const option2_label = document.createElement("div");
-                    option2_label.innerText = "옵션 이름2 : ";
-                    option2_label.style.fontWeight = "bold";
+                    option2_label.innerText = "옵션 이름2";
+                    option2_label.classList.add("popup-label");
                     const option2 = document.createElement("input");
                     option2.id = "editor-option2-name";
-                    option2.style.padding = "5px";
-                    option2.style.fontSize = "15px";
+                    option2.classList.add("popup-input");
                     option2.setAttribute("name", "optionName2");
+                    option2.setAttribute("autocomplete", "off");
                     option2_div.appendChild(option2_label);
                     option2_div.appendChild(option2);
 
@@ -240,13 +230,13 @@
                     const image_path_div = document.createElement("div");
                     image_path_div.style.marginTop = "20px";
                     const image_path_label = document.createElement("div");
-                    image_path_label.innerText = "이미지 경로 : ";
-                    image_path_label.style.fontWeight = "bold";
+                    image_path_label.innerText = "이미지 경로";
+                    image_path_label.classList.add("popup-label");
                     const image_path = document.createElement("input");
                     image_path.id = "editor-image-path";
-                    image_path.style.padding = "5px";
-                    image_path.style.fontSize = "15px";
+                    image_path.classList.add("popup-input");
                     image_path.setAttribute("name", "imagePath");
+                    image_path.setAttribute("autocomplete", "off");
                     image_path_div.appendChild(image_path_label);
                     image_path_div.appendChild(image_path);
 
@@ -254,13 +244,13 @@
                     const mockup_image_div = document.createElement("div");
                     mockup_image_div.style.marginTop = "20px";
                     const mockup_image_label = document.createElement("div");
-                    mockup_image_label.innerText = "상품 이미지 : ";
-                    mockup_image_label.style.fontWeight = "bold";
+                    mockup_image_label.innerText = "상품 이미지";
+                    mockup_image_label.classList.add("popup-label");
                     const mockup_image = document.createElement("input");
                     mockup_image.id = "editor-mockup-image";
-                    mockup_image.style.padding = "5px";
-                    mockup_image.style.fontSize = "15px";
+                    mockup_image.classList.add("popup-input");
                     mockup_image.setAttribute("name", "mockupImage");
+                    mockup_image.setAttribute("autocomplete", "off");
                     mockup_image_div.appendChild(mockup_image_label);
                     mockup_image_div.appendChild(mockup_image);
 
@@ -268,29 +258,20 @@
                     const status_div = document.createElement("div");
                     status_div.style.marginTop = "20px";
                     const status_label = document.createElement("div");
-                    status_label.innerText = "상태(Y, N) : ";
-                    status_label.style.fontWeight = "bold";
+                    status_label.innerText = "상태(Y, N)";
+                    status_label.classList.add("popup-label");
                     const status = document.createElement("input");
                     status.id = "editor-option-status";
-                    status.style.padding = "5px";
-                    status.style.fontSize = "15px";
+                    status.classList.add("popup-input");
                     status.setAttribute("name", "status");
+                    status.setAttribute("autocomplete", "off");
                     status_div.appendChild(status_label);
                     status_div.appendChild(status);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
-                    submit_btn.innerText = "수정";
-                    submit_btn.style.width = "100px";
-                    submit_btn.style.minHeight = "40px";
-                    submit_btn.style.marginTop = "20px";
-                    submit_btn.style.marginBottom = "20px";
-                    submit_btn.style.backgroundColor = "#FFFFFF";
-                    submit_btn.style.border = "1px solid #e2e2e2";
-                    submit_btn.style.display = "flex";
-                    submit_btn.style.justifyContent = "center";
-                    submit_btn.style.alignItems = "center";
-                    submit_btn.style.cursor = "pointer";
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
 
@@ -347,7 +328,6 @@
                         xhr.send(data);
                     }
 
-                    form.appendChild(title_div);
                     form.appendChild(id_div);
                     form.appendChild(option1_div);
                     form.appendChild(option2_div);
@@ -448,7 +428,7 @@
                         </div>
                     </div>
                     <div class="update">
-                        <div id="price-update-btn" class="price-update-btn"></div>
+                        <!-- <div id="price-update-btn" class="price-update-btn"></div> -->
                     </div>
                 </div>
                 <div class="data">

@@ -29,6 +29,7 @@
 
         <!-- 모멘트JS -->
         <script src="./libs/moment/moment.min.js"></script>
+        <link href="./css/popup.css" rel="stylesheet" />
 
         <script>
             window.onload = function() {
@@ -170,7 +171,7 @@
                 }
 
                 // 등록 팝업
-                const popup_regist = new Popup();
+                const popup_regist = new Popup("옵션 등록");
                 // 실제 팝업창에 그려질 form 문 작성
                 popup_regist.setParam(new FormData());	// formData 생성
                 popup_regist.init(function(popup) {
@@ -179,32 +180,19 @@
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
                     form.style.alignItems = "center";
-                    form.style.maxHeight = "600px";
                     form.style.padding = "0px 30px";
-                    form.style.overflowY = "auto";
-                    form.style.overflowX = "hidden";
-
-                    // 타이틀
-                    const title_div = document.createElement("div");
-                    title_div.innerText = "옵션 등록"
-                    title_div.style.fontSize = "20px";
-                    title_div.style.marginTop = "20px";
-                    title_div.style.fontWeight = "bold";
-                    title_div.style.color = "#4286f4";
 
                     // 옵션 이름1
                     const option_name1_div = document.createElement("div");
-                    option_name1_div.style.marginTop = "20px";
+                    option_name1_div.style.marginTop = "45px";
                     const option_name1_label = document.createElement("div");
-                    option_name1_label.innerText = "옵션 이름1 : ";
-                    option_name1_label.style.width = "200px";
-                    option_name1_label.style.fontWeight = "bold";
+                    option_name1_label.innerText = "옵션 이름1";
+                    option_name1_label.classList.add("popup-label");
                     const option_name1 = document.createElement("input");
                     option_name1.id = "regist-option-name1";
-                    option_name1.style.padding = "5px";
-                    option_name1.style.fontSize = "15px";
-                    option_name1.style.width = "288px";
+                    option_name1.classList.add("popup-input");
                     option_name1.setAttribute("name", "optionName1");
+                    option_name1.setAttribute("autocomplete", "off");
                     option_name1_div.appendChild(option_name1_label);
                     option_name1_div.appendChild(option_name1);
 
@@ -212,15 +200,13 @@
                     const option_name2_div = document.createElement("div");
                     option_name2_div.style.marginTop = "20px";
                     const option_name2_label = document.createElement("div");
-                    option_name2_label.innerText = "옵션 이름2 : ";
-                    option_name2_label.style.width = "200px";
-                    option_name2_label.style.fontWeight = "bold";
+                    option_name2_label.innerText = "옵션 이름2";
+                    option_name2_label.classList.add("popup-label");
                     const option_name2 = document.createElement("input");
                     option_name2.id = "regist-option-name2";
-                    option_name2.style.padding = "5px";
-                    option_name2.style.fontSize = "15px";
-                    option_name2.style.width = "288px";
+                    option_name2.classList.add("popup-input");
                     option_name2.setAttribute("name", "optionName2");
+                    option_name2.setAttribute("autocomplete", "off");
                     option_name2_div.appendChild(option_name2_label);
                     option_name2_div.appendChild(option_name2);
 
@@ -228,15 +214,13 @@
                     const cost_div = document.createElement("div");
                     cost_div.style.marginTop = "20px";
                     const cost_label = document.createElement("div");
-                    cost_label.innerText = "비용 : ";
-                    cost_label.style.width = "200px";
-                    cost_label.style.fontWeight = "bold";
+                    cost_label.innerText = "비용";
+                    cost_label.classList.add("popup-label");
                     const cost = document.createElement("input");
                     cost.id = "regist-option-cost";
-                    cost.style.padding = "5px";
-                    cost.style.fontSize = "15px";
-                    cost.style.width = "288px";
+                    cost.classList.add("popup-input");
                     cost.setAttribute("name", "cost");
+                    cost.setAttribute("autocomplete", "off");
                     cost_div.appendChild(cost_label);
                     cost_div.appendChild(cost);
 
@@ -244,146 +228,28 @@
                     const price_div = document.createElement("div");
                     price_div.style.marginTop = "20px";
                     const price_label = document.createElement("div");
-                    price_label.innerText = "가격 : ";
-                    price_label.style.width = "200px";
-                    price_label.style.fontWeight = "bold";
+                    price_label.innerText = "가격";
+                    price_label.classList.add("popup-label");
                     const price = document.createElement("input");
                     price.id = "regist-option-price";
-                    price.style.padding = "5px";
-                    price.style.fontSize = "15px";
-                    price.style.width = "288px";
+                    price.classList.add("popup-input");
                     price.setAttribute("name", "price");
+                    price.setAttribute("autocomplete", "off");
                     price_div.appendChild(price_label);
                     price_div.appendChild(price);
-
-                    // 이미지 위치
-                    const image_path_div = document.createElement("div");
-                    image_path_div.style.marginTop = "20px";
-                    const image_path_label = document.createElement("div");
-                    image_path_label.innerText = "이미지 위치(자동입력) : ";
-                    image_path_label.style.width = "200px";
-                    image_path_label.style.fontWeight = "bold";
-                    const image_path = document.createElement("input");
-                    image_path.id = "regist-option-image-path";
-                    image_path.style.padding = "5px";
-                    image_path.style.fontSize = "15px";
-                    image_path.style.width = "288px";
-                    image_path.setAttribute("name", "imagePath");
-                    image_path.setAttribute("readonly", true);
-                    image_path_div.appendChild(image_path_label);
-                    image_path_div.appendChild(image_path);
-
-                    // mock 배경색
-                    const mock_filling_div = document.createElement("div");
-                    mock_filling_div.style.marginTop = "20px";
-                    const mock_filling_label = document.createElement("div");
-                    mock_filling_label.innerText = "에셋 배경색 : ";
-                    mock_filling_label.style.width = "200px";
-                    mock_filling_label.style.fontWeight = "bold";
-                    const mock_filling = document.createElement("input");
-                    mock_filling.id = "regist-option-mock-filling";
-                    mock_filling.style.padding = "5px";
-                    mock_filling.style.fontSize = "15px";
-                    mock_filling.style.width = "288px";
-                    mock_filling.setAttribute("name", "mockFilling");
-                    mock_filling_div.appendChild(mock_filling_label);
-                    mock_filling_div.appendChild(mock_filling);
-
-                    // mock 높이
-                    const mock_height_div = document.createElement("div");
-                    mock_height_div.style.marginTop = "20px";
-                    const mock_height_label = document.createElement("div");
-                    mock_height_label.innerText = "에셋 높이 : ";
-                    mock_height_label.style.width = "200px";
-                    mock_height_label.style.fontWeight = "bold";
-                    const mock_height = document.createElement("input");
-                    mock_height.id = "regist-option-mock-height";
-                    mock_height.style.padding = "5px";
-                    mock_height.style.fontSize = "15px";
-                    mock_height.style.width = "288px";
-                    mock_height.setAttribute("name", "mockHeight");
-                    mock_height_div.appendChild(mock_height_label);
-                    mock_height_div.appendChild(mock_height);
-
-                    // mock 길이
-                    const mock_width_div = document.createElement("div");
-                    mock_width_div.style.marginTop = "20px";
-                    const mock_width_label = document.createElement("div");
-                    mock_width_label.innerText = "에셋 길이 : ";
-                    mock_width_label.style.width = "200px";
-                    mock_width_label.style.fontWeight = "bold";
-                    const mock_width = document.createElement("input");
-                    mock_width.id = "regist-option-mock-width";
-                    mock_width.style.padding = "5px";
-                    mock_width.style.fontSize = "15px";
-                    mock_width.style.width = "288px";
-                    mock_width.setAttribute("name", "mockWidth");
-                    mock_width_div.appendChild(mock_width_label);
-                    mock_width_div.appendChild(mock_width);
-
-                    // mock 위치 TOP
-                    const mock_top_div = document.createElement("div");
-                    mock_top_div.style.marginTop = "20px";
-                    const mock_top_label = document.createElement("div");
-                    mock_top_label.innerText = "에셋 위치 TOP : ";
-                    mock_top_label.style.width = "200px";
-                    mock_top_label.style.fontWeight = "bold";
-                    const mock_top = document.createElement("input");
-                    mock_top.id = "regist-option-mock-top";
-                    mock_top.style.padding = "5px";
-                    mock_top.style.fontSize = "15px";
-                    mock_top.style.width = "288px";
-                    mock_top.setAttribute("name", "mockTop");
-                    mock_top_div.appendChild(mock_top_label);
-                    mock_top_div.appendChild(mock_top);
-
-                    // mock 위치 LEFT
-                    const mock_left_div = document.createElement("div");
-                    mock_left_div.style.marginTop = "20px";
-                    const mock_left_label = document.createElement("div");
-                    mock_left_label.innerText = "에셋 위치 LEFT : ";
-                    mock_left_label.style.width = "200px";
-                    mock_left_label.style.fontWeight = "bold";
-                    const mock_left = document.createElement("input");
-                    mock_left.id = "regist-option-mock-left";
-                    mock_left.style.padding = "5px";
-                    mock_left.style.fontSize = "15px";
-                    mock_left.style.width = "288px";
-                    mock_left.setAttribute("name", "mockLeft");
-                    mock_left_div.appendChild(mock_left_label);
-                    mock_left_div.appendChild(mock_left);
-
-                    // mock 이미지 배열
-                    const mock_image_array_div = document.createElement("div");
-                    mock_image_array_div.style.marginTop = "20px";
-                    const mock_image_array_label = document.createElement("div");
-                    mock_image_array_label.innerText = "MOCK 파일 리스트(자동입력) : ";
-                    mock_image_array_label.style.width = "200px";
-                    mock_image_array_label.style.fontWeight = "bold";
-                    const mock_image_array = document.createElement("input");
-                    mock_image_array.id = "regist-option-mock-image-array";
-                    mock_image_array.style.padding = "5px";
-                    mock_image_array.style.fontSize = "15px";
-                    mock_image_array.style.width = "288px";
-                    mock_image_array.setAttribute("name", "mockupImage");
-                    mock_image_array.setAttribute("readonly", true);
-                    mock_image_array_div.appendChild(mock_image_array_label);
-                    mock_image_array_div.appendChild(mock_image_array);
 
                     // mock 이미지 base
                     const mock_image_base_div = document.createElement("div");
                     mock_image_base_div.style.marginTop = "20px";
                     const mock_image_base_label = document.createElement("div");
-                    mock_image_base_label.innerText = "MOCK 기본 이미지(?.png) : ";
-                    mock_image_base_label.style.width = "250px";
-                    mock_image_base_label.style.fontWeight = "bold";
+                    mock_image_base_label.innerText = "MOCK 기본 이미지(?.png)";
+                    mock_image_base_label.classList.add("popup-label");
                     const mock_image_base = document.createElement("input");
                     mock_image_base.type = "file";
                     mock_image_base.id = "regist-option-mock-image-base";
-                    mock_image_base.style.padding = "5px";
-                    mock_image_base.style.fontSize = "15px";
-                    mock_image_base.style.width = "288px";
+                    mock_image_base.classList.add("popup-input");
                     mock_image_base.setAttribute("name", "images");
+                    mock_image_base.setAttribute("autocomplete", "off");
                     mock_image_base.addEventListener("change", function(e) {
                         const reader = new FileReader();
                         let filename = typeof e.target.files[0] === "object" ? e.target.files[0].name : "new_file.png";
@@ -429,16 +295,14 @@
                     const mock_image_area_div = document.createElement("div");
                     mock_image_area_div.style.marginTop = "20px";
                     const mock_image_area_label = document.createElement("div");
-                    mock_image_area_label.innerText = "MOCK 범위 이미지(?_area.png) : ";
-                    mock_image_area_label.style.width = "250px";
-                    mock_image_area_label.style.fontWeight = "bold";
+                    mock_image_area_label.innerText = "MOCK 범위 이미지(?_area.png)";
+                    mock_image_area_label.classList.add("popup-label");
                     const mock_image_area = document.createElement("input");
                     mock_image_area.type = "file";
                     mock_image_area.id = "regist-option-mock-image-area";
-                    mock_image_area.style.padding = "5px";
-                    mock_image_area.style.fontSize = "15px";
-                    mock_image_area.style.width = "288px";
+                    mock_image_area.classList.add("popup-input");
                     mock_image_area.setAttribute("name", "images");
+                    mock_image_area.setAttribute("autocomplete", "off");
                     mock_image_area.addEventListener("change", function(e) {
                         const reader = new FileReader();
                         let filename = typeof e.target.files[0] === "object" ? e.target.files[0].name : "new_file.png";
@@ -484,16 +348,14 @@
                     const mock_image_effect_div = document.createElement("div");
                     mock_image_effect_div.style.marginTop = "20px";
                     const mock_image_effect_label = document.createElement("div");
-                    mock_image_effect_label.innerText = "MOCK 효과 이미지(?_effect.png) : ";
-                    mock_image_effect_label.style.width = "250px";
-                    mock_image_effect_label.style.fontWeight = "bold";
+                    mock_image_effect_label.innerText = "MOCK 효과 이미지(?_effect.png)";
+                    mock_image_effect_label.classList.add("popup-label");
                     const mock_image_effect = document.createElement("input");
                     mock_image_effect.type = "file";
                     mock_image_effect.id = "regist-option-mock-image-effect";
-                    mock_image_effect.style.padding = "5px";
-                    mock_image_effect.style.fontSize = "15px";
-                    mock_image_effect.style.width = "288px";
+                    mock_image_effect.classList.add("popup-input");
                     mock_image_effect.setAttribute("name", "images");
+                    mock_image_effect.setAttribute("autocomplete", "off");
                     mock_image_effect.addEventListener("change", function(e) {
                         const reader = new FileReader();
                         let filename = typeof e.target.files[0] === "object" ? e.target.files[0].name : "new_file.png";
@@ -538,20 +400,118 @@
                     mock_image_effect_div.appendChild(mock_image_effect_label);
                     mock_image_effect_div.appendChild(mock_image_effect);
 
+                    // 이미지 위치
+                    const image_path_div = document.createElement("div");
+                    image_path_div.style.marginTop = "20px";
+                    const image_path_label = document.createElement("div");
+                    image_path_label.innerText = "[자동입력]이미지 위치";
+                    image_path_label.classList.add("popup-label");
+                    const image_path = document.createElement("input");
+                    image_path.id = "regist-option-image-path";
+                    image_path.classList.add("popup-input");
+                    image_path.setAttribute("name", "imagePath");
+                    image_path.setAttribute("readonly", true);
+                    image_path.setAttribute("autocomplete", "off");
+                    image_path_div.appendChild(image_path_label);
+                    image_path_div.appendChild(image_path);
+
+                    // mock 이미지 배열
+                    const mock_image_array_div = document.createElement("div");
+                    mock_image_array_div.style.marginTop = "20px";
+                    const mock_image_array_label = document.createElement("div");
+                    mock_image_array_label.innerText = "[자동입력]MOCK 파일 리스트";
+                    mock_image_array_label.classList.add("popup-label");
+                    const mock_image_array = document.createElement("input");
+                    mock_image_array.id = "regist-option-mock-image-array";
+                    mock_image_array.classList.add("popup-input");
+                    mock_image_array.setAttribute("name", "mockupImage");
+                    mock_image_array.setAttribute("readonly", true);
+                    mock_image_array.setAttribute("autocomplete", "off");
+                    mock_image_array_div.appendChild(mock_image_array_label);
+                    mock_image_array_div.appendChild(mock_image_array);
+
+                    // 에셋 높이
+                    const mock_height_div = document.createElement("div");
+                    mock_height_div.style.marginTop = "20px";
+                    const mock_height_label = document.createElement("div");
+                    mock_height_label.innerText = "에셋 높이";
+                    mock_height_label.classList.add("popup-label");
+                    const mock_height = document.createElement("input");
+                    mock_height.id = "regist-option-mock-height";
+                    mock_height.classList.add("popup-input");
+                    mock_height.setAttribute("name", "mockHeight");
+                    mock_height.setAttribute("autocomplete", "off");
+                    mock_height_div.appendChild(mock_height_label);
+                    mock_height_div.appendChild(mock_height);
+
+                    // 에셋 길이
+                    const mock_width_div = document.createElement("div");
+                    mock_width_div.style.marginTop = "20px";
+                    const mock_width_label = document.createElement("div");
+                    mock_width_label.innerText = "에셋 길이";
+                    mock_width_label.classList.add("popup-label");
+                    const mock_width = document.createElement("input");
+                    mock_width.id = "regist-option-mock-width";
+                    mock_width.classList.add("popup-input");
+                    mock_width.setAttribute("name", "mockWidth");
+                    mock_width.setAttribute("autocomplete", "off");
+                    mock_width_div.appendChild(mock_width_label);
+                    mock_width_div.appendChild(mock_width);
+
+                    // 에셋 위치 TOP
+                    const mock_top_div = document.createElement("div");
+                    mock_top_div.style.marginTop = "20px";
+                    const mock_top_label = document.createElement("div");
+                    mock_top_label.innerText = "에셋 위치 TOP";
+                    mock_top_label.classList.add("popup-label");
+                    const mock_top = document.createElement("input");
+                    mock_top.id = "regist-option-mock-top";
+                    mock_top.classList.add("popup-input");
+                    mock_top.setAttribute("name", "mockTop");
+                    mock_top.setAttribute("autocomplete", "off");
+                    mock_top_div.appendChild(mock_top_label);
+                    mock_top_div.appendChild(mock_top);
+
+                    // 에셋 위치 LEFT
+                    const mock_left_div = document.createElement("div");
+                    mock_left_div.style.marginTop = "20px";
+                    const mock_left_label = document.createElement("div");
+                    mock_left_label.innerText = "에셋 위치 LEFT";
+                    mock_left_label.classList.add("popup-label");
+                    const mock_left = document.createElement("input");
+                    mock_left.id = "regist-option-mock-left";
+                    mock_left.classList.add("popup-input");
+                    mock_left.setAttribute("name", "mockLeft");
+                    mock_left.setAttribute("autocomplete", "off");
+                    mock_left_div.appendChild(mock_left_label);
+                    mock_left_div.appendChild(mock_left);
+
+                    // 에셋 배경색
+                    const mock_filling_div = document.createElement("div");
+                    mock_filling_div.style.marginTop = "20px";
+                    const mock_filling_label = document.createElement("div");
+                    mock_filling_label.innerText = "에셋 배경색";
+                    mock_filling_label.classList.add("popup-label");
+                    const mock_filling = document.createElement("input");
+                    mock_filling.id = "regist-option-mock-filling";
+                    mock_filling.classList.add("popup-input");
+                    mock_filling.setAttribute("name", "mockFilling");
+                    mock_filling.setAttribute("autocomplete", "off");
+                    mock_filling_div.appendChild(mock_filling_label);
+                    mock_filling_div.appendChild(mock_filling);
+
                     // 옵션 적용 시작일
                     const start_date_div = document.createElement("div");
                     start_date_div.style.marginTop = "20px";
                     const start_date_label = document.createElement("div");
-                    start_date_label.innerText = "옵션 적용 시작일 : ";
-                    start_date_label.style.width = "200px";
-                    start_date_label.style.fontWeight = "bold";
+                    start_date_label.innerText = "옵션 적용 시작일";
+                    start_date_label.classList.add("popup-label");
                     const start_date = document.createElement("input");
                     start_date.id = "regist-start-date";
                     start_date.type = "datetime-local";
-                    start_date.style.padding = "5px";
-                    start_date.style.fontSize = "15px";
-                    start_date.style.width = "288px";
+                    start_date.classList.add("popup-input");
                     start_date.setAttribute("name", "startDate");
+                    start_date.setAttribute("autocomplete", "off");
                     start_date_div.appendChild(start_date_label);
                     start_date_div.appendChild(start_date);
 
@@ -559,32 +519,21 @@
                     const end_date_div = document.createElement("div");
                     end_date_div.style.marginTop = "20px";
                     const end_date_label = document.createElement("div");
-                    end_date_label.innerText = "옵션 적용 종료일 : ";
-                    end_date_label.style.width = "200px";
-                    end_date_label.style.fontWeight = "bold";
+                    end_date_label.innerText = "옵션 적용 종료일";
+                    end_date_label.classList.add("popup-label");
                     const end_date = document.createElement("input");
                     end_date.id = "regist-end-date";
                     end_date.type = "datetime-local";
-                    end_date.style.padding = "5px";
-                    end_date.style.fontSize = "15px";
-                    end_date.style.width = "288px";
+                    end_date.classList.add("popup-input");
                     end_date.setAttribute("name", "endDate");
+                    end_date.setAttribute("autocomplete", "off");
                     end_date_div.appendChild(end_date_label);
                     end_date_div.appendChild(end_date);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
-                    submit_btn.innerText = "등록";
-                    submit_btn.style.width = "100px";
-                    submit_btn.style.minHeight = "40px";
-                    submit_btn.style.marginTop = "20px";
-                    submit_btn.style.marginBottom = "20px";
-                    submit_btn.style.backgroundColor = "#FFFFFF";
-                    submit_btn.style.border = "1px solid #e2e2e2";
-                    submit_btn.style.display = "flex";
-                    submit_btn.style.justifyContent = "center";
-                    submit_btn.style.alignItems = "center";
-                    submit_btn.style.cursor = "pointer";
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
 
@@ -681,21 +630,20 @@
                         xhr.send(data);
                     }
 
-                    form.appendChild(title_div);
                     form.appendChild(option_name1_div);
                     form.appendChild(option_name2_div);
                     form.appendChild(cost_div);
                     form.appendChild(price_div);
+                    form.appendChild(mock_image_base_div);
+                    form.appendChild(mock_image_area_div);
+                    form.appendChild(mock_image_effect_div);
                     form.appendChild(image_path_div);
-                    form.appendChild(mock_filling_div);
+                    form.appendChild(mock_image_array_div);
                     form.appendChild(mock_height_div);
                     form.appendChild(mock_width_div);
                     form.appendChild(mock_top_div);
                     form.appendChild(mock_left_div);
-                    form.appendChild(mock_image_array_div);
-                    form.appendChild(mock_image_base_div);
-                    form.appendChild(mock_image_area_div);
-                    form.appendChild(mock_image_effect_div);
+                    form.appendChild(mock_filling_div);
                     form.appendChild(start_date_div);
                     form.appendChild(end_date_div);
                     form.appendChild(submit_btn);
@@ -739,7 +687,7 @@
                 });
 
                 // 수정 팝업
-                const popup_editor = new Popup();
+                const popup_editor = new Popup("옵션 수정");
                 // 실제 팝업창에 그려질 form 문 작성
                 popup_editor.setParam(new FormData());	// formData 생성
                 popup_editor.init(function(popup) {
@@ -748,32 +696,19 @@
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
                     form.style.alignItems = "center";
-                    form.style.maxHeight = "600px";
                     form.style.padding = "0px 30px";
-                    form.style.overflowY = "auto";
-                    form.style.overflowX = "hidden";
-
-                    // 타이틀
-                    const title_div = document.createElement("div");
-                    title_div.innerText = "옵션 수정"
-                    title_div.style.fontSize = "20px";
-                    title_div.style.marginTop = "20px";
-                    title_div.style.fontWeight = "bold";
-                    title_div.style.color = "#4286f4";
 
                     // 번호
                     const id_div = document.createElement("div");
                     id_div.style.marginTop = "20px";
                     const id_label = document.createElement("div");
-                    id_label.innerText = "번호 : ";
-                    id_label.style.width = "200px";
-                    id_label.style.fontWeight = "bold";
+                    id_label.innerText = "번호";
+                    id_label.classList.add("popup-label");
                     const id = document.createElement("input");
                     id.id = "editor-option-id";
-                    id.style.padding = "5px";
-                    id.style.fontSize = "15px";
-                    id.style.width = "288px";
+                    id.classList.add("popup-input");
                     id.setAttribute("name", "id");
+                    id.setAttribute("autocomplete", "off");
                     id.readOnly = true;
                     id_div.appendChild(id_label);
                     id_div.appendChild(id);
@@ -782,15 +717,13 @@
                     const option_name1_div = document.createElement("div");
                     option_name1_div.style.marginTop = "20px";
                     const option_name1_label = document.createElement("div");
-                    option_name1_label.innerText = "옵션 이름1 : ";
-                    option_name1_label.style.width = "200px";
-                    option_name1_label.style.fontWeight = "bold";
+                    option_name1_label.innerText = "옵션 이름1";
+                    option_name1_label.classList.add("popup-label");
                     const option_name1 = document.createElement("input");
                     option_name1.id = "editor-option-name1";
-                    option_name1.style.padding = "5px";
-                    option_name1.style.fontSize = "15px";
-                    option_name1.style.width = "288px";
+                    option_name1.classList.add("popup-input");
                     option_name1.setAttribute("name", "optionName1");
+                    option_name1.setAttribute("autocomplete", "off");
                     option_name1_div.appendChild(option_name1_label);
                     option_name1_div.appendChild(option_name1);
 
@@ -798,15 +731,13 @@
                     const option_name2_div = document.createElement("div");
                     option_name2_div.style.marginTop = "20px";
                     const option_name2_label = document.createElement("div");
-                    option_name2_label.innerText = "옵션 이름2 : ";
-                    option_name2_label.style.width = "200px";
-                    option_name2_label.style.fontWeight = "bold";
+                    option_name2_label.innerText = "옵션 이름2";
+                    option_name2_label.classList.add("popup-label");
                     const option_name2 = document.createElement("input");
                     option_name2.id = "editor-option-name2";
-                    option_name2.style.padding = "5px";
-                    option_name2.style.fontSize = "15px";
-                    option_name2.style.width = "288px";
+                    option_name2.classList.add("popup-input");
                     option_name2.setAttribute("name", "optionName2");
+                    option_name2.setAttribute("autocomplete", "off");
                     option_name2_div.appendChild(option_name2_label);
                     option_name2_div.appendChild(option_name2);
 
@@ -814,15 +745,13 @@
                     const cost_div = document.createElement("div");
                     cost_div.style.marginTop = "20px";
                     const cost_label = document.createElement("div");
-                    cost_label.innerText = "비용 : ";
-                    cost_label.style.width = "200px";
-                    cost_label.style.fontWeight = "bold";
+                    cost_label.innerText = "비용";
+                    cost_label.classList.add("popup-label");
                     const cost = document.createElement("input");
                     cost.id = "editor-option-cost";
-                    cost.style.padding = "5px";
-                    cost.style.fontSize = "15px";
-                    cost.style.width = "288px";
+                    cost.classList.add("popup-input");
                     cost.setAttribute("name", "cost");
+                    cost.setAttribute("autocomplete", "off");
                     cost_div.appendChild(cost_label);
                     cost_div.appendChild(cost);
 
@@ -830,146 +759,28 @@
                     const price_div = document.createElement("div");
                     price_div.style.marginTop = "20px";
                     const price_label = document.createElement("div");
-                    price_label.innerText = "가격 : ";
-                    price_label.style.width = "200px";
-                    price_label.style.fontWeight = "bold";
+                    price_label.innerText = "가격";
+                    price_label.classList.add("popup-label");
                     const price = document.createElement("input");
                     price.id = "editor-option-price";
-                    price.style.padding = "5px";
-                    price.style.fontSize = "15px";
-                    price.style.width = "288px";
+                    price.classList.add("popup-input");
                     price.setAttribute("name", "price");
+                    price.setAttribute("autocomplete", "off");
                     price_div.appendChild(price_label);
                     price_div.appendChild(price);
-
-                    // 이미지 위치
-                    const image_path_div = document.createElement("div");
-                    image_path_div.style.marginTop = "20px";
-                    const image_path_label = document.createElement("div");
-                    image_path_label.innerText = "이미지 위치(자동입력) : ";
-                    image_path_label.style.width = "200px";
-                    image_path_label.style.fontWeight = "bold";
-                    const image_path = document.createElement("input");
-                    image_path.id = "editor-option-image-path";
-                    image_path.style.padding = "5px";
-                    image_path.style.fontSize = "15px";
-                    image_path.style.width = "288px";
-                    image_path.setAttribute("name", "imagePath");
-                    image_path.setAttribute("readonly", true);
-                    image_path_div.appendChild(image_path_label);
-                    image_path_div.appendChild(image_path);
-
-                    // mock 배경색
-                    const mock_filling_div = document.createElement("div");
-                    mock_filling_div.style.marginTop = "20px";
-                    const mock_filling_label = document.createElement("div");
-                    mock_filling_label.innerText = "에셋 배경색 : ";
-                    mock_filling_label.style.width = "200px";
-                    mock_filling_label.style.fontWeight = "bold";
-                    const mock_filling = document.createElement("input");
-                    mock_filling.id = "editor-option-mock-filling";
-                    mock_filling.style.padding = "5px";
-                    mock_filling.style.fontSize = "15px";
-                    mock_filling.style.width = "288px";
-                    mock_filling.setAttribute("name", "mockFilling");
-                    mock_filling_div.appendChild(mock_filling_label);
-                    mock_filling_div.appendChild(mock_filling);
-
-                    // mock 높이
-                    const mock_height_div = document.createElement("div");
-                    mock_height_div.style.marginTop = "20px";
-                    const mock_height_label = document.createElement("div");
-                    mock_height_label.innerText = "에셋 높이 : ";
-                    mock_height_label.style.width = "200px";
-                    mock_height_label.style.fontWeight = "bold";
-                    const mock_height = document.createElement("input");
-                    mock_height.id = "editor-option-mock-height";
-                    mock_height.style.padding = "5px";
-                    mock_height.style.fontSize = "15px";
-                    mock_height.style.width = "288px";
-                    mock_height.setAttribute("name", "mockHeight");
-                    mock_height_div.appendChild(mock_height_label);
-                    mock_height_div.appendChild(mock_height);
-
-                    // mock 길이
-                    const mock_width_div = document.createElement("div");
-                    mock_width_div.style.marginTop = "20px";
-                    const mock_width_label = document.createElement("div");
-                    mock_width_label.innerText = "에셋 길이 : ";
-                    mock_width_label.style.width = "200px";
-                    mock_width_label.style.fontWeight = "bold";
-                    const mock_width = document.createElement("input");
-                    mock_width.id = "editor-option-mock-width";
-                    mock_width.style.padding = "5px";
-                    mock_width.style.fontSize = "15px";
-                    mock_width.style.width = "288px";
-                    mock_width.setAttribute("name", "mockWidth");
-                    mock_width_div.appendChild(mock_width_label);
-                    mock_width_div.appendChild(mock_width);
-
-                    // mock 위치 TOP
-                    const mock_top_div = document.createElement("div");
-                    mock_top_div.style.marginTop = "20px";
-                    const mock_top_label = document.createElement("div");
-                    mock_top_label.innerText = "에셋 위치 TOP : ";
-                    mock_top_label.style.width = "200px";
-                    mock_top_label.style.fontWeight = "bold";
-                    const mock_top = document.createElement("input");
-                    mock_top.id = "editor-option-mock-top";
-                    mock_top.style.padding = "5px";
-                    mock_top.style.fontSize = "15px";
-                    mock_top.style.width = "288px";
-                    mock_top.setAttribute("name", "mockTop");
-                    mock_top_div.appendChild(mock_top_label);
-                    mock_top_div.appendChild(mock_top);
-
-                    // mock 위치 LEFT
-                    const mock_left_div = document.createElement("div");
-                    mock_left_div.style.marginTop = "20px";
-                    const mock_left_label = document.createElement("div");
-                    mock_left_label.innerText = "에셋 위치 LEFT : ";
-                    mock_left_label.style.width = "200px";
-                    mock_left_label.style.fontWeight = "bold";
-                    const mock_left = document.createElement("input");
-                    mock_left.id = "editor-option-mock-left";
-                    mock_left.style.padding = "5px";
-                    mock_left.style.fontSize = "15px";
-                    mock_left.style.width = "288px";
-                    mock_left.setAttribute("name", "mockLeft");
-                    mock_left_div.appendChild(mock_left_label);
-                    mock_left_div.appendChild(mock_left);
-
-                    // mock 이미지 배열
-                    const mock_image_array_div = document.createElement("div");
-                    mock_image_array_div.style.marginTop = "20px";
-                    const mock_image_array_label = document.createElement("div");
-                    mock_image_array_label.innerText = "MOCK 파일 리스트(자동입력) : ";
-                    mock_image_array_label.style.width = "200px";
-                    mock_image_array_label.style.fontWeight = "bold";
-                    const mock_image_array = document.createElement("input");
-                    mock_image_array.id = "editor-option-mock-image-array";
-                    mock_image_array.style.padding = "5px";
-                    mock_image_array.style.fontSize = "15px";
-                    mock_image_array.style.width = "288px";
-                    mock_image_array.setAttribute("name", "mockupImage");
-                    mock_image_array.setAttribute("readonly", true);
-                    mock_image_array_div.appendChild(mock_image_array_label);
-                    mock_image_array_div.appendChild(mock_image_array);
 
                     // mock 이미지 base
                     const mock_image_base_div = document.createElement("div");
                     mock_image_base_div.style.marginTop = "20px";
                     const mock_image_base_label = document.createElement("div");
-                    mock_image_base_label.innerText = "MOCK 기본 이미지(?.png) : ";
-                    mock_image_base_label.style.width = "250px";
-                    mock_image_base_label.style.fontWeight = "bold";
+                    mock_image_base_label.innerText = "MOCK 기본 이미지(?.png)";
+                    mock_image_base_label.classList.add("popup-label");
                     const mock_image_base = document.createElement("input");
                     mock_image_base.type = "file";
                     mock_image_base.id = "editor-option-mock-image-base";
-                    mock_image_base.style.padding = "5px";
-                    mock_image_base.style.fontSize = "15px";
-                    mock_image_base.style.width = "288px";
+                    mock_image_base.classList.add("popup-input");
                     mock_image_base.setAttribute("name", "images");
+                    mock_image_base.setAttribute("autocomplete", "off");
                     mock_image_base.addEventListener("change", function(e) {
                         const reader = new FileReader();
                         let filename = typeof e.target.files[0] === "object" ? e.target.files[0].name : "new_file.png";
@@ -1015,16 +826,14 @@
                     const mock_image_area_div = document.createElement("div");
                     mock_image_area_div.style.marginTop = "20px";
                     const mock_image_area_label = document.createElement("div");
-                    mock_image_area_label.innerText = "MOCK 범위 이미지(?_area.png) : ";
-                    mock_image_area_label.style.width = "250px";
-                    mock_image_area_label.style.fontWeight = "bold";
+                    mock_image_area_label.innerText = "MOCK 범위 이미지(?_area.png)";
+                    mock_image_area_label.classList.add("popup-label");
                     const mock_image_area = document.createElement("input");
                     mock_image_area.type = "file";
                     mock_image_area.id = "editor-option-mock-image-area";
-                    mock_image_area.style.padding = "5px";
-                    mock_image_area.style.fontSize = "15px";
-                    mock_image_area.style.width = "288px";
+                    mock_image_area.classList.add("popup-input");
                     mock_image_area.setAttribute("name", "images");
+                    mock_image_area.setAttribute("autocomplete", "off");
                     mock_image_area.addEventListener("change", function(e) {
                         const reader = new FileReader();
                         let filename = typeof e.target.files[0] === "object" ? e.target.files[0].name : "new_file.png";
@@ -1070,16 +879,14 @@
                     const mock_image_effect_div = document.createElement("div");
                     mock_image_effect_div.style.marginTop = "20px";
                     const mock_image_effect_label = document.createElement("div");
-                    mock_image_effect_label.innerText = "MOCK 효과 이미지(?_effect.png) : ";
-                    mock_image_effect_label.style.width = "250px";
-                    mock_image_effect_label.style.fontWeight = "bold";
+                    mock_image_effect_label.innerText = "MOCK 효과 이미지(?_effect.png)";
+                    mock_image_effect_label.classList.add("popup-label");
                     const mock_image_effect = document.createElement("input");
                     mock_image_effect.type = "file";
                     mock_image_effect.id = "editor-option-mock-image-effect";
-                    mock_image_effect.style.padding = "5px";
-                    mock_image_effect.style.fontSize = "15px";
-                    mock_image_effect.style.width = "288px";
+                    mock_image_effect.classList.add("popup-input");
                     mock_image_effect.setAttribute("name", "images");
+                    mock_image_effect.setAttribute("autocomplete", "off");
                     mock_image_effect.addEventListener("change", function(e) {
                         const reader = new FileReader();
                         let filename = typeof e.target.files[0] === "object" ? e.target.files[0].name : "new_file.png";
@@ -1124,6 +931,106 @@
                     mock_image_effect_div.appendChild(mock_image_effect_label);
                     mock_image_effect_div.appendChild(mock_image_effect);
 
+                    // 이미지 위치
+                    const image_path_div = document.createElement("div");
+                    image_path_div.style.marginTop = "20px";
+                    const image_path_label = document.createElement("div");
+                    image_path_label.innerText = "[자동입력]이미지 위치";
+                    image_path_label.classList.add("popup-label");
+                    const image_path = document.createElement("input");
+                    image_path.id = "editor-option-image-path";
+                    image_path.classList.add("popup-input");
+                    image_path.setAttribute("name", "imagePath");
+                    image_path.setAttribute("autocomplete", "off");
+                    image_path.setAttribute("readonly", true);
+                    image_path_div.appendChild(image_path_label);
+                    image_path_div.appendChild(image_path);
+
+                    // mock 이미지 배열
+                    const mock_image_array_div = document.createElement("div");
+                    mock_image_array_div.style.marginTop = "20px";
+                    const mock_image_array_label = document.createElement("div");
+                    mock_image_array_label.innerText = "[자동입력]MOCK 파일 리스트";
+                    mock_image_array_label.classList.add("popup-label");
+                    const mock_image_array = document.createElement("input");
+                    mock_image_array.id = "editor-option-mock-image-array";
+                    mock_image_array.classList.add("popup-input");
+                    mock_image_array.setAttribute("name", "mockupImage");
+                    mock_image_array.setAttribute("autocomplete", "off");
+                    mock_image_array.setAttribute("readonly", true);
+                    mock_image_array_div.appendChild(mock_image_array_label);
+                    mock_image_array_div.appendChild(mock_image_array);
+
+                    // mock 높이
+                    const mock_height_div = document.createElement("div");
+                    mock_height_div.style.marginTop = "20px";
+                    const mock_height_label = document.createElement("div");
+                    mock_height_label.innerText = "에셋 높이";
+                    mock_height_label.classList.add("popup-label");
+                    const mock_height = document.createElement("input");
+                    mock_height.id = "editor-option-mock-height";
+                    mock_height.classList.add("popup-input");
+                    mock_height.setAttribute("name", "mockHeight");
+                    mock_height.setAttribute("autocomplete", "off");
+                    mock_height_div.appendChild(mock_height_label);
+                    mock_height_div.appendChild(mock_height);
+
+                    // mock 길이
+                    const mock_width_div = document.createElement("div");
+                    mock_width_div.style.marginTop = "20px";
+                    const mock_width_label = document.createElement("div");
+                    mock_width_label.innerText = "에셋 길이";
+                    mock_width_label.classList.add("popup-label");
+                    const mock_width = document.createElement("input");
+                    mock_width.id = "editor-option-mock-width";
+                    mock_width.classList.add("popup-input");
+                    mock_width.setAttribute("name", "mockWidth");
+                    mock_width.setAttribute("autocomplete", "off");
+                    mock_width_div.appendChild(mock_width_label);
+                    mock_width_div.appendChild(mock_width);
+
+                    // mock 위치 TOP
+                    const mock_top_div = document.createElement("div");
+                    mock_top_div.style.marginTop = "20px";
+                    const mock_top_label = document.createElement("div");
+                    mock_top_label.innerText = "에셋 위치 TOP";
+                    mock_top_label.classList.add("popup-label");
+                    const mock_top = document.createElement("input");
+                    mock_top.id = "editor-option-mock-top";
+                    mock_top.classList.add("popup-input");
+                    mock_top.setAttribute("name", "mockTop");
+                    mock_top.setAttribute("autocomplete", "off");
+                    mock_top_div.appendChild(mock_top_label);
+                    mock_top_div.appendChild(mock_top);
+
+                    // mock 위치 LEFT
+                    const mock_left_div = document.createElement("div");
+                    mock_left_div.style.marginTop = "20px";
+                    const mock_left_label = document.createElement("div");
+                    mock_left_label.innerText = "에셋 위치 LEFT";
+                    mock_left_label.classList.add("popup-label");
+                    const mock_left = document.createElement("input");
+                    mock_left.id = "editor-option-mock-left";
+                    mock_left.classList.add("popup-input");
+                    mock_left.setAttribute("name", "mockLeft");
+                    mock_left.setAttribute("autocomplete", "off");
+                    mock_left_div.appendChild(mock_left_label);
+                    mock_left_div.appendChild(mock_left);
+
+                    // mock 배경색
+                    const mock_filling_div = document.createElement("div");
+                    mock_filling_div.style.marginTop = "20px";
+                    const mock_filling_label = document.createElement("div");
+                    mock_filling_label.innerText = "에셋 배경색";
+                    mock_filling_label.classList.add("popup-label");
+                    const mock_filling = document.createElement("input");
+                    mock_filling.id = "editor-option-mock-filling";
+                    mock_filling.classList.add("popup-input");
+                    mock_filling.setAttribute("name", "mockFilling");
+                    mock_filling.setAttribute("autocomplete", "off");
+                    mock_filling_div.appendChild(mock_filling_label);
+                    mock_filling_div.appendChild(mock_filling);
+
                     // 옵션 적용 시작일
                     // const start_date_div = document.createElement("div");
                     // start_date_div.style.marginTop = "20px";
@@ -1163,30 +1070,19 @@
                     status_div.style.marginTop = "20px";
                     const status_label = document.createElement("div");
                     status_label.innerText = "사용여부(Y, N) : ";
-                    status_label.style.width = "200px";
-                    status_label.style.fontWeight = "bold";
+                    status_label.classList.add("popup-label");
                     const status = document.createElement("input");
                     status.id = "editor-option-status";
-                    status.style.padding = "5px";
-                    status.style.fontSize = "15px";
-                    status.style.width = "288px";
+                    status.classList.add("popup-input");
                     status.setAttribute("name", "status");
+                    status.setAttribute("autocomplete", "off");
                     status_div.appendChild(status_label);
                     status_div.appendChild(status);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
-                    submit_btn.innerText = "수정";
-                    submit_btn.style.width = "100px";
-                    submit_btn.style.minHeight = "40px";
-                    submit_btn.style.marginTop = "20px";
-                    submit_btn.style.marginBottom = "20px";
-                    submit_btn.style.backgroundColor = "#FFFFFF";
-                    submit_btn.style.border = "1px solid #e2e2e2";
-                    submit_btn.style.display = "flex";
-                    submit_btn.style.justifyContent = "center";
-                    submit_btn.style.alignItems = "center";
-                    submit_btn.style.cursor = "pointer";
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
 
@@ -1289,22 +1185,21 @@
                         xhr.send(data);
                     }
 
-                    form.appendChild(title_div);
                     form.appendChild(id_div);
                     form.appendChild(option_name1_div);
                     form.appendChild(option_name2_div);
                     form.appendChild(cost_div);
                     form.appendChild(price_div);
+                    form.appendChild(mock_image_base_div);
+                    form.appendChild(mock_image_area_div);
+                    form.appendChild(mock_image_effect_div);
                     form.appendChild(image_path_div);
-                    form.appendChild(mock_filling_div);
+                    form.appendChild(mock_image_array_div);
                     form.appendChild(mock_height_div);
                     form.appendChild(mock_width_div);
                     form.appendChild(mock_top_div);
                     form.appendChild(mock_left_div);
-                    form.appendChild(mock_image_array_div);
-                    form.appendChild(mock_image_base_div);
-                    form.appendChild(mock_image_area_div);
-                    form.appendChild(mock_image_effect_div);
+                    form.appendChild(mock_filling_div);
                     // form.appendChild(start_date_div);
                     // form.appendChild(end_date_div);
                     form.appendChild(status_div);

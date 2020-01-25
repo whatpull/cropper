@@ -22,6 +22,7 @@
 
         <!-- 팝업 모듈 -->
         <script type="text/javascript" src="./js/popup_core_module.js"></script>
+        <link href="./css/popup.css" rel="stylesheet" />
 
         <script>
             window.onload = function() {
@@ -61,6 +62,7 @@
                 document.querySelector("#asset-file").addEventListener("change", function(e) {
                     const reader = new FileReader();
                     const filename = e.target.files[0].name;
+
                     reader.onload = function(event) {
                         const result = event.target.result;
                         const blob_bin = window.atob(result.split(',')[1]);	// base64 데이터 디코딩
@@ -86,6 +88,11 @@
                                         "assetPath": assetPath,
                                         "assetFileName": assetFileName
                                     });
+
+                                    // 이미지 파일 데이터
+                                    document.querySelector("#preview-img").style.backgroundImage = "url('" + (assetPath + assetFileName) + "')";
+                                    document.querySelector("#preview-name").innerText = filename;
+
                                     popup_regist.open();
                                 } else {
                                     alert("파일 업로드에 실패하였습니다.");
@@ -98,7 +105,7 @@
                     reader.readAsDataURL(e.target.files[0]);
                 });
 
-                const popup_regist = new Popup();
+                const popup_regist = new Popup("에셋 등록");
                 // 실제 팝업창에 그려질 form 문 작성
                 popup_regist.init(function(popup) {
                     const form = document.createElement("form");
@@ -106,47 +113,39 @@
                     form.style.display = "flex";
                     form.style.flexDirection = "column";
                     form.style.alignItems = "center";
-                    form.style.maxHeight = "600px";
                     form.style.padding = "0px 30px";
-                    form.style.overflowY = "auto";
-                    form.style.overflowX = "hidden";
 
-                    // 타이틀
-                    const title_div = document.createElement("div");
-                    title_div.innerText = "에셋 등록"
-                    title_div.style.fontSize = "20px";
-                    title_div.style.marginTop = "20px";
-                    title_div.style.fontWeight = "bold";
-                    title_div.style.color = "#4286f4";
+                    // 파일 프리뷰(이미지)
+                    const preview_div = document.createElement("div");
+                    preview_div.style.marginTop = "45px";
+                    preview_div.classList.add("popup-file-preview");
+                    const preview_img = document.createElement("div");
+                    preview_img.id = "preview-img";
+                    preview_img.classList.add("popup-file-preview-image");
+                    const preview_name = document.createElement("div");
+                    preview_name.id = "preview-name";
+                    preview_name.classList.add("popup-file-preview-name");
+                    preview_div.appendChild(preview_img);
+                    preview_div.appendChild(preview_name);
 
-                    // 이름
+                    // 파일 이름
                     const name_div = document.createElement("div");
                     name_div.style.marginTop = "20px";
                     const name_label = document.createElement("div");
-                    name_label.innerText = "이름 : ";
-                    name_label.style.width = "100px";
-                    name_label.style.fontWeight = "bold";
+                    name_label.innerText = "파일 이름";
+                    name_label.classList.add("popup-label");
                     const name = document.createElement("input");
                     name.id = "asset-name";
-                    name.style.padding = "5px";
-                    name.style.fontSize = "15px";
+                    name.classList.add("popup-input");
                     name.setAttribute("name", "name");
+                    name.setAttribute("autocomplete", "off");
                     name_div.appendChild(name_label);
                     name_div.appendChild(name);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
-                    submit_btn.innerText = "등록";
-                    submit_btn.style.width = "100px";
-                    submit_btn.style.minHeight = "40px";
-                    submit_btn.style.marginTop = "20px";
-                    submit_btn.style.marginBottom = "20px";
-                    submit_btn.style.backgroundColor = "#FFFFFF";
-                    submit_btn.style.border = "1px solid #e2e2e2";
-                    submit_btn.style.display = "flex";
-                    submit_btn.style.justifyContent = "center";
-                    submit_btn.style.alignItems = "center";
-                    submit_btn.style.cursor = "pointer";
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
                     submit_btn.addEventListener("click", function(e) {
                         e.preventDefault();
 
@@ -162,7 +161,7 @@
                         send(param);
                     }.bind(popup_regist));
 
-                    form.appendChild(title_div);
+                    form.appendChild(preview_div);
                     form.appendChild(name_div);
                     form.appendChild(submit_btn);
 

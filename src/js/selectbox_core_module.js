@@ -89,7 +89,7 @@ SelectBox.prototype.setting = function() {
     document.addEventListener("click", closeAllSelect);
 }
 
-SelectBox.prototype.init = function(url, callback, isFirstSelected) {
+SelectBox.prototype.init = function(url, callback, isFirstSelected, mode) {
     if(typeof url === "string") {
         const target = this.x[0].getElementsByTagName("select")[0];
         target.innerHTML = "";
@@ -104,6 +104,7 @@ SelectBox.prototype.init = function(url, callback, isFirstSelected) {
                     if(typeof callback === "function" ) {
                         callback(list, target);
                         this.setting();
+                        this.mode(mode);
                         // 첫번째 강제선택
                         if(typeof isFirstSelected === "undefined" || isFirstSelected) {
                             const first = this.x[0].querySelectorAll(".select-items")[0];
@@ -139,5 +140,11 @@ SelectBox.prototype.select = function(value) {
         if(select_item.getAttribute("value") == value) {
             select_item.click();
         }
+    }
+}
+
+SelectBox.prototype.mode = function(mode) {
+    if(mode === "input") {
+        this.a.classList.add("input");
     }
 }

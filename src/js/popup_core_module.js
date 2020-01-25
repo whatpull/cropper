@@ -1,41 +1,44 @@
 // 생성자 프로토타입 체이닝
-function Popup() {
+function Popup(title) {
     this.dim;
     this.popup;
     this.data;
     this.param;
+    this.title = title;
 }
 
 // 초기화
 Popup.prototype.init = function(form) {
-    this.dim = document.createElement("div")
-    this.dim.style.width = "100vw";
-    this.dim.style.height = "100vh";
-    this.dim.style.position = "absolute";
-    this.dim.style.top = "0";
-    this.dim.style.left = "0";
-    this.dim.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    this.dim.style.display = "none";
-    this.dim.style.justifyContent = "center";
-    this.dim.style.alignItems = "center";
-    this.dim.style.zIndex = "999";
-    this.dim.addEventListener("click", function(e) {
-        e.preventDefault();
-        this.dim.style.display = "none";
-    }.bind(this));
+    this.dim = document.createElement("div");
+    this.dim.classList.add("popup-dim");
+    // this.dim.addEventListener("click", function(e) {
+    //     e.preventDefault();
+    //     this.close();
+    // }.bind(this));
     document.body.appendChild(this.dim);
 
     this.popup = document.createElement("div");
-    // this.popup.style.width = "700px";
-    this.popup.style.maxHeight = "600px";
-    this.popup.style.backgroundColor = "#ffffff";
-    this.popup.style.borderRadius = "10px";
-    this.popup.style.overflowY = "hidden";
-    this.popup.style.overflowX = "hidden";
-    this.popup.style.zIndex = "1000";
+    this.popup.classList.add("popup-wrapper");
     this.popup.addEventListener("click", function(e) {
         e.stopPropagation();
     });
+
+    // head
+    const head = document.createElement("div");
+    head.classList.add("popup-head");
+    head.innerText = this.title;
+
+    // close
+    const btn_close = document.createElement("div");
+    btn_close.classList.add("popup-close");
+    btn_close.addEventListener("click", function(e) {
+        e.preventDefault();
+        this.close();
+    }.bind(this));
+    btn_close.innerText = "×";
+
+    head.appendChild(btn_close);
+    this.popup.appendChild(head);
     this.dim.appendChild(this.popup);
 
     if(typeof form === "function") {
