@@ -27,7 +27,15 @@
         color05: "#7BB2E3",
         color06: "#D34249",
  *  }
- * 
+ * [참고]
+ * 팔레트는 https://github.com/Simonwep/pickr 라이브러리를 활용하였습니다.
+ * 사용전에 반드시 아래 css, js 파일이 정적로드 되어야 합니다.
+ *  <link rel="stylesheet" href="./libs/pickr/themes/classic.min.css"/> <!-- 'classic' theme -->
+    <link rel="stylesheet" href="./libs/pickr/themes/monolith.min.css"/> <!-- 'monolith' theme -->
+    <link rel="stylesheet" href="./libs/pickr/themes/nano.min.css"/> <!-- 'nano' theme -->
+    <script src="./libs/pickr/pickr.min.js"></script>
+ *  <script src="./libs/pickr/pickr.es5.min.js"></script>
+ *  위 라이브러리 사용 _handlePalette() 함수 참조
  */
 function Cropper(data_set, edit_image, palette_color) {
     // 시스템
@@ -403,16 +411,14 @@ Cropper.prototype._handleFunction = function(visibility) {
 }
 
 Cropper.prototype._handlePalette = function() {
-    if(typeof this.pickr === "object") {
-        pickr.destroyAndRemove();
-    }
-    pickr = Pickr.create({
+    this.pickr = Pickr.create({
         el: '.color-picker',
         container: '.editor',
         position: 'left-end',
         useAsButton: true,
         theme: 'monolith', // or 'monolith', or 'nano'
         defaultRepresentation: 'HEX',
+        default: typeof this.selected_color === "undefined" ? "#ffffff" : this.selected_color,
         swatches: [
             '#d5d5d5',
             '#b6b5b5',
@@ -433,8 +439,8 @@ Cropper.prototype._handlePalette = function() {
             }
         }
     });
-    pickr.off('show', () => {});
-    pickr.on('show', (color, instance) => {
+    this.pickr.off('show', () => {});
+    this.pickr.on('show', (color, instance) => {
         // instance._root.app.offsetLeft = instance._root.app.offsetLeft - 10;
         const pcr_app = this.target.parentElement.querySelector(".pcr-app");
         pcr_app.style.left = "calc(" + pcr_app.style.left + " - " + "10px)";
@@ -448,8 +454,8 @@ Cropper.prototype._handlePalette = function() {
         pcr_interaction.style.order = "3";
         pcr_interaction.style.marginTop = ".75em"
     });
-    pickr.off('change', () => {});
-    pickr.on('change', (color, instance) => {
+    this.pickr.off('change', () => {});
+    this.pickr.on('change', (color, instance) => {
         setTimeout(function() {
             this.selected_color = "#" + color.toHEXA().join('');
             this._handleColorDraw(this.context_worker, this.canvas_worker, this.selected_color);
@@ -1117,7 +1123,9 @@ Cropper.prototype.reset = function() {
     this.palette_color_div_04 = null;
     this.palette_color_div_05 = null;
     this.palette_color_div_06 = null;
-    pickr.destroyAndRemove();
+    if(typeof this.pickr === "object") {
+        this.pickr.destroyAndRemove();
+    }
 
     // 모드 표시[타이틀]
     this.mode_div = null;
@@ -1183,7 +1191,9 @@ Cropper.prototype.destroy = function() {
     this.palette_color_div_04 = null;
     this.palette_color_div_05 = null;
     this.palette_color_div_06 = null;
-    pickr.destroyAndRemove();
+    if(typeof this.pickr === "object") {
+        this.pickr.destroyAndRemove();
+    }
 
     // 모드 표시[타이틀]
     this.mode_div = null;
