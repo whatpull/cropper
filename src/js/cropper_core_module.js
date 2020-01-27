@@ -83,12 +83,16 @@ function Cropper(data_set, edit_image, palette_color) {
     this.palette_color_div_04;
     this.palette_color_div_05;
     this.palette_color_div_06;
+    this.pickr;
 
     // 모드 표시[타이틀]
     this.mode_div;
 
     // [이벤트] 윈도우 리사이즈
     window.onresize = function() {
+        // 팔레트 닫기
+        pickr.hide();
+
         if(typeof this.edit_div === "object") {
             // [좌표] 상대좌표 가운데 정렬
             const centerX = ((this.target.scrollWidth - this.canvas_worker.scrollWidth)/2);
@@ -254,6 +258,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.palette_div.id = "palette-div";
     this.button_palette.addEventListener("click", function(e) {
         e.preventDefault();
+        // console.log(document.querySelector(".pcr-app").style.left);
         // this.palette_div.classList.toggle("visible");
         // 팔레트 하위 버튼 설정시 사용
         // if(this.palette_div.classList.contains("visible")) {
@@ -398,7 +403,10 @@ Cropper.prototype._handleFunction = function(visibility) {
 }
 
 Cropper.prototype._handlePalette = function() {
-    const pickr = Pickr.create({
+    if(typeof this.pickr === "object") {
+        pickr.destroyAndRemove();
+    }
+    pickr = Pickr.create({
         el: '.color-picker',
         container: '.editor',
         position: 'left-end',
@@ -421,12 +429,26 @@ Cropper.prototype._handlePalette = function() {
             hue: true,
             // Input / output Options
             interaction: {
-                hex: false,
                 input: true,
-                clear: true
             }
         }
     });
+    pickr.off('show', () => {});
+    pickr.on('show', (color, instance) => {
+        // instance._root.app.offsetLeft = instance._root.app.offsetLeft - 10;
+        const pcr_app = this.target.parentElement.querySelector(".pcr-app");
+        pcr_app.style.left = "calc(" + pcr_app.style.left + " - " + "10px)";
+        const pcr_selection = pcr_app.querySelector(".pcr-selection");
+        pcr_selection.style.order = "2";
+        const pcr_swatches = pcr_app.querySelector(".pcr-swatches");
+        pcr_swatches.style.order = "1";
+        pcr_swatches.style.marginTop = "0";
+        pcr_swatches.style.marginBottom = ".75em"
+        const pcr_interaction = pcr_app.querySelector(".pcr-interaction");
+        pcr_interaction.style.order = "3";
+        pcr_interaction.style.marginTop = ".75em"
+    });
+    pickr.off('change', () => {});
     pickr.on('change', (color, instance) => {
         setTimeout(function() {
             this.selected_color = "#" + color.toHEXA().join('');
@@ -672,8 +694,8 @@ Cropper.prototype._handleEditDiv = function() {
     }.bind(this), true);
 
     // [해제] 편집영역
-    this.canvas_worker.removeEventListener("click", null);
-    this.canvas_worker.addEventListener("click", function(e) {
+    this.target.parentElement.removeEventListener("click", null);
+    this.target.parentElement.addEventListener("click", function(e) {
         e.preventDefault();
         if(this.edit_div.classList.contains("active") === true) {
             this.edit_div.classList.remove("active");
@@ -1095,6 +1117,7 @@ Cropper.prototype.reset = function() {
     this.palette_color_div_04 = null;
     this.palette_color_div_05 = null;
     this.palette_color_div_06 = null;
+    pickr.destroyAndRemove();
 
     // 모드 표시[타이틀]
     this.mode_div = null;
@@ -1160,6 +1183,7 @@ Cropper.prototype.destroy = function() {
     this.palette_color_div_04 = null;
     this.palette_color_div_05 = null;
     this.palette_color_div_06 = null;
+    pickr.destroyAndRemove();
 
     // 모드 표시[타이틀]
     this.mode_div = null;
