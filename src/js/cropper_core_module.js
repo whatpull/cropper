@@ -211,6 +211,7 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.button_div.style.justifyContent = "center";
     this.button_div.style.top = "25px";
     this.button_div.style.right = "25px";
+    this.button_div.style.zIndex = "2";
 
     // [생성] 파일 업로드 태그
     this.input = document.createElement("input");

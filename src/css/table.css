@@ -150,3 +150,20 @@
     letter-spacing: normal;
     color: #ffffff;
 }
+
+/* 미디어 쿼리 데스크톱 */
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+    .ac-table {
+        min-width: 768px;
+        max-width: 768px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+    .ac-table {
+        min-width: 1024px;
+        max-width: 1024px;
+    }
+}

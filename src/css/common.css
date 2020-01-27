@@ -227,3 +227,28 @@ body {
     flex: 1;
     min-height: calc(100vh - 205px);
 }
+
+/* 미디어 쿼리 데스크톱 */
+/* Large devices (desktops, 992px and up) */
+/* @media (min-width: 992px) { 
+    .ac .wrapper .menu .platform {
+        margin-bottom: 15px;
+    }
+} */
+
+/* Extra large devices (large desktops, 1200px and up) */
+/* 높이 */
+@media (max-height: 700px) {
+    .ac .wrapper .menu .platform {
+        margin-bottom: 15px;
+    }
+}
+
+/* 넓비 */
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1281px) { 
+
+}
