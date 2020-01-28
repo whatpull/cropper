@@ -446,6 +446,11 @@
                     mock_height.classList.add("popup-input");
                     mock_height.setAttribute("name", "mockHeight");
                     mock_height.setAttribute("autocomplete", "off");
+                    mock_height.addEventListener("paste", function(e) {
+                        console.log(e.target.value);
+                        console.log(e);
+                        // console.log(window.clipboardData.getData('option-data'));
+                    });
                     mock_height_div.appendChild(mock_height_label);
                     mock_height_div.appendChild(mock_height);
 

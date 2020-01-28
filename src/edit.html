@@ -52,6 +52,17 @@
                     document.querySelector("#ac-info-color").innerText = info.color;
                 });
 
+                // [이벤트] 버튼 클릭 - 정보 복사
+                document.querySelector("#btn-ac-copy").addEventListener("click", function(e) {
+                    const info = editor.info();
+                    var tempElem = document.createElement('textarea');
+                    tempElem.value = JSON.stringify(info);  
+                    document.body.appendChild(tempElem);
+                    tempElem.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(tempElem);
+                });
+
                 // [셀렉트 박스] 상품
                 let editor; // 에디터 변수
                 const product = new SelectBox("selectbox-product", function(value) {
@@ -236,6 +247,9 @@
                         </div>
                         <div id="btn-ac-info" class="ac-info-button">
                             정보 조회
+                        </div>
+                        <div id="btn-ac-copy" class="ac-info-button">
+                            정보 복사
                         </div>
                     </div>
                 </div>
