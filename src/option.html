@@ -161,7 +161,7 @@
 
                         const hover_option_name = document.createElement("div");
                         hover_option_name.classList.add("hover-option-name");
-                        hover_option_name.innerText = option.optionName1 + " - " + option.optionName2;
+                        hover_option_name.innerText = option.optionName1 + (option.optionName2 == null ? "" : " - " + option.optionName2);
 
                         const hover_option_package_creator = document.createElement("div");
                         hover_option_package_creator.classList.add("hover-option-package-creator");

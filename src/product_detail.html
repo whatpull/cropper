@@ -142,7 +142,7 @@
                                     const form = document.querySelector("#option-editor");
                                     form.querySelector("#editor-option-id").value = option.id;
                                     form.querySelector("#editor-option1-name").value = option.option_name1;
-                                    form.querySelector("#editor-option2-name").value = option.option_name2;
+                                    form.querySelector("#editor-option2-name").value =  (option.option_name2 == "null" ? "" : option.option_name2);
                                     form.querySelector("#editor-image-path").value = option.imagePath;
                                     form.querySelector("#editor-mockup-image").value = option.mockupImage;
                                     form.querySelector("#editor-option-status").value = option.status;
@@ -165,7 +165,7 @@
 
                         const hover_option_name = document.createElement("div");
                         hover_option_name.classList.add("hover-option-name");
-                        hover_option_name.innerText = option.option_name1 + " - " + option.option_name2;
+                        hover_option_name.innerText = option.option_name1 + (option.option_name2 == "null" ? "" : " - " + option.option_name2);
 
                         const hover_option_package_creator = document.createElement("div");
                         hover_option_package_creator.classList.add("hover-option-package-creator");
