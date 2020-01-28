@@ -2,6 +2,7 @@
 function Popup(title) {
     this.dim;
     this.popup;
+    this.content;
     this.data;
     this.param;
     this.title = title;
@@ -28,6 +29,10 @@ Popup.prototype.init = function(form) {
     head.classList.add("popup-head");
     head.innerText = this.title;
 
+    // content
+    this.content = document.createElement("div");
+    this.content.classList.add("popup-content");
+
     // close
     const btn_close = document.createElement("div");
     btn_close.classList.add("popup-close");
@@ -39,10 +44,11 @@ Popup.prototype.init = function(form) {
 
     head.appendChild(btn_close);
     this.popup.appendChild(head);
+    this.popup.appendChild(this.content);
     this.dim.appendChild(this.popup);
 
     if(typeof form === "function") {
-        form(this.popup);
+        form(this.content);
     }
 }
 

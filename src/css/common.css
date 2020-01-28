@@ -76,6 +76,7 @@ body {
 .ac .wrapper .menu .logo img {
     width: 120px;
     height: auto;
+    cursor: pointer;
 }
 
 .ac .wrapper .menu .platform {

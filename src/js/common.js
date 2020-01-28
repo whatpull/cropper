@@ -11,6 +11,13 @@ const common = (function() {
                 window.location.href=page + ".html";
             });
         }
+
+        // 로고 클릭 이동 설정
+        document.querySelector(".ac .wrapper .menu .logo img").addEventListener("click", function(e) {
+            const menus = document.querySelectorAll(".menu-item");
+            const page = menus[0].getAttribute("data-page");
+            window.location.href=page + ".html";
+        });
     }
 
     // 확장 버튼
