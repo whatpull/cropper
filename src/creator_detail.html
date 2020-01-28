@@ -14,8 +14,8 @@
         <script type="text/javascript" src="./js/common.js"></script>
 
         <!-- 셀렉트박스 모듈 -->
-        <!-- <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
-        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" /> -->
+        <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" />
 
         <!-- 테이블 모듈 -->
         <script type="text/javascript" src="./js/table_core_module.js"></script>
@@ -31,6 +31,8 @@
 
                 common.menu();
                 common.expander();
+
+                let editor_creator_bank_code;
                 
                 // 아이디를 통해 크리에이터 정보 조회
                 const id = window.location.search.substring(1).split("=")[1];
@@ -247,7 +249,7 @@
 
                     // 번호
                     const id_div = document.createElement("div");
-                    id_div.style.marginTop = "20px";
+                    id_div.style.marginTop = "45px";
                     const id_label = document.createElement("div");
                     id_label.innerText = "번호(크리에이터)";
                     id_label.classList.add("popup-label");
@@ -275,18 +277,33 @@
                     account_no_div.appendChild(account_no);
 
                     // 은행 코드
-                    const bank_code_div = document.createElement("div");
-                    bank_code_div.style.marginTop = "20px";
+                    const bank_code_wrapper_div = document.createElement("div");
+                    bank_code_wrapper_div.style.marginTop = "20px";
                     const bank_code_label = document.createElement("div");
-                    bank_code_label.innerText = "은행코드";
+                    bank_code_label.innerText = "은행코드";                    
                     bank_code_label.classList.add("popup-label");
-                    const bank_code = document.createElement("input");
-                    bank_code.id = "editor-bank-code";
-                    bank_code.classList.add("popup-input");
-                    bank_code.setAttribute("name", "bankCode");
-                    bank_code.setAttribute("autocomplete", "off");
-                    bank_code_div.appendChild(bank_code_label);
-                    bank_code_div.appendChild(bank_code);
+                    const bank_code_div = document.createElement("div");
+                    bank_code_div.classList.add("ac-selector", "editor-selectbox-bank-code");
+                    bank_code_div.style.width = "520px";
+                    const bank_code_select = document.createElement("select");
+                    bank_code_select.id = "editor-select";
+                    bank_code_div.appendChild(bank_code_select);
+                    bank_code_wrapper_div.appendChild(bank_code_label);
+                    bank_code_wrapper_div.appendChild(bank_code_div);
+
+                    // 은행 코드 [셀렉트 박스로 교체]
+                    // const bank_code_div = document.createElement("div");
+                    // bank_code_div.style.marginTop = "20px";
+                    // const bank_code_label = document.createElement("div");
+                    // bank_code_label.innerText = "은행코드";
+                    // bank_code_label.classList.add("popup-label");
+                    // const bank_code = document.createElement("input");
+                    // bank_code.id = "editor-bank-code";
+                    // bank_code.classList.add("popup-input");
+                    // bank_code.setAttribute("name", "bankCode");
+                    // bank_code.setAttribute("autocomplete", "off");
+                    // bank_code_div.appendChild(bank_code_label);
+                    // bank_code_div.appendChild(bank_code);
 
                     // 은행 이름
                     const bank_name_div = document.createElement("div");
@@ -326,7 +343,7 @@
                         const form = document.querySelector("#account-editor");
                         const creator_id = form.querySelector("#editor-creator-id").value;
                         const account_no = form.querySelector("#editor-account-no").value;
-                        const bank_code = form.querySelector("#editor-bank-code").value;
+                        const bank_code = form.querySelector(".editor-selectbox-bank-code #editor-select").options[form.querySelector(".editor-selectbox-bank-code #editor-select").selectedIndex].value;
                         const bank_name = form.querySelector("#editor-bank-name").value;
                         const owner_name = form.querySelector("#editor-owner-name").value;
                         
@@ -353,12 +370,26 @@
 
                     form.appendChild(id_div);
                     form.appendChild(account_no_div);
-                    form.appendChild(bank_code_div);
+                    form.appendChild(bank_code_wrapper_div);
                     form.appendChild(bank_name_div);
                     form.appendChild(owner_name_div);
                     form.appendChild(submit_btn);
 
                     popup.appendChild(form);
+
+                    editor_creator_bank_code = new SelectBox("editor-selectbox-bank-code", function(value) {});
+                    editor_creator_bank_code.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/code/bank", function(list, target) {
+                        const option_default = document.createElement("option");
+                        option_default.innerText = "은행코드";
+                        target.appendChild(option_default);
+
+                        for(item of list) {
+                            const option = document.createElement("option");
+                            option.value = item.code;
+                            option.innerText = item.code + "[" + item.name + "]";
+                            target.appendChild(option);
+                        }
+                    }, true, "input");
                 });
 
                 // 데이터 전송
@@ -371,9 +402,9 @@
                                 const data = result.result;
                                 parsing(data);
                                 popup_editor_account.close();
-                                alert("등록에 성공하였습니다.");
+                                alert("계좌 수정에 성공하였습니다.");
                             } else {
-                                alert("등록에 실패하였습니다.");
+                                alert("계좌 수정에 실패하였습니다.");
                             }
                         }
                     }
@@ -401,10 +432,11 @@
                                 const form = document.querySelector("#account-editor");
                                 form.querySelector("#editor-creator-id").value = account.productCreatorId;
                                 form.querySelector("#editor-account-no").value = account.accountNo;
-                                form.querySelector("#editor-bank-code").value = account.bankCode;
+                                // form.querySelector("#editor-bank-code").value = account.bankCode;
                                 form.querySelector("#editor-bank-name").value = account.bankName;
                                 form.querySelector("#editor-owner-name").value = account.ownerName;
 
+                                editor_creator_bank_code.select(account.bankCode);
                                 popup_editor_account.open();
                             } else {
                                 console.log("xhr error");
@@ -424,16 +456,14 @@
             </div>
             <div class="menu">
                 <div class="logo">
-                    
+                    <img src="./img/ac-logo.png">
                 </div>
                 <div class="platform">
-                    AfreecaTV
+                    <img src="./img/ac-platform.png">
                 </div>
                 <div class="menu-item active" data-page="creator">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            people
-                        </i>
+                        <img src="./img/menu-icon-creator-active.png">
                     </div>
                     <div class="menu-item-text">
                         Creator
@@ -441,9 +471,7 @@
                 </div>
                 <div class="menu-item" data-page="maker">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            build
-                        </i>
+                        <img src="./img/menu-icon-maker.png">
                     </div>
                     <div class="menu-item-text">
                         Maker
@@ -451,9 +479,7 @@
                 </div>
                 <div class="menu-item" data-page="package">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            how_to_vote
-                        </i>
+                        <img src="./img/menu-icon-package.png">
                     </div>
                     <div class="menu-item-text">
                         Package
@@ -461,9 +487,7 @@
                 </div>
                 <div class="menu-item" data-page="edit">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            crop_free
-                        </i>
+                        <img src="./img/menu-icon-edit.png">
                     </div>
                     <div class="menu-item-text">
                         Edit
@@ -471,9 +495,7 @@
                 </div>
                 <div class="menu-item" data-page="auto">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            style
-                        </i>
+                        <img src="./img/menu-icon-auto.png">
                     </div>
                     <div class="menu-item-text">
                         Auto
@@ -481,9 +503,7 @@
                 </div>
                 <div class="menu-item" data-page="product">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            local_mall
-                        </i>
+                        <img src="./img/menu-icon-product.png">
                     </div>
                     <div class="menu-item-text">
                         Product
@@ -493,7 +513,9 @@
             <div class="content">
                 <div class="info">
                     <div class="profile">
-                        <div id="profile-thumbnail" class="thumbnail"></div>
+                        <div id="profile-thumbnail" class="thumbnail">
+                            <img src="./img/icon-profile-empty.png">
+                        </div>
                         <div class="profile-data">
                             <div class="profiles">
                                 <div id="profile-id" class="id"></div>

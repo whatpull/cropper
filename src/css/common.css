@@ -73,6 +73,11 @@ body {
     padding-bottom: 30px;
 }
 
+.ac .wrapper .menu .logo img {
+    width: 120px;
+    height: auto;
+}
+
 .ac .wrapper .menu .platform {
     width: 230px;
     height: 75px;
@@ -82,6 +87,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.ac .wrapper .menu .platform img {
+    width: 80px;
+    height: auto;
 }
 
 .ac .wrapper .menu .menu-item {
@@ -109,6 +119,11 @@ body {
     justify-content: flex-end;
     align-items: center;
     padding-right: 8px;
+}
+
+.ac .wrapper .menu .menu-item .menu-item-icon img {
+    width: 18px;
+    height: auto;
 }
 
 .ac .wrapper .menu .menu-item .menu-item-icon .material-icons {

@@ -60,6 +60,12 @@
     border-radius: 50%;
     background-color: #d5d5d5;
     margin-right: 10px;
+    overflow: hidden;
+}
+
+.ac .wrapper .content .info .profile .thumbnail img {
+    width: 75px;
+    height: 75px;
 }
 
 .ac .wrapper .content .info .profile .profile-data {
@@ -130,10 +136,14 @@
     cursor: pointer;
     width: 16px;
     height: 16px;
-    border-radius: 50%;
-    border: solid 0.8px #8fd5b5;
-    background-color: #8fd5b5;
+    /* border-radius: 50%; */
+    /* border: solid 0.8px #8fd5b5; */
+    /* background-color: #8fd5b5; */
     margin-left: 5px;
+    background-image: url('../../img/icon-edit.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .ac .wrapper .content .data {

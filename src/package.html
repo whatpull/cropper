@@ -31,7 +31,9 @@
                 common.menu();
                 common.expander();
 
-                let editor_package_creator;
+                // 셀렉트 박스
+                let regist_package_creator;
+                // let editor_package_creator;
 
                 const table = new Table("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packages");
                 table.body("page=0", bodydata);
@@ -67,14 +69,14 @@
                     const column_04 = document.createElement("div");
                     column_04.id = "ac-package-cost";
                     column_04.style.width = "150px";
-                    column_04.innerText = common.numberWithCommas(item.packagePrice.cost) + "원";
+                    column_04.innerText = common.numberWithCommas(item.packagePrice == null ? 0 : item.packagePrice.cost) + "원";
                     column_04.classList.add("ac-table-column");
 
                     // 가격(베이스 가격)
                     const column_05 = document.createElement("div");
                     column_05.id = "ac-package-price";
                     column_05.style.width = "150px";
-                    column_05.innerText = common.numberWithCommas(item.packagePrice.price) + "원";
+                    column_05.innerText = common.numberWithCommas(item.packagePrice == null ? 0 : item.packagePrice.price) + "원";
                     column_05.classList.add("ac-table-column");
 
                     const btn_editor = document.createElement("div");
@@ -92,12 +94,13 @@
                         form.querySelector("#editor-package-id").value = item.id;
                         form.querySelector("#editor-package-name").value = item.name;
                         form.querySelector("#editor-package-detail").value = item.detail;
-                        form.querySelector("#editor-price-cost").value = item.packagePrice.cost;
-                        form.querySelector("#editor-package-price").value = item.packagePrice.price;
-                        form.querySelector("#editor-start-date").value = moment(item.packagePrice.startDate).format("YYYY-MM-DDThh:mm:ss.SSS");
-                        form.querySelector("#editor-end-date").value = moment(item.packagePrice.endDate).format("YYYY-MM-DDThh:mm:ss.SSS");
-
-                        editor_package_creator.select(item.packageCreator.id);
+                        // if(item.packagePrice != null) {
+                        //     form.querySelector("#editor-price-cost").value = item.packagePrice.cost;
+                        //     form.querySelector("#editor-package-price").value = item.packagePrice.price;
+                        //     form.querySelector("#editor-start-date").value = moment(item.packagePrice.startDate).format("YYYY-MM-DDThh:mm:ss.SSS");
+                        //     form.querySelector("#editor-end-date").value = moment(item.packagePrice.endDate).format("YYYY-MM-DDThh:mm:ss.SSS");
+                        // }
+                        // editor_package_creator.select(item.packageCreator.id);
                         popup_editor.open();
                     });
 
@@ -210,20 +213,48 @@
                     price_div.appendChild(price_label);
                     price_div.appendChild(price);
 
+                    // 배송비
+                    const price_delivery_charge_div = document.createElement("div");
+                    price_delivery_charge_div.style.marginTop = "20px";
+                    const price_delivery_charge_label = document.createElement("div");
+                    price_delivery_charge_label.innerText = "배송비";
+                    price_delivery_charge_label.classList.add("popup-label");
+                    const price_delivery_charge = document.createElement("input");
+                    price_delivery_charge.id = "regist-price-delivery-charge";
+                    price_delivery_charge.classList.add("popup-input");
+                    price_delivery_charge.setAttribute("name", "packagePrice.deliveryCharge");
+                    price_delivery_charge.setAttribute("autocomplete", "off");
+                    price_delivery_charge_div.appendChild(price_delivery_charge_label);
+                    price_delivery_charge_div.appendChild(price_delivery_charge);
+
+                    // 추가 배송비
+                    const price_delivery_extra_charge_div = document.createElement("div");
+                    price_delivery_extra_charge_div.style.marginTop = "20px";
+                    const price_delivery_extra_charge_label = document.createElement("div");
+                    price_delivery_extra_charge_label.innerText = "추가 배송비";
+                    price_delivery_extra_charge_label.classList.add("popup-label");
+                    const price_delivery_extra_charge = document.createElement("input");
+                    price_delivery_extra_charge.id = "regist-price-delivery-extra-charge";
+                    price_delivery_extra_charge.classList.add("popup-input");
+                    price_delivery_extra_charge.setAttribute("name", "packagePrice.deliveryExtraCharge");
+                    price_delivery_extra_charge.setAttribute("autocomplete", "off");
+                    price_delivery_extra_charge_div.appendChild(price_delivery_extra_charge_label);
+                    price_delivery_extra_charge_div.appendChild(price_delivery_extra_charge);
+
                     // 가격 시작일
-                    const start_date_div = document.createElement("div");
-                    start_date_div.style.marginTop = "20px";
-                    const start_date_label = document.createElement("div");
-                    start_date_label.innerText = "가격 시작일";
-                    start_date_label.classList.add("popup-label");
-                    const start_date = document.createElement("input");
-                    start_date.id = "regist-start-date";
-                    start_date.type = "datetime-local";
-                    start_date.classList.add("popup-input");
-                    start_date.setAttribute("name", "packagePrice.startDate");
-                    start_date.setAttribute("autocomplete", "off");
-                    start_date_div.appendChild(start_date_label);
-                    start_date_div.appendChild(start_date);
+                    // const start_date_div = document.createElement("div");
+                    // start_date_div.style.marginTop = "20px";
+                    // const start_date_label = document.createElement("div");
+                    // start_date_label.innerText = "가격 시작일";
+                    // start_date_label.classList.add("popup-label");
+                    // const start_date = document.createElement("input");
+                    // start_date.id = "regist-start-date";
+                    // start_date.type = "datetime-local";
+                    // start_date.classList.add("popup-input");
+                    // start_date.setAttribute("name", "packagePrice.startDate");
+                    // start_date.setAttribute("autocomplete", "off");
+                    // start_date_div.appendChild(start_date_label);
+                    // start_date_div.appendChild(start_date);
 
                     // 가격 종료일
                     const end_date_div = document.createElement("div");
@@ -254,8 +285,12 @@
                         const package_detail = form.querySelector("#regist-package-detail").value;
                         const price_cost = form.querySelector("#regist-price-cost").value;
                         const package_price = form.querySelector("#regist-package-price").value;
-                        const start_date = form.querySelector("#regist-start-date").value;
+                        const price_delivery_charge = form.querySelector("#regist-price-delivery-charge").value;
+                        const price_delivery_extra_charge = form.querySelector("#regist-price-delivery-extra-charge").value;
+                        // const start_date = form.querySelector("#regist-start-date").value;
                         const end_date = form.querySelector("#regist-end-date").value;
+
+                        console.log(package_creator);
 
                         var data = new FormData();
 
@@ -274,9 +309,15 @@
                         if(package_price !== "") {
                             data.append("packagePrice.price", package_price);
                         }
-                        if(start_date !== "") {
-                            data.append("packagePrice.startDate", moment(start_date).format("YYYYMMDDHHmmss"));
+                        if(price_delivery_charge !== "") {
+                            data.append("packagePrice.deliveryCharge", price_delivery_charge);
                         }
+                        if(price_delivery_extra_charge !== "") {
+                            data.append("packagePrice.deliveryExtraCharge", price_delivery_extra_charge);
+                        }
+                        // if(start_date !== "") {
+                        //     data.append("packagePrice.startDate", moment(start_date).format("YYYYMMDDHHmmss"));
+                        // }
                         if(end_date !== "") {
                             data.append("packagePrice.endDate", moment(end_date).format("YYYYMMDDHHmmss"));
                         }
@@ -309,14 +350,16 @@
                     form.appendChild(detail_div);
                     form.appendChild(price_cost_div);
                     form.appendChild(price_div);
-                    form.appendChild(start_date_div);
+                    form.appendChild(price_delivery_charge_div);
+                    form.appendChild(price_delivery_extra_charge_div);
+                    // form.appendChild(start_date_div);
                     form.appendChild(end_date_div);
                     form.appendChild(submit_btn);
 
                     popup.appendChild(form);
                     
-                    const package_creator = new SelectBox("regist-selectbox-package-creator", function(value) {});
-                    package_creator.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreators?size=2147483647", function(list, target) {
+                    regist_package_creator = new SelectBox("regist-selectbox-package-creator", function(value) {});
+                    regist_package_creator.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreators?size=2147483647", function(list, target) {
                         const option_default = document.createElement("option");
                         option_default.innerText = "제조사";
                         target.appendChild(option_default);
@@ -327,12 +370,13 @@
                             option.innerText = item.name;
                             target.appendChild(option);
                         }
-                    }, false, "input");
+                    }, true, "input");
                 });
 
                 // [버튼] 등록
                 document.querySelector("#ac-btn-regist").addEventListener("click", function(e) {
                     e.preventDefault();
+                    regist_package_creator.selectFirst();
                     popup_regist.open();
                 });
 
@@ -376,19 +420,19 @@
                     name_div.appendChild(name);
 
                     // 크리에이터
-                    const creator_wrapper_div = document.createElement("div");
-                    creator_wrapper_div.style.marginTop = "20px";
-                    const creator_label = document.createElement("div");
-                    creator_label.innerText = "제조사";
-                    creator_label.classList.add("popup-label");
-                    const creator_div = document.createElement("div");
-                    creator_div.classList.add("ac-selector", "editor-selectbox-package-creator");
-                    creator_div.style.width = "520px";
-                    const creator_select = document.createElement("select");
-                    creator_select.id = "editor-select";
-                    creator_div.appendChild(creator_select);
-                    creator_wrapper_div.appendChild(creator_label);
-                    creator_wrapper_div.appendChild(creator_div);
+                    // const creator_wrapper_div = document.createElement("div");
+                    // creator_wrapper_div.style.marginTop = "20px";
+                    // const creator_label = document.createElement("div");
+                    // creator_label.innerText = "제조사";
+                    // creator_label.classList.add("popup-label");
+                    // const creator_div = document.createElement("div");
+                    // creator_div.classList.add("ac-selector", "editor-selectbox-package-creator");
+                    // creator_div.style.width = "520px";
+                    // const creator_select = document.createElement("select");
+                    // creator_select.id = "editor-select";
+                    // creator_div.appendChild(creator_select);
+                    // creator_wrapper_div.appendChild(creator_label);
+                    // creator_wrapper_div.appendChild(creator_div);
 
                     // 설명
                     const detail_div = document.createElement("div");
@@ -405,62 +449,62 @@
                     detail_div.appendChild(detail);
 
                     // 비용
-                    const price_cost_div = document.createElement("div");
-                    price_cost_div.style.marginTop = "20px";
-                    const price_cost_label = document.createElement("div");
-                    price_cost_label.innerText = "비용";
-                    price_cost_label.classList.add("popup-label");
-                    const price_cost = document.createElement("input");
-                    price_cost.id = "editor-price-cost";
-                    price_cost.classList.add("popup-input");
-                    price_cost.setAttribute("name", "packagePrice.cost");
-                    price_cost.setAttribute("autocomplete", "off");
-                    price_cost_div.appendChild(price_cost_label);
-                    price_cost_div.appendChild(price_cost);
+                    // const price_cost_div = document.createElement("div");
+                    // price_cost_div.style.marginTop = "20px";
+                    // const price_cost_label = document.createElement("div");
+                    // price_cost_label.innerText = "비용";
+                    // price_cost_label.classList.add("popup-label");
+                    // const price_cost = document.createElement("input");
+                    // price_cost.id = "editor-price-cost";
+                    // price_cost.classList.add("popup-input");
+                    // price_cost.setAttribute("name", "packagePrice.cost");
+                    // price_cost.setAttribute("autocomplete", "off");
+                    // price_cost_div.appendChild(price_cost_label);
+                    // price_cost_div.appendChild(price_cost);
 
                     // 가격
-                    const price_div = document.createElement("div");
-                    price_div.style.marginTop = "20px";
-                    const price_label = document.createElement("div");
-                    price_label.innerText = "가격";
-                    price_label.classList.add("popup-label");
-                    const price = document.createElement("input");
-                    price.id = "editor-package-price";
-                    price.classList.add("popup-input");
-                    price.setAttribute("name", "packagePrice.price");
-                    price.setAttribute("autocomplete", "off");
-                    price_div.appendChild(price_label);
-                    price_div.appendChild(price);
+                    // const price_div = document.createElement("div");
+                    // price_div.style.marginTop = "20px";
+                    // const price_label = document.createElement("div");
+                    // price_label.innerText = "가격";
+                    // price_label.classList.add("popup-label");
+                    // const price = document.createElement("input");
+                    // price.id = "editor-package-price";
+                    // price.classList.add("popup-input");
+                    // price.setAttribute("name", "packagePrice.price");
+                    // price.setAttribute("autocomplete", "off");
+                    // price_div.appendChild(price_label);
+                    // price_div.appendChild(price);
 
                     // 가격 시작일
-                    const start_date_div = document.createElement("div");
-                    start_date_div.style.marginTop = "20px";
-                    const start_date_label = document.createElement("div");
-                    start_date_label.innerText = "가격 시작일";
-                    start_date_label.classList.add("popup-label");
-                    const start_date = document.createElement("input");
-                    start_date.id = "editor-start-date";
-                    start_date.type = "datetime-local";
-                    start_date.classList.add("popup-input");
-                    start_date.setAttribute("name", "packagePrice.startDate");
-                    start_date.setAttribute("autocomplete", "off");
-                    start_date_div.appendChild(start_date_label);
-                    start_date_div.appendChild(start_date);
+                    // const start_date_div = document.createElement("div");
+                    // start_date_div.style.marginTop = "20px";
+                    // const start_date_label = document.createElement("div");
+                    // start_date_label.innerText = "가격 시작일";
+                    // start_date_label.classList.add("popup-label");
+                    // const start_date = document.createElement("input");
+                    // start_date.id = "editor-start-date";
+                    // start_date.type = "datetime-local";
+                    // start_date.classList.add("popup-input");
+                    // start_date.setAttribute("name", "packagePrice.startDate");
+                    // start_date.setAttribute("autocomplete", "off");
+                    // start_date_div.appendChild(start_date_label);
+                    // start_date_div.appendChild(start_date);
 
                     // 가격 종료일
-                    const end_date_div = document.createElement("div");
-                    end_date_div.style.marginTop = "20px";
-                    const end_date_label = document.createElement("div");
-                    end_date_label.innerText = "가격 종료일";
-                    end_date_label.classList.add("popup-label");
-                    const end_date = document.createElement("input");
-                    end_date.id = "editor-end-date";
-                    end_date.type = "datetime-local";
-                    end_date.classList.add("popup-input");
-                    end_date.setAttribute("name", "packagePrice.endDate");
-                    end_date.setAttribute("autocomplete", "off");
-                    end_date_div.appendChild(end_date_label);
-                    end_date_div.appendChild(end_date);
+                    // const end_date_div = document.createElement("div");
+                    // end_date_div.style.marginTop = "20px";
+                    // const end_date_label = document.createElement("div");
+                    // end_date_label.innerText = "가격 종료일";
+                    // end_date_label.classList.add("popup-label");
+                    // const end_date = document.createElement("input");
+                    // end_date.id = "editor-end-date";
+                    // end_date.type = "datetime-local";
+                    // end_date.classList.add("popup-input");
+                    // end_date.setAttribute("name", "packagePrice.endDate");
+                    // end_date.setAttribute("autocomplete", "off");
+                    // end_date_div.appendChild(end_date_label);
+                    // end_date_div.appendChild(end_date);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
@@ -473,12 +517,12 @@
                         const form = document.querySelector("#package-editor");
                         const package_id = form.querySelector("#editor-package-id").value;
                         const package_name = form.querySelector("#editor-package-name").value;
-                        const package_creator = form.querySelector(".editor-selectbox-package-creator #editor-select").options[form.querySelector(".editor-selectbox-package-creator #editor-select").selectedIndex].value;
+                        // const package_creator = form.querySelector(".editor-selectbox-package-creator #editor-select").options[form.querySelector(".editor-selectbox-package-creator #editor-select").selectedIndex].value;
                         const package_detail = form.querySelector("#editor-package-detail").value;
-                        const price_cost = form.querySelector("#editor-price-cost").value;
-                        const package_price = form.querySelector("#editor-package-price").value;
-                        const start_date = form.querySelector("#editor-start-date").value;
-                        const end_date = form.querySelector("#editor-end-date").value;
+                        // const price_cost = form.querySelector("#editor-price-cost").value;
+                        // const package_price = form.querySelector("#editor-package-price").value;
+                        // const start_date = form.querySelector("#editor-start-date").value;
+                        // const end_date = form.querySelector("#editor-end-date").value;
 
                         var data = new FormData();
 
@@ -488,24 +532,24 @@
                         if(package_name !== "") {
                             data.append("name", package_name);
                         }
+                        // if(package_creator !== "") {
+                        //     data.append("packageCreator.id", package_creator);
+                        // }
                         if(package_detail !== "") {
                             data.append("detail", package_detail);
                         }
-                        if(package_creator !== "") {
-                            data.append("packageCreator.id", package_creator);
-                        }
-                        if(price_cost !== "") {
-                            data.append("packagePrice.cost", price_cost);
-                        }
-                        if(package_price !== "") {
-                            data.append("packagePrice.price", package_price);
-                        }
-                        if(start_date !== "") {
-                            data.append("packagePrice.startDate", moment(start_date).format("YYYYMMDDHHmmss"));
-                        }
-                        if(end_date !== "") {
-                            data.append("packagePrice.endDate", moment(end_date).format("YYYYMMDDHHmmss"));
-                        }
+                        // if(price_cost !== "") {
+                        //     data.append("packagePrice.cost", price_cost);
+                        // }
+                        // if(package_price !== "") {
+                        //     data.append("packagePrice.price", package_price);
+                        // }
+                        // if(start_date !== "") {
+                        //     data.append("packagePrice.startDate", moment(start_date).format("YYYYMMDDHHmmss"));
+                        // }
+                        // if(end_date !== "") {
+                        //     data.append("packagePrice.endDate", moment(end_date).format("YYYYMMDDHHmmss"));
+                        // }
 
                         sendEditor(data);
                     });
@@ -520,9 +564,9 @@
                                     const data = result.result;
                                     popup_editor.close();
                                     table.body("page=0", bodydata);
-                                    alert("등록에 성공하였습니다.");
+                                    alert("수정에 성공하였습니다.");
                                 } else {
-                                    alert("등록에 실패하였습니다.");
+                                    alert("수정에 실패하였습니다.");
                                 }
                             }
                         }
@@ -532,29 +576,29 @@
 
                     form.appendChild(id_div);
                     form.appendChild(name_div);
-                    form.appendChild(creator_wrapper_div);
+                    // form.appendChild(creator_wrapper_div);
                     form.appendChild(detail_div);
-                    form.appendChild(price_cost_div);
-                    form.appendChild(price_div);
-                    form.appendChild(start_date_div);
-                    form.appendChild(end_date_div);
+                    // form.appendChild(price_cost_div);
+                    // form.appendChild(price_div);
+                    // form.appendChild(start_date_div);
+                    // form.appendChild(end_date_div);
                     form.appendChild(submit_btn);
 
                     popup.appendChild(form);
 
-                    editor_package_creator = new SelectBox("editor-selectbox-package-creator", function(value) {});
-                    editor_package_creator.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreators?size=2147483647", function(list, target) {
-                        const option_default = document.createElement("option");
-                        option_default.innerText = "제조사";
-                        target.appendChild(option_default);
+                    // editor_package_creator = new SelectBox("editor-selectbox-package-creator", function(value) {});
+                    // editor_package_creator.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreators?size=2147483647", function(list, target) {
+                    //     const option_default = document.createElement("option");
+                    //     option_default.innerText = "제조사";
+                    //     target.appendChild(option_default);
 
-                        for(item of list) {
-                            const option = document.createElement("option");
-                            option.value = item.id;
-                            option.innerText = item.name;
-                            target.appendChild(option);
-                        }
-                    }, false, "input");
+                    //     for(item of list) {
+                    //         const option = document.createElement("option");
+                    //         option.value = item.id;
+                    //         option.innerText = item.name;
+                    //         target.appendChild(option);
+                    //     }
+                    // }, true, "input");
                 });
             }
         </script>
@@ -566,16 +610,14 @@
             </div>
             <div class="menu">
                 <div class="logo">
-                    
+                    <img src="./img/ac-logo.png">
                 </div>
                 <div class="platform">
-                    AfreecaTV
+                    <img src="./img/ac-platform.png">
                 </div>
                 <div class="menu-item" data-page="creator">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            people
-                        </i>
+                        <img src="./img/menu-icon-creator.png">
                     </div>
                     <div class="menu-item-text">
                         Creator
@@ -583,9 +625,7 @@
                 </div>
                 <div class="menu-item" data-page="maker">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            build
-                        </i>
+                        <img src="./img/menu-icon-maker.png">
                     </div>
                     <div class="menu-item-text">
                         Maker
@@ -593,9 +633,7 @@
                 </div>
                 <div class="menu-item active" data-page="package">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            how_to_vote
-                        </i>
+                        <img src="./img/menu-icon-package-active.png">
                     </div>
                     <div class="menu-item-text">
                         Package
@@ -603,9 +641,7 @@
                 </div>
                 <div class="menu-item" data-page="edit">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            crop_free
-                        </i>
+                        <img src="./img/menu-icon-edit.png">
                     </div>
                     <div class="menu-item-text">
                         Edit
@@ -613,9 +649,7 @@
                 </div>
                 <div class="menu-item" data-page="auto">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            style
-                        </i>
+                        <img src="./img/menu-icon-auto.png">
                     </div>
                     <div class="menu-item-text">
                         Auto
@@ -623,9 +657,7 @@
                 </div>
                 <div class="menu-item" data-page="product">
                     <div class="menu-item-icon">
-                        <i class="material-icons">
-                            local_mall
-                        </i>
+                        <img src="./img/menu-icon-product.png">
                     </div>
                     <div class="menu-item-text">
                         Product

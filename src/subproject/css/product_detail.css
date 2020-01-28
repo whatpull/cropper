@@ -49,6 +49,12 @@
     border-radius: 50%;
     background-color: #d5d5d5;
     margin-right: 10px;
+    overflow: hidden;
+}
+
+.ac .wrapper .content .info .product .thumbnail img {
+    width: 75px;
+    height: 75px;
 }
 
 .ac .wrapper .content .info .product .product-data {

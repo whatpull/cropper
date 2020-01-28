@@ -99,7 +99,7 @@ SelectBox.prototype.init = function(url, callback, isFirstSelected, mode) {
             if (xhr.readyState == 4) {
                 if(xhr.status == 200) {
                     const result = JSON.parse(xhr.responseText);
-                    const list = result.content;
+                    let list = typeof result.content === "undefined" ? result.result : result.content;
 
                     if(typeof callback === "function" ) {
                         callback(list, target);
@@ -133,13 +133,25 @@ SelectBox.prototype.init = function(url, callback, isFirstSelected, mode) {
     }
 }
 
+// 첫번째 값 선택
+SelectBox.prototype.selectFirst = function() {
+    const first = this.x[0].querySelectorAll(".select-items")[0];
+    if(typeof first.children[0] === "object") {
+        first.children[0].click();
+    }
+}
+
 // 원하는 값 선택
 SelectBox.prototype.select = function(value) {
+    console.log(value);
     const select_items = this.x[0].querySelectorAll(".select-items")[0];
     for(select_item of select_items.children) {
         if(select_item.getAttribute("value") == value) {
             select_item.click();
         }
+    }
+    if(document.querySelector(".select-selected.input.select-arrow-active") != null) {
+        document.querySelector(".select-selected.input.select-arrow-active").click();
     }
 }
 
