@@ -7,7 +7,6 @@ function Table(url) {
 }
 
 // 페이지 처리
-// https://sjh010.tistory.com/1
 Table.prototype.paging = function(currentPage, callback, option1) {
     const target = document.querySelector("#ac-table-paging");
     target.innerHTML = "";

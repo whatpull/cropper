@@ -190,10 +190,11 @@
 
                 // 데이터 파싱[+ UI생성]
                 function parsing(data) {
+                    const accounts_size = data.productCreatorAccounts.length;
                     document.querySelector("#profile-id").innerText = data.userId;
                     document.querySelector("#profile-name").innerText = data.creatorName;
-                    document.querySelector("#accounts-info").innerText = data.productCreatorAccounts[0].bankName;
-                    document.querySelector("#accounts-no").innerHTML = data.productCreatorAccounts[0].accountNo;
+                    document.querySelector("#accounts-info").innerText = data.productCreatorAccounts[accounts_size - 1].bankName;
+                    document.querySelector("#accounts-no").innerHTML = data.productCreatorAccounts[accounts_size - 1].accountNo;
                 }
 
                 // 리스트 조회
@@ -232,6 +233,187 @@
                     xhr.send();
                 }
                 fetchAssets(id);
+
+                // 계좌 수정
+                const popup_editor_account = new Popup("계좌 수정");
+                // 실제 팝업창에 그려질 form 문 작성
+                popup_editor_account.init(function(popup) {
+                    const form = document.createElement("form");
+                    form.id = "account-editor";
+                    form.style.display = "flex";
+                    form.style.flexDirection = "column";
+                    form.style.alignItems = "center";
+                    form.style.padding = "0px 30px";
+
+                    // 번호
+                    const id_div = document.createElement("div");
+                    id_div.style.marginTop = "20px";
+                    const id_label = document.createElement("div");
+                    id_label.innerText = "번호(크리에이터)";
+                    id_label.classList.add("popup-label");
+                    const id = document.createElement("input");
+                    id.id = "editor-creator-id";
+                    id.classList.add("popup-input");
+                    id.setAttribute("name", "accountNo");
+                    id.setAttribute("autocomplete", "off");
+                    id.setAttribute("readonly", true);
+                    id_div.appendChild(id_label);
+                    id_div.appendChild(id);
+
+                    // 계좌 번호
+                    const account_no_div = document.createElement("div");
+                    account_no_div.style.marginTop = "20px";
+                    const account_no_label = document.createElement("div");
+                    account_no_label.innerText = "계좌번호";
+                    account_no_label.classList.add("popup-label");
+                    const account_no = document.createElement("input");
+                    account_no.id = "editor-account-no";
+                    account_no.classList.add("popup-input");
+                    account_no.setAttribute("name", "accountNo");
+                    account_no.setAttribute("autocomplete", "off");
+                    account_no_div.appendChild(account_no_label);
+                    account_no_div.appendChild(account_no);
+
+                    // 은행 코드
+                    const bank_code_div = document.createElement("div");
+                    bank_code_div.style.marginTop = "20px";
+                    const bank_code_label = document.createElement("div");
+                    bank_code_label.innerText = "은행코드";
+                    bank_code_label.classList.add("popup-label");
+                    const bank_code = document.createElement("input");
+                    bank_code.id = "editor-bank-code";
+                    bank_code.classList.add("popup-input");
+                    bank_code.setAttribute("name", "bankCode");
+                    bank_code.setAttribute("autocomplete", "off");
+                    bank_code_div.appendChild(bank_code_label);
+                    bank_code_div.appendChild(bank_code);
+
+                    // 은행 이름
+                    const bank_name_div = document.createElement("div");
+                    bank_name_div.style.marginTop = "20px";
+                    const bank_name_label = document.createElement("div");
+                    bank_name_label.innerText = "은행이름";
+                    bank_name_label.classList.add("popup-label");
+                    const bank_name = document.createElement("input");
+                    bank_name.id = "editor-bank-name";
+                    bank_name.classList.add("popup-input");
+                    bank_name.setAttribute("name", "bankName");
+                    bank_name.setAttribute("autocomplete", "off");
+                    bank_name_div.appendChild(bank_name_label);
+                    bank_name_div.appendChild(bank_name);
+
+                    // 계좌주 이름
+                    const owner_name_div = document.createElement("div");
+                    owner_name_div.style.marginTop = "20px";
+                    const owner_name_label = document.createElement("div");
+                    owner_name_label.innerText = "계좌주";
+                    owner_name_label.classList.add("popup-label");
+                    const owner_name = document.createElement("input");
+                    owner_name.id = "editor-owner-name";
+                    owner_name.classList.add("popup-input");
+                    owner_name.setAttribute("name", "ownerName");
+                    owner_name.setAttribute("autocomplete", "off");
+                    owner_name_div.appendChild(owner_name_label);
+                    owner_name_div.appendChild(owner_name);
+
+                    // 버튼
+                    const submit_btn = document.createElement("div");
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
+                    submit_btn.addEventListener("click", function(e) {
+                        e.preventDefault();
+
+                        const form = document.querySelector("#account-editor");
+                        const creator_id = form.querySelector("#editor-creator-id").value;
+                        const account_no = form.querySelector("#editor-account-no").value;
+                        const bank_code = form.querySelector("#editor-bank-code").value;
+                        const bank_name = form.querySelector("#editor-bank-name").value;
+                        const owner_name = form.querySelector("#editor-owner-name").value;
+                        
+                        var data = new FormData();
+
+                        if(creator_id !== "") {
+                            data.append("productCreatorId", creator_id);
+                        }
+                        if(account_no !== "") {
+                            data.append("accountNo", account_no);
+                        }
+                        if(bank_code !== "") {
+                            data.append("bankCode", bank_code);
+                        }
+                        if(bank_name !== "") {
+                            data.append("bankName", bank_name);
+                        }
+                        if(owner_name !== "") {
+                            data.append("ownerName", owner_name);
+                        }
+
+                        sendAccount(data);
+                    }.bind(popup_regist));
+
+                    form.appendChild(id_div);
+                    form.appendChild(account_no_div);
+                    form.appendChild(bank_code_div);
+                    form.appendChild(bank_name_div);
+                    form.appendChild(owner_name_div);
+                    form.appendChild(submit_btn);
+
+                    popup.appendChild(form);
+                });
+
+                // 데이터 전송
+                function sendAccount(data) {
+                    var xhr_ = new XMLHttpRequest();
+                    xhr_.onreadystatechange = function(e) {
+                        if (xhr_.readyState == 4) {
+                            if (xhr_.status == 200) {
+                                const result = JSON.parse(xhr_.responseText);
+                                const data = result.result;
+                                parsing(data);
+                                popup_editor_account.close();
+                                alert("등록에 성공하였습니다.");
+                            } else {
+                                alert("등록에 실패하였습니다.");
+                            }
+                        }
+                    }
+                    xhr_.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreator/account", true);
+                    xhr_.send(data);
+                }
+
+                // [버튼] 계좌 수정
+                document.querySelector("#accounts-regist-btn").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const id = window.location.search.substring(1).split("=")[1];
+                    fetchAccount(id);
+                });
+
+                function fetchAccount(id) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function(e) {
+                        if (xhr.readyState == 4) {
+                            if (xhr.status == 200) {
+                                const result = JSON.parse(xhr.responseText);
+                                const accounts = result.result.productCreatorAccounts;
+                                const accounts_size = accounts.length;
+                                const account = accounts[accounts_size - 1];
+
+                                const form = document.querySelector("#account-editor");
+                                form.querySelector("#editor-creator-id").value = account.productCreatorId;
+                                form.querySelector("#editor-account-no").value = account.accountNo;
+                                form.querySelector("#editor-bank-code").value = account.bankCode;
+                                form.querySelector("#editor-bank-name").value = account.bankName;
+                                form.querySelector("#editor-owner-name").value = account.ownerName;
+
+                                popup_editor_account.open();
+                            } else {
+                                console.log("xhr error");
+                            }
+                        }
+                    }
+                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreator/" + id, true);
+                    xhr.send();
+                }
             }
         </script>
     </head>
