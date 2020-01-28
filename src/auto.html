@@ -212,7 +212,7 @@
                     for(item of list) {
                         const option = document.createElement("option");
                         option.value = item.id;
-                        option.innerText = item.userId + "(" + item.creatorName + ")";
+                        option.innerText = item.id + "_" + item.userId + "(" + item.creatorName + ")";
                         target.appendChild(option);
                     }
                 });
