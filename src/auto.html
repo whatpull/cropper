@@ -199,6 +199,9 @@
                 }
 
                 const creator = new SelectBox("selectbox-creator", function(value) {
+                    // [파괴] 초기화 진행(선택시 무조건 프리뷰 파괴)
+                    preview_destroy();
+                    // [조회] 프리뷰 데이터
                     fetch(value);
                 });
                 creator.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators?size=2147483647", function(list, target) {
@@ -254,7 +257,6 @@
                                         }
                                         this.classList.add("active");
 
-                                        preview_destroy();
                                         preview(this.getAttribute("data-asset"));
                                     });
                                     asset_div.style.backgroundImage = "url('" + assetPath + assetFileName + "')";
@@ -263,7 +265,6 @@
 
                                 if(typeof assets[0] === "object") {
                                     let assetUrl = assets[0].assetPath + assets[0].assetFileName;
-                                    preview_destroy();
                                     if(host === "127.0.0.1:5500" 
                                         || host === "localhost:5500" 
                                         || host === "192.167.0.177:5500") {
