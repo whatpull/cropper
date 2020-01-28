@@ -42,7 +42,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    margin: 5px 0;
+    margin: 5px auto;
     border-radius: 5px;
     box-shadow: 0 0 0 1px #e2e2e2 inset;
     cursor: pointer;
