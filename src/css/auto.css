@@ -27,7 +27,7 @@
 }
 
 .ac .nav .nav-body .nav-body-content .ac-assets .ac-assets-wrapper {
-    flex: 0 0 315px;
+    flex: 1;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -36,13 +36,13 @@
 }
 
 .ac .nav .nav-body .nav-body-content .ac-assets .ac-assets-wrapper .asset-item {
-    flex: 0 0 150px;
-    width: 150px;
+    flex: 0 0 calc(50% - 10px);
+    width: calc(50% - 10px);
     height: 150px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    margin: 5px auto;
+    margin: 5px;
     border-radius: 5px;
     box-shadow: 0 0 0 1px #e2e2e2 inset;
     cursor: pointer;
