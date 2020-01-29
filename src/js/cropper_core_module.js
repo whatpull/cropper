@@ -188,7 +188,7 @@ Cropper.prototype._handleStartPacking = function() {
     if(this.data_set.mode === "autopacking") {
         
     } else if(this.data_set.mode === "editor") {
-        this.input.addEventListener('change', this._handleAreaImage.bind(this), false);
+
     }
 }
 
@@ -226,13 +226,18 @@ Cropper.prototype._handleFunction = function(visibility) {
     this.button_div.style.zIndex = "2";
 
     // [생성] 파일 업로드 태그
-    this.input = document.createElement("input");
-    this.input.type = "file";
-    this.input.id = "loader";
-    this.input.style.visibility = visibility;
-    this.input.name = "loader";
-    if(this.data_set.mode === "editor") {
-        this.target.appendChild(this.input);
+    if(typeof this.input === "undefined") {
+        // 도큐멘트 어펜드 금지(append 될 경우 셀렉터 문제 발생 - 브라우저 돔 read 방식에 따라 태그를 지워도 셀렉트가 유지되어 문제가 발생합니다.)
+        this.input = document.createElement("input");
+        this.input.type = "file";
+        this.input.id = "loader";
+        this.input.style.visibility = visibility;
+        this.input.name = "loader";
+        this.input.value = "";
+        if(this.data_set.mode === "editor") {
+            this.input.removeEventListener('change', this._handleAreaImage.bind(this), false);
+            this.input.addEventListener('change', this._handleAreaImage.bind(this), false);
+        }
     }
 
     // [생성] 업로드 버튼
@@ -703,8 +708,10 @@ Cropper.prototype._handleEditDiv = function() {
     this.target.parentElement.removeEventListener("click", null);
     this.target.parentElement.addEventListener("click", function(e) {
         e.preventDefault();
-        if(this.edit_div.classList.contains("active") === true) {
-            this.edit_div.classList.remove("active");
+        if(this.edit_div != null) {
+            if(this.edit_div.classList.contains("active") === true) {
+                this.edit_div.classList.remove("active");
+            }
         }
     }.bind(this), true);
 
@@ -1084,8 +1091,18 @@ Cropper.prototype.info = function() {
 // [공개함수] 초기화
 // 데이터를 제외한 모든 속성 초기화
 Cropper.prototype.reset = function() {
-    // 시스템
-    this.input = null;
+    // 시스템 - input 파일 브라우저 돔 캐시 버그
+    this.input.value = "";
+    this.input.select();
+    if (window.getSelection) {
+        if (window.getSelection().empty) {  // Chrome
+            window.getSelection().empty();
+        } else if (window.getSelection().removeAllRanges) {  // Firefox
+            indow.getSelection().removeAllRanges();
+        }
+    } else if (document.selection) {  // IE?
+        document.selection.empty();
+    }
     
     // 버튼
     this.button_download = null;
@@ -1145,8 +1162,20 @@ Cropper.prototype.reset = function() {
 
 // [공개함수] 제거
 Cropper.prototype.destroy = function() {
-    // 시스템
-    this.input = null;
+    // 시스템 - input 파일 브라우저 돔 캐시 버그
+    this.input.value = "";
+    this.input.select();
+    if (window.getSelection) {
+        if (window.getSelection().empty) {  // Chrome
+            window.getSelection().empty();
+        } else if (window.getSelection().removeAllRanges) {  // Firefox
+            indow.getSelection().removeAllRanges();
+        }
+    } else if (document.selection) {  // IE?
+        document.selection.empty();
+    }
+    this.input.remove();
+    this.input = undefined;
     
     // 버튼
     this.button_download = null;
