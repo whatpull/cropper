@@ -88,7 +88,7 @@
 }
 
 .ac .wrapper .content .data .option-list {
-    width: calc(100% - 150px);
+    width: calc(100% - 105px);
     height: calc(100% - 105px);
     display: flex;
     flex-wrap: wrap;
@@ -96,7 +96,7 @@
     background-color: #ffffff;
     justify-content: flex-start;
     align-content: flex-start;
-    padding: 75px 75px 30px 75px;
+    padding: 75px 30px 30px 75px;
     overflow-y: auto;
     overflow-x: hidden;
 }

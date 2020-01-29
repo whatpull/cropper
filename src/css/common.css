@@ -40,11 +40,11 @@ body {
     right: 0;
     bottom: 0;
     width: calc(100% - 330px);
-    height: calc(105px - 76px);
+    height: calc(90px - 0px);
     box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.04);
     background-color: #ffffff;
     z-index: 1;
-    padding: 46px 50px 30px 280px;
+    padding: 0px 50px 0px 280px;
     font-family: NotoSansCJKkr;
     font-size: 20px;
     font-weight: bold;
@@ -53,6 +53,8 @@ body {
     line-height: normal;
     letter-spacing: normal;
     color: #4d4d4d;
+    display: flex;
+    align-items: center;
 }
 
 .ac .wrapper .menu {
@@ -65,7 +67,7 @@ body {
 
 .ac .wrapper .menu .logo {
     width: 230px;
-    height: calc(105px - 30px);
+    height: calc(90px - 30px);
     box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.04);
     display: flex;
     justify-content: center;
@@ -84,7 +86,7 @@ body {
     height: 75px;
     background: #77cba8;
     color: #ffffff;
-    margin-bottom: 75px;
+    margin-bottom: 5vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -167,11 +169,11 @@ body {
 .ac .nav {
     flex: 0 0 calc(415px - 100px);
     width: calc(415px - 100px);
-    height: calc(100vh - 205px);
+    height: calc(100vh - 190px);
     overflow-y: auto;
     overflow-x: hidden;
     background: #ffffff;
-    margin-top: 105px;
+    margin-top: 90px;
     padding: 50px;
 }
 
@@ -255,9 +257,9 @@ body {
 /* Extra large devices (large desktops, 1200px and up) */
 /* 높이 */
 @media (max-height: 700px) {
-    .ac .wrapper .menu .platform {
+    /* .ac .wrapper .menu .platform {
         margin-bottom: 15px;
-    }
+    } */
 }
 
 /* 넓비 */

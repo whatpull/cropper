@@ -118,6 +118,9 @@
                                         height: parseFloat(option.mockHeight)
                                     }, palette_color);
                                     editor.init();
+                                    
+                                    // 트리거 이벤트(정보 기본값)
+                                    document.querySelector("#btn-ac-info").click();
                                 }
                             } else {
                                 console.log("xhr error");

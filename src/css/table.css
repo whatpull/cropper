@@ -1,6 +1,9 @@
 .ac-table {
-    min-width: 875px;
-    max-width: 875px;
+    /* min-width: 875px; */
+    /* max-width: 875px; */
+    max-width: 1435px;
+    width: calc(100% - 12%);
+    margin: 0 6%;
 }
 
 .ac-table-body {
@@ -171,18 +174,26 @@
 }
 
 /* 미디어 쿼리 데스크톱 */
-/* Large devices (desktops, 992px and up) */
-@media (min-width: 1280px) { 
+/* Large devices (desktops, 1280px and up) */
+/* @media (min-width: 1280px) { 
     .ac-table {
         min-width: 875px;
         max-width: 875px;
     }
-}
+} */
 
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1920px) { 
+/* Extra large devices (large desktops, 1680px and up) */
+/* @media (min-width: 1680px) { 
+    .ac-table {
+        min-width: 1135px;
+        max-width: 1135px;
+    }
+} */
+
+/* Extra large devices (large desktops, 1920px and up) */
+/* @media (min-width: 1920px) { 
     .ac-table {
         min-width: 1435px;
         max-width: 1435px;
     }
-}
+} */
