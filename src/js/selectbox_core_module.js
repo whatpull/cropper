@@ -8,6 +8,7 @@ function SelectBox(target, callback) {
     this.c;
     // [타겟] 도큐먼트 클래스
     this.callback = callback;
+    this.search;
 }
 
 SelectBox.prototype.setting = function() {
@@ -22,6 +23,19 @@ SelectBox.prototype.setting = function() {
         /* [옵션 아이템 리스트 생성] */
         this.b = document.createElement("DIV");
         this.b.setAttribute("class", "select-items select-hide");
+
+        // [옵션 아이템 검색기능 생성]
+        this.search = document.createElement("div");
+        this.search.addEventListener("click", function(e) {
+            e.stopPropagation();
+        });
+        this.search.classList.add("search-wrapper");
+
+        const search_input = document.createElement("input");
+        search_input.classList.add("search-input");
+
+        this.search.appendChild(search_input);
+        this.b.appendChild(this.search);
     
         // [옵션 아이템 생성]
         for (j = 1; j < this.selElmnt.length; j++) {
@@ -108,8 +122,9 @@ SelectBox.prototype.init = function(url, callback, isFirstSelected, mode) {
                         // 첫번째 강제선택
                         if(typeof isFirstSelected === "undefined" || isFirstSelected) {
                             const first = this.x[0].querySelectorAll(".select-items")[0];
-                            if(typeof first.children[0] === "object") {
-                                first.children[0].click();
+                            // console.log(first.querySelectorAll("div:not(.search-wrapper)")[0]);
+                            if(typeof first.querySelectorAll("div:not(.search-wrapper)")[0] === "object") {
+                                first.querySelectorAll("div:not(.search-wrapper)")[0].click();
                             }
                         }
                     }
@@ -127,7 +142,7 @@ SelectBox.prototype.init = function(url, callback, isFirstSelected, mode) {
         if(typeof isFirstSelected === "undefined" || isFirstSelected) {
             const first = this.x[0].querySelectorAll(".select-items")[0];
             if(typeof first === "object") {
-                first.children[0].click();
+                first.querySelectorAll("div:not(.search-wrapper)")[0].click();
             }
         }
     }
@@ -136,8 +151,8 @@ SelectBox.prototype.init = function(url, callback, isFirstSelected, mode) {
 // 첫번째 값 선택
 SelectBox.prototype.selectFirst = function() {
     const first = this.x[0].querySelectorAll(".select-items")[0];
-    if(typeof first.children[0] === "object") {
-        first.children[0].click();
+    if(typeof first.querySelectorAll("div:not(.search-wrapper)")[0] === "object") {
+        first.querySelectorAll("div:not(.search-wrapper)")[0].click();
     }
 }
 

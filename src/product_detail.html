@@ -25,6 +25,9 @@
         <script type="text/javascript" src="./js/popup_core_module.js"></script>
         <link href="./css/popup.css" rel="stylesheet" />
 
+        <!-- 모멘트JS -->
+        <script src="./libs/moment/moment.min.js"></script>
+
         <script>
             window.onload = function() {
                 const host = window.location.host;
@@ -56,7 +59,11 @@
 
                 // 데이터 파싱[+ UI생성]
                 function parsing(data) {
-                    document.querySelector("#product-thumbnail").style.backgroundImage = "url('" + data.productImagePath + "')";
+                    // 썸네일 이미지를 사용하게 된다면, innerHTML을 초기화 하고, 아래 주석 해제
+                    // document.querySelector("#product-thumbnail").style.backgroundImage = "url('" + data.productImagePath + "')";
+                    // document.querySelector("#product-thumbnail").style.backgroundSize = "cover";
+                    // document.querySelector("#product-thumbnail").style.backgroundPosition = "center";
+                    // document.querySelector("#product-thumbnail").style.backgroundRepeat = "no-repeat";
                     document.querySelector("#product-name").innerText = data.name;
                     document.querySelector("#product-creator").innerText = data.creatorName + " ‧ " + data.packageCreatorName;
                     document.querySelector("#product-cost").innerText = common.numberWithCommas(data.productPrice.cost) + "원";
@@ -347,6 +354,227 @@
 
                     popup.appendChild(form);
                 });
+
+                // 가격 수정
+                const popup_editor_price = new Popup("가격 수정");
+                // 실제 팝업창에 그려질 form 문 작성
+                popup_editor_price.init(function(popup) {
+                    const form = document.createElement("form");
+                    form.id = "price-editor";
+                    form.style.display = "flex";
+                    form.style.flexDirection = "column";
+                    form.style.alignItems = "center";
+                    form.style.padding = "0px 30px";
+
+                    // 번호
+                    const id_div = document.createElement("div");
+                    id_div.style.marginTop = "45px";
+                    const id_label = document.createElement("div");
+                    id_label.innerText = "번호(패키지)";
+                    id_label.classList.add("popup-label");
+                    const id = document.createElement("input");
+                    id.id = "editor-product-id";
+                    id.classList.add("popup-input");
+                    id.setAttribute("name", "productId");
+                    id.setAttribute("autocomplete", "off");
+                    id.setAttribute("readonly", true);
+                    id_div.appendChild(id_label);
+                    id_div.appendChild(id);
+
+                    // 비용
+                    const price_cost_div = document.createElement("div");
+                    price_cost_div.style.marginTop = "20px";
+                    const price_cost_label = document.createElement("div");
+                    price_cost_label.innerText = "비용";
+                    price_cost_label.classList.add("popup-label");
+                    const price_cost = document.createElement("input");
+                    price_cost.id = "editor-price-cost";
+                    price_cost.classList.add("popup-input");
+                    price_cost.setAttribute("name", "cost");
+                    price_cost.setAttribute("autocomplete", "off");
+                    price_cost_div.appendChild(price_cost_label);
+                    price_cost_div.appendChild(price_cost);
+
+                    // 가격
+                    const price_div = document.createElement("div");
+                    price_div.style.marginTop = "20px";
+                    const price_label = document.createElement("div");
+                    price_label.innerText = "가격";
+                    price_label.classList.add("popup-label");
+                    const price = document.createElement("input");
+                    price.id = "editor-product-price";
+                    price.classList.add("popup-input");
+                    price.setAttribute("name", "price");
+                    price.setAttribute("autocomplete", "off");
+                    price_div.appendChild(price_label);
+                    price_div.appendChild(price);
+
+                    // 배송비
+                    const price_delivery_charge_div = document.createElement("div");
+                    price_delivery_charge_div.style.marginTop = "20px";
+                    const price_delivery_charge_label = document.createElement("div");
+                    price_delivery_charge_label.innerText = "배송비";
+                    price_delivery_charge_label.classList.add("popup-label");
+                    const price_delivery_charge = document.createElement("input");
+                    price_delivery_charge.id = "editor-price-delivery-charge";
+                    price_delivery_charge.classList.add("popup-input");
+                    price_delivery_charge.setAttribute("name", "deliveryCharge");
+                    price_delivery_charge.setAttribute("autocomplete", "off");
+                    price_delivery_charge_div.appendChild(price_delivery_charge_label);
+                    price_delivery_charge_div.appendChild(price_delivery_charge);
+
+                    // 추가 배송비
+                    const price_delivery_extra_charge_div = document.createElement("div");
+                    price_delivery_extra_charge_div.style.marginTop = "20px";
+                    const price_delivery_extra_charge_label = document.createElement("div");
+                    price_delivery_extra_charge_label.innerText = "추가 배송비";
+                    price_delivery_extra_charge_label.classList.add("popup-label");
+                    const price_delivery_extra_charge = document.createElement("input");
+                    price_delivery_extra_charge.id = "editor-price-delivery-extra-charge";
+                    price_delivery_extra_charge.classList.add("popup-input");
+                    price_delivery_extra_charge.setAttribute("name", "deliveryExtraCharge");
+                    price_delivery_extra_charge.setAttribute("autocomplete", "off");
+                    price_delivery_extra_charge_div.appendChild(price_delivery_extra_charge_label);
+                    price_delivery_extra_charge_div.appendChild(price_delivery_extra_charge);
+
+                    // 가격 시작일
+                    // const start_date_div = document.createElement("div");
+                    // start_date_div.style.marginTop = "20px";
+                    // const start_date_label = document.createElement("div");
+                    // start_date_label.innerText = "가격 시작일";
+                    // start_date_label.classList.add("popup-label");
+                    // const start_date = document.createElement("input");
+                    // start_date.id = "editor-start-date";
+                    // start_date.type = "datetime-local";
+                    // start_date.classList.add("popup-input");
+                    // start_date.setAttribute("name", "startDate");
+                    // start_date.setAttribute("autocomplete", "off");
+                    // start_date_div.appendChild(start_date_label);
+                    // start_date_div.appendChild(start_date);
+
+                    // 가격 종료일
+                    const end_date_div = document.createElement("div");
+                    end_date_div.style.marginTop = "20px";
+                    const end_date_label = document.createElement("div");
+                    end_date_label.innerText = "가격 종료일";
+                    end_date_label.classList.add("popup-label");
+                    const end_date = document.createElement("input");
+                    end_date.id = "editor-end-date";
+                    end_date.type = "datetime-local";
+                    end_date.classList.add("popup-input");
+                    end_date.setAttribute("name", "endDate");
+                    end_date.setAttribute("autocomplete", "off");
+                    end_date_div.appendChild(end_date_label);
+                    end_date_div.appendChild(end_date);
+
+                    // 버튼
+                    const submit_btn = document.createElement("div");
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
+                    submit_btn.addEventListener("click", function(e) {
+                        e.preventDefault();
+
+                        const form = document.querySelector("#price-editor");
+                        const product_id = form.querySelector("#editor-product-id").value;
+                        const price_cost = form.querySelector("#editor-price-cost").value;
+                        const product_price = form.querySelector("#editor-product-price").value;
+                        const price_delivery_charge = form.querySelector("#editor-price-delivery-charge").value;
+                        const price_delivery_extra_charge = form.querySelector("#editor-price-delivery-extra-charge").value;
+                        // const start_date = form.querySelector("#editor-start-date").value;
+                        const end_date = form.querySelector("#editor-end-date").value;
+                        
+                        var data = new FormData();
+
+                        if(product_id !== "") {
+                            data.append("id", product_id);
+                        }
+                        if(price_cost !== "") {
+                            data.append("cost", price_cost);
+                        }
+                        if(product_price !== "") {
+                            data.append("price", product_price);
+                        }
+                        if(price_delivery_charge !== "") {
+                            data.append("deliveryCharge", price_delivery_charge);
+                        }
+                        if(price_delivery_extra_charge !== "") {
+                            data.append("deliveryExtraCharge", price_delivery_extra_charge);
+                        }
+                        // if(start_date !== "") {
+                        //     data.append("startDate", moment(start_date).format("YYYYMMDDHHmmss").trim());
+                        // }
+                        if(end_date !== "") {
+                            data.append("endDate", moment(end_date).format("YYYYMMDDHHmmss").trim());
+                        }
+
+                        sendPrice(data);
+                    });
+
+                    form.appendChild(id_div);
+                    form.appendChild(price_cost_div);
+                    form.appendChild(price_div);
+                    form.appendChild(price_delivery_charge_div);
+                    form.appendChild(price_delivery_extra_charge_div);
+                    // form.appendChild(start_date_div);
+                    form.appendChild(end_date_div);
+                    form.appendChild(submit_btn);
+
+                    popup.appendChild(form);
+                });
+
+                // 데이터 전송
+                function sendPrice(data) {
+                    var xhr_ = new XMLHttpRequest();
+                    xhr_.onreadystatechange = function(e) {
+                        if (xhr_.readyState == 4) {
+                            if (xhr_.status == 200) {
+                                const result = JSON.parse(xhr_.responseText);
+                                const data = result.result;
+                                parsing(data);
+                                popup_editor_price.close();
+                                alert("가격 수정에 성공하였습니다.");
+                            } else {
+                                alert("가격 수정에 실패하였습니다.");
+                            }
+                        }
+                    }
+                    xhr_.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/price", true);
+                    xhr_.send(data);
+                }
+
+                // [버튼] 가격 수정
+                document.querySelector("#price-update-btn").addEventListener("click", function(e) {
+                    // 아이디를 통해 크리에이터 정보 조회
+                    const id = window.location.search.substring(1).split("=")[1];
+                    fetchPrice(id);
+                    popup_editor_price.open();
+                });
+
+                // 가격 데이터 획득
+                function fetchPrice(id) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function(e) {
+                        if (xhr.readyState == 4) {
+                            if (xhr.status == 200) {
+                                const result = JSON.parse(xhr.responseText);
+                                const data = result.result.productPrice;
+
+                                const form = document.querySelector("#price-editor");
+                                form.querySelector("#editor-product-id").value = data.id;
+                                form.querySelector("#editor-price-cost").value = data.cost;
+                                form.querySelector("#editor-product-price").value = data.price;
+                                form.querySelector("#editor-price-delivery-charge").value = data.deliveryCharge;
+                                form.querySelector("#editor-price-delivery-extra-charge").value = data.deliveryExtraCharge;
+                                // form.querySelector("#editor-start-date").value = moment(data.startDate).format("YYYY-MM-DDThh:mm:ss.SSS");
+                                form.querySelector("#editor-end-date").value = moment(data.endDate).format("YYYY-MM-DDThh:mm:ss.SSS");
+                            } else {
+                                console.log("xhr error");
+                            }
+                        }
+                    }
+                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/" + id, true);
+                    xhr.send();
+                }
             }
         </script>
     </head>
@@ -422,8 +650,14 @@
                             <div id="product-creator" class="creator"></div>
                         </div>
                         <div class="price">
-                            <div id="product-cost"></div>
-                            <div id="product-price"></div>
+                            <div>
+                                <span style="float: left; margin-right: 10px;">원가 </span>
+                                <span id="product-cost"></span>
+                            </div>
+                            <div>
+                                <span style="float: left; margin-right: 10px;">가격 </span>
+                                <span id="product-price"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="update">

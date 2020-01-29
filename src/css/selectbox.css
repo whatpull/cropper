@@ -94,6 +94,11 @@
     display: none;
 }
 
-.select-items div:hover, .same-as-selected {
+.select-items div:not(.search-wrapper):hover, .same-as-selected {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 검색 */
+.select-items div.search-wrapper {
+    cursor: initial;
 }

@@ -123,6 +123,22 @@
                     id_div.appendChild(id_label);
                     id_div.appendChild(id);
 
+                    // 주민등록번호
+                    const reg_no_div = document.createElement("div");
+                    reg_no_div.style.marginTop = "20px";
+                    const reg_no_label = document.createElement("div");
+                    reg_no_label.innerText = "주민등록번호";
+                    reg_no_label.classList.add("popup-label");
+                    const reg_no = document.createElement("input");
+                    reg_no.id = "reg-no";
+                    reg_no.classList.add("popup-input");
+                    reg_no.type = "number";
+                    reg_no.setAttribute("name", "regNo");
+                    reg_no.setAttribute("autocomplete", "off");
+                    reg_no.setAttribute("placeholder", "'-' 없이 숫자만 입력");
+                    reg_no_div.appendChild(reg_no_label);
+                    reg_no_div.appendChild(reg_no);
+
                     // 계좌 번호
                     const account_no_div = document.createElement("div");
                     account_no_div.style.marginTop = "20px";
@@ -204,6 +220,7 @@
                         const form = document.querySelector("#creator-regist");
                         const creator_name = form.querySelector("#creator-name").value;
                         const user_id = form.querySelector("#user-id").value;
+                        const reg_no = form.querySelector("#reg-no").value;
                         const account_no = form.querySelector("#account-no").value;
                         const bank_code = form.querySelector(".regist-selectbox-bank-code #regist-select").options[form.querySelector(".regist-selectbox-bank-code #regist-select").selectedIndex].value;
                         const bank_name = form.querySelector("#bank-name").value;
@@ -217,6 +234,9 @@
                         if(user_id !== "") {
                             data.append("userId", user_id);
                         }
+                        if(reg_no !== "") {
+                            data.append("regNo", reg_no);
+                        }
                         if(account_no !== "" && bank_code !== "" && bank_name !== "" && owner_name !== "") {
                             data.append("productCreatorAccounts[0].accountNo", account_no);
                             data.append("productCreatorAccounts[0].bankCode", bank_code);
@@ -229,6 +249,7 @@
 
                     form.appendChild(name_div);
                     form.appendChild(id_div);
+                    form.appendChild(reg_no_div);
                     form.appendChild(account_no_div);
                     form.appendChild(bank_code_wrapper_div);
                     form.appendChild(bank_name_div);

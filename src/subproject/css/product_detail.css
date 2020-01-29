@@ -69,12 +69,12 @@
     padding-left: 30px;
     font-family: NotoSansCJKkr;
     font-size: 18px;
-    font-weight: normal;
+    font-weight: 500;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #4d4d4d;
+    color: #878787;
     border-left: solid 2px #d8d8d8;
     text-align: right;
 }

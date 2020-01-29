@@ -55,6 +55,12 @@
                 // [이벤트] 버튼 클릭 - 정보 복사
                 document.querySelector("#btn-ac-copy").addEventListener("click", function(e) {
                     const info = editor.info();
+                    document.querySelector("#ac-info-top").innerText = info.top;
+                    document.querySelector("#ac-info-left").innerText = info.left;
+                    document.querySelector("#ac-info-width").innerText = info.width;
+                    document.querySelector("#ac-info-height").innerText = info.height;
+                    document.querySelector("#ac-info-color").innerText = info.color;
+                    
                     var tempElem = document.createElement('textarea');
                     tempElem.value = JSON.stringify(info);  
                     document.body.appendChild(tempElem);

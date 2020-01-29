@@ -93,7 +93,10 @@
                                     });
 
                                     // 이미지 파일 데이터
-                                    document.querySelector("#preview-img").style.backgroundImage = "url('" + (assetPath + assetFileName) + "')";
+                                    document.querySelector("#preview-img").style.backgroundImage = "url('" + (window.location.protocol + "//" + window.location.host + assetPath + assetFileName) + "')";
+                                    document.querySelector("#preview-img").style.backgroundSize = "cover";
+                                    document.querySelector("#preview-img").style.backgroundPosition = "center";
+                                    document.querySelector("#preview-img").style.backgroundRepeat = "no-repeat";
                                     document.querySelector("#preview-name").innerText = filename;
 
                                     popup_regist.open();

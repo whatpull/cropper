@@ -15,13 +15,36 @@
 }
 
 .ac .wrapper .content .info .package {
-    flex: 1;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     /* border: 1px solid #e2e2e2; */
     border-radius: 10px;
+}
+
+.ac .wrapper .content .info .update {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.ac .wrapper .content .info .update .price-update-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    /* border-radius: 50%;
+    border: solid 0.8px #8fd5b5;
+    background-color: #8fd5b5; */
+    margin-left: 15px;
+    margin-bottom: 25px;
+    background-image: url('../../img/icon-edit.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .ac .wrapper .content .info .upload {
@@ -57,7 +80,21 @@
 }
 
 .ac .wrapper .content .info .package .package-data {
-    flex: 1;
+    margin-right: 30px;
+}
+
+.ac .wrapper .content .info .package .price {
+    padding-left: 30px;
+    font-family: NotoSansCJKkr;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #878787;
+    border-left: solid 2px #d8d8d8;
+    text-align: right;
 }
 
 .ac .wrapper .content .info .package .creator {

@@ -17,7 +17,7 @@
 }
 
 .ac-table-head .column:nth-child(2) {
-    flex: 1;
+    flex: 3;
 }
 
 .ac-table-head .column:nth-child(3) {
@@ -42,7 +42,7 @@
 }
 
 .ac-table-body .ac-table-row .ac-table-column:nth-child(2) {
-    flex: 1;
+    flex: 3;
 }
 
 .ac-table-body .ac-table-row .ac-table-column:nth-child(3) {
