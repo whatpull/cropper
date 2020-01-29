@@ -68,7 +68,7 @@ body {
 .ac .wrapper .menu .logo {
     width: 230px;
     height: calc(90px - 30px);
-    box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.04);
+    /* box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.04); */
     display: flex;
     justify-content: center;
     align-items: flex-end;
