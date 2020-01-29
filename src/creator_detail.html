@@ -384,10 +384,12 @@
                         target.appendChild(option_default);
 
                         for(item of list) {
-                            const option = document.createElement("option");
-                            option.value = item.code;
-                            option.innerText = item.code + "[" + item.name + "]";
-                            target.appendChild(option);
+                            if(item.status === "Y") {
+                                const option = document.createElement("option");
+                                option.value = item.code;
+                                option.innerText = item.code + "[" + item.name + "]";
+                                target.appendChild(option);
+                            }
                         }
                     }, true, "input");
                 });
