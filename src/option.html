@@ -1052,6 +1052,22 @@
                     mock_height.classList.add("popup-input");
                     mock_height.setAttribute("name", "mockHeight");
                     mock_height.setAttribute("autocomplete", "off");
+                    mock_height.setAttribute("placeholder", "iOS(cmd + v) / Win(ctrl + v)");
+                    mock_height.addEventListener("paste", function(e) {
+                        this.value = "";
+                        setTimeout(function() {
+                            try {
+                                const option_data = JSON.parse(e.target.value);
+                                document.querySelector("#editor-option-mock-height").value = option_data.height;
+                                document.querySelector("#editor-option-mock-width").value = option_data.width;
+                                document.querySelector("#editor-option-mock-top").value = option_data.top;
+                                document.querySelector("#editor-option-mock-left").value = option_data.left;
+                                document.querySelector("#editor-option-mock-filling").value = option_data.color;
+                            } catch(e) {
+                                // console.log(e);
+                            }
+                        }, 0);
+                    });
                     mock_height_div.appendChild(mock_height_label);
                     mock_height_div.appendChild(mock_height);
 
@@ -1066,6 +1082,22 @@
                     mock_width.classList.add("popup-input");
                     mock_width.setAttribute("name", "mockWidth");
                     mock_width.setAttribute("autocomplete", "off");
+                    mock_width.setAttribute("placeholder", "iOS(cmd + v) / Win(ctrl + v)");
+                    mock_width.addEventListener("paste", function(e) {
+                        this.value = "";
+                        setTimeout(function() {
+                            try {
+                                const option_data = JSON.parse(e.target.value);
+                                document.querySelector("#editor-option-mock-height").value = option_data.height;
+                                document.querySelector("#editor-option-mock-width").value = option_data.width;
+                                document.querySelector("#editor-option-mock-top").value = option_data.top;
+                                document.querySelector("#editor-option-mock-left").value = option_data.left;
+                                document.querySelector("#editor-option-mock-filling").value = option_data.color;
+                            } catch(e) {
+                                // console.log(e);
+                            }
+                        }, 0);
+                    });
                     mock_width_div.appendChild(mock_width_label);
                     mock_width_div.appendChild(mock_width);
 
@@ -1080,6 +1112,22 @@
                     mock_top.classList.add("popup-input");
                     mock_top.setAttribute("name", "mockTop");
                     mock_top.setAttribute("autocomplete", "off");
+                    mock_top.setAttribute("placeholder", "iOS(cmd + v) / Win(ctrl + v)");
+                    mock_top.addEventListener("paste", function(e) {
+                        this.value = "";
+                        setTimeout(function() {
+                            try {
+                                const option_data = JSON.parse(e.target.value);
+                                document.querySelector("#editor-option-mock-height").value = option_data.height;
+                                document.querySelector("#editor-option-mock-width").value = option_data.width;
+                                document.querySelector("#editor-option-mock-top").value = option_data.top;
+                                document.querySelector("#editor-option-mock-left").value = option_data.left;
+                                document.querySelector("#editor-option-mock-filling").value = option_data.color;
+                            } catch(e) {
+                                // console.log(e);
+                            }
+                        }, 0);
+                    });
                     mock_top_div.appendChild(mock_top_label);
                     mock_top_div.appendChild(mock_top);
 
@@ -1094,6 +1142,22 @@
                     mock_left.classList.add("popup-input");
                     mock_left.setAttribute("name", "mockLeft");
                     mock_left.setAttribute("autocomplete", "off");
+                    mock_left.setAttribute("placeholder", "iOS(cmd + v) / Win(ctrl + v)");
+                    mock_left.addEventListener("paste", function(e) {
+                        this.value = "";
+                        setTimeout(function() {
+                            try {
+                                const option_data = JSON.parse(e.target.value);
+                                document.querySelector("#editor-option-mock-height").value = option_data.height;
+                                document.querySelector("#editor-option-mock-width").value = option_data.width;
+                                document.querySelector("#editor-option-mock-top").value = option_data.top;
+                                document.querySelector("#editor-option-mock-left").value = option_data.left;
+                                document.querySelector("#editor-option-mock-filling").value = option_data.color;
+                            } catch(e) {
+                                // console.log(e);
+                            }
+                        }, 0);
+                    });
                     mock_left_div.appendChild(mock_left_label);
                     mock_left_div.appendChild(mock_left);
 
@@ -1108,6 +1172,22 @@
                     mock_filling.classList.add("popup-input");
                     mock_filling.setAttribute("name", "mockFilling");
                     mock_filling.setAttribute("autocomplete", "off");
+                    mock_filling.setAttribute("placeholder", "iOS(cmd + v) / Win(ctrl + v)");
+                    mock_filling.addEventListener("paste", function(e) {
+                        this.value = "";
+                        setTimeout(function() {
+                            try {
+                                const option_data = JSON.parse(e.target.value);
+                                document.querySelector("#editor-option-mock-height").value = option_data.height;
+                                document.querySelector("#editor-option-mock-width").value = option_data.width;
+                                document.querySelector("#editor-option-mock-top").value = option_data.top;
+                                document.querySelector("#editor-option-mock-left").value = option_data.left;
+                                document.querySelector("#editor-option-mock-filling").value = option_data.color;
+                            } catch(e) {
+                                // console.log(e);
+                            }
+                        }, 0);
+                    });
                     mock_filling_div.appendChild(mock_filling_label);
                     mock_filling_div.appendChild(mock_filling);
 

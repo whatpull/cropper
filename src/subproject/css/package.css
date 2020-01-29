@@ -10,3 +10,53 @@
 .ac .nav .nav-head .nav-head-expander {
     cursor: not-allowed;
 }
+
+/* [table] head */
+.ac-table-head .column:nth-child(1) {
+    flex: 1;
+}
+
+.ac-table-head .column:nth-child(2) {
+    flex: 3;
+}
+
+.ac-table-head .column:nth-child(3) {
+    flex: 2;
+}
+
+.ac-table-head .column:nth-child(4) {
+    flex: 1;
+}
+
+.ac-table-head .column:nth-child(5) {
+    flex: 1;
+}
+
+.ac-table-head .column:nth-child(6) {
+    flex: 2;
+}
+
+/* [table] body */
+.ac-table-body .ac-table-row .ac-table-column:nth-child(1) {
+    flex: 1;
+}
+
+.ac-table-body .ac-table-row .ac-table-column:nth-child(2) {
+    flex: 3;
+}
+
+.ac-table-body .ac-table-row .ac-table-column:nth-child(3) {
+    flex: 2;
+}
+
+.ac-table-body .ac-table-row .ac-table-column:nth-child(4) {
+    flex: 1;
+}
+
+.ac-table-body .ac-table-row .ac-table-column:nth-child(5) {
+    flex: 1;
+}
+
+.ac-table-body .ac-table-row .ac-table-column:nth-child(6) {
+    flex: 2;
+}
