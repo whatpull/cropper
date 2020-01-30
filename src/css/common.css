@@ -63,6 +63,7 @@ body {
     border-bottom-right-radius: 37px;
     background: linear-gradient(360deg, #69c69d, #98d9bb);
     z-index: 2;
+    overflow-x: hidden;
 }
 
 .ac .wrapper .menu .logo {
@@ -112,6 +113,17 @@ body {
 .ac .wrapper .menu .menu-item.active {
     background: #f4f4f4;
     color: #54b689;
+    position: relative;
+
+    /* animation: fadein 0.4s forwards ease-in-out;
+    -moz-animation: fadein 0.4s forwards ease-in-out;
+    -webkit-animation: fadein 0.4s forwards ease-in-out;
+    -o-animation: fadein 0.4s forwards ease-in-out; */
+    
+    /* animation: slidein 0.5s forwards ease-in-out;
+    -moz-animation: slidein 0.5s forwards ease-in-out;
+    -webkit-animation: slidein 0.5s forwards ease-in-out;
+    -o-animation: slidein 0.5s forwards ease-in-out; */
 }
 
 .ac .wrapper .menu .menu-item .menu-item-icon {
@@ -155,6 +167,11 @@ body {
     overflow-x: hidden;
     margin-top: 90px;
     position: relative;
+
+    animation: fadein 1s;
+    -moz-animation: fadein 1s; /* Firefox */
+    -webkit-animation: fadein 1s; /* Safari and Chrome */
+    -o-animation: fadein 1s; /* Opera */
 }
 
 .ac .content .editor{
@@ -176,6 +193,11 @@ body {
     margin-top: 90px;
     padding: 50px;
     position: relative;
+
+    animation: fadein 1s;
+    -moz-animation: fadein 1s; /* Firefox */
+    -webkit-animation: fadein 1s; /* Safari and Chrome */
+    -o-animation: fadein 1s; /* Opera */
 }
 
 .ac .nav #select-box-dim {
@@ -262,6 +284,76 @@ body {
     flex: 1;
     min-height: calc(100vh - 205px);
 }
+
+/* 애니메이션 */
+/* 페이드인 */
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* 슬라이드 */
+@keyframes slidein {
+    from {
+        right:-100%;
+    }
+    to {
+        right:0%;
+    }
+}
+@-moz-keyframes slidein { /* Firefox */
+    from {
+        right:-100%;
+    }
+    to {
+        right:0%;
+    }
+}
+@-webkit-keyframes slidein { /* Safari and Chrome */
+    from {
+        right:-100%;
+    }
+    to {
+        right:0%;
+    }
+}
+@-o-keyframes slidein { /* Opera */
+    from {
+        right:-100%;
+    }
+    to {
+        right:0%;
+    }
+}
+
 
 /* 미디어 쿼리 데스크톱 */
 /* Large devices (desktops, 992px and up) */
