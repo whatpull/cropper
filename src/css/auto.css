@@ -1,4 +1,9 @@
 
+.ac .nav {
+    flex: 0 0 calc(350px - 100px);
+    width: calc(350px - 100px);
+}
+
 .ac .wrapper .content {
     display: flex;
     flex-direction: column;
@@ -38,7 +43,7 @@
 .ac .nav .nav-body .nav-body-content .ac-assets .ac-assets-wrapper .asset-item {
     flex: 0 0 calc(50% - 10px);
     width: calc(50% - 10px);
-    height: 150px;
+    height: 115px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

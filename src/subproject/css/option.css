@@ -34,13 +34,13 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     /* border-radius: 50%;
     border: solid 0.8px #8fd5b5;
     background-color: #8fd5b5; */
     margin-left: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 22px;
     background-image: url('../../img/icon-edit.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -80,13 +80,13 @@
 }
 
 .ac .wrapper .content .info .package .package-data {
-    margin-right: 30px;
+    margin-right: 20px;
 }
 
 .ac .wrapper .content .info .package .price {
-    padding-left: 30px;
+    padding-left: 20px;
     font-family: NotoSansCJKkr;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
@@ -97,9 +97,18 @@
     text-align: right;
 }
 
+.ac .wrapper .content .info .package .price div:nth-child(1) {
+    margin-bottom: 5px;
+}
+
+.ac .wrapper .content .info .package .price #package-cost,
+.ac .wrapper .content .info .package .price #package-price {
+    font-weight: 300;
+}
+
 .ac .wrapper .content .info .package .creator {
     font-family: NotoSansCJKkr;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
@@ -110,13 +119,14 @@
 
 .ac .wrapper .content .info .package .name {
     font-family: NotoSansCJKkr;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
     color: #4d4d4d;
+    margin-bottom: 5px;
 }
 
 .ac .wrapper .content .data {

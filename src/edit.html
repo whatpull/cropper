@@ -138,7 +138,7 @@
                     xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + productId, true);
                     xhr.send();
                 });
-                product.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packages?size=2147483647", function(list, target) { 
+                product.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packages?size=2147483647&packageOptions%5B0%5D.status=Y", function(list, target) { 
                     const option_default = document.createElement("option");
                     option_default.innerText = "상품";
                     target.appendChild(option_default);

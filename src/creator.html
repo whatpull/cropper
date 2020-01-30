@@ -60,6 +60,12 @@
                     column_03.innerText = item.creatorName;
                     column_03.classList.add("ac-table-column");
 
+                    const column_04 = document.createElement("div");
+                    column_04.id = "ac-creator-regno";
+                    column_04.style.width = "150px";
+                    column_04.innerText = item.regNo;
+                    column_04.classList.add("ac-table-column");
+
                     const btn_detail = document.createElement("div");
                     btn_detail.id = "ac-btn-detail";
                     btn_detail.setAttribute("data-id", item.id);
@@ -71,16 +77,40 @@
                         window.location.href = "creator_detail.html?id=" + this.getAttribute("data-id");
                     });
 
-                    const column_04 = document.createElement("div");
-                    column_04.id = "ac-creator-setting";
-                    column_04.style.width = "150px";
-                    column_04.classList.add("ac-table-column");
-                    column_04.appendChild(btn_detail);
+                    const btn_editor = document.createElement("div");
+                    btn_editor.id = "ac-btn-editor";
+                    btn_editor.innerText = "수정";
+                    btn_editor.classList.add("btn");
+                    btn_editor.classList.add("ac-table-btn-editor");
+                    btn_editor.style.marginRight = "5px";
+                    btn_editor.addEventListener("click", function(e) {
+                        e.preventDefault();
+
+                        const form = document.querySelector("#creator-editor");
+                        form.querySelector("#editor-creator-id").value = item.id;
+                        form.querySelector("#editor-creator-name").value = item.creatorName;
+                        form.querySelector("#editor-user-id").value = item.userId;
+                        if(item.regNo == null) {
+                            form.querySelector("#editor-reg-no").parentElement.style.display = "block";
+                        } else {
+                            form.querySelector("#editor-reg-no").parentElement.style.display = "none";
+                        }
+
+                        popup_editor.open();
+                    }.bind(popup_editor));
+
+                    const column_05 = document.createElement("div");
+                    column_05.id = "ac-creator-setting";
+                    column_05.style.width = "150px";
+                    column_05.classList.add("ac-table-column");
+                    column_05.appendChild(btn_editor);
+                    column_05.appendChild(btn_detail);
 
                     row.appendChild(column_01);
                     row.appendChild(column_02);
                     row.appendChild(column_03);
                     row.appendChild(column_04);
+                    row.appendChild(column_05);
 
                     target.appendChild(row);
                 }
@@ -102,7 +132,7 @@
                     name_label.innerText = "이름";
                     name_label.classList.add("popup-label");
                     const name = document.createElement("input");
-                    name.id = "creator-name";
+                    name.id = "regist-creator-name";
                     name.classList.add("popup-input");
                     name.setAttribute("name", "creatorName");
                     name.setAttribute("autocomplete", "off");
@@ -110,18 +140,18 @@
                     name_div.appendChild(name);
 
                     // 계정
-                    const id_div = document.createElement("div");
-                    id_div.style.marginTop = "20px";
-                    const id_label = document.createElement("div");
-                    id_label.innerText = "아이디";
-                    id_label.classList.add("popup-label");
-                    const id = document.createElement("input");
-                    id.id = "user-id";
-                    id.classList.add("popup-input");
-                    id.setAttribute("name", "userId");
-                    id.setAttribute("autocomplete", "off");
-                    id_div.appendChild(id_label);
-                    id_div.appendChild(id);
+                    const user_id_div = document.createElement("div");
+                    user_id_div.style.marginTop = "20px";
+                    const user_id_label = document.createElement("div");
+                    user_id_label.innerText = "아이디";
+                    user_id_label.classList.add("popup-label");
+                    const user_id = document.createElement("input");
+                    user_id.id = "regist-user-id";
+                    user_id.classList.add("popup-input");
+                    user_id.setAttribute("name", "userId");
+                    user_id.setAttribute("autocomplete", "off");
+                    user_id_div.appendChild(user_id_label);
+                    user_id_div.appendChild(user_id);
 
                     // 주민등록번호
                     const reg_no_div = document.createElement("div");
@@ -130,9 +160,9 @@
                     reg_no_label.innerText = "주민등록번호";
                     reg_no_label.classList.add("popup-label");
                     const reg_no = document.createElement("input");
-                    reg_no.id = "reg-no";
+                    reg_no.id = "regist-reg-no";
                     reg_no.classList.add("popup-input");
-                    reg_no.type = "number";
+                    // reg_no.type = "number";
                     reg_no.setAttribute("name", "regNo");
                     reg_no.setAttribute("autocomplete", "off");
                     reg_no.setAttribute("placeholder", "'-' 없이 숫자만 입력");
@@ -146,7 +176,7 @@
                     account_no_label.innerText = "계좌번호";
                     account_no_label.classList.add("popup-label");
                     const account_no = document.createElement("input");
-                    account_no.id = "account-no";
+                    account_no.id = "regist-account-no";
                     account_no.classList.add("popup-input");
                     account_no.setAttribute("name", "accountNo");
                     account_no.setAttribute("autocomplete", "off");
@@ -189,7 +219,7 @@
                     bank_name_label.innerText = "은행이름";
                     bank_name_label.classList.add("popup-label");
                     const bank_name = document.createElement("input");
-                    bank_name.id = "bank-name";
+                    bank_name.id = "regist-bank-name";
                     bank_name.classList.add("popup-input");
                     bank_name.setAttribute("name", "bankName");
                     bank_name.setAttribute("autocomplete", "off");
@@ -203,7 +233,7 @@
                     owner_name_label.innerText = "계좌주";
                     owner_name_label.classList.add("popup-label");
                     const owner_name = document.createElement("input");
-                    owner_name.id = "owner-name";
+                    owner_name.id = "regist-owner-name";
                     owner_name.classList.add("popup-input");
                     owner_name.setAttribute("name", "ownerName");
                     owner_name.setAttribute("autocomplete", "off");
@@ -218,13 +248,13 @@
                         e.preventDefault();
                         // 하나씩 파싱해서 데이터 저장
                         const form = document.querySelector("#creator-regist");
-                        const creator_name = form.querySelector("#creator-name").value;
-                        const user_id = form.querySelector("#user-id").value;
-                        const reg_no = form.querySelector("#reg-no").value;
-                        const account_no = form.querySelector("#account-no").value;
+                        const creator_name = form.querySelector("#regist-creator-name").value;
+                        const user_id = form.querySelector("#regist-user-id").value;
+                        const reg_no = form.querySelector("#regist-reg-no").value;
+                        const account_no = form.querySelector("#regist-account-no").value;
                         const bank_code = form.querySelector(".regist-selectbox-bank-code #regist-select").options[form.querySelector(".regist-selectbox-bank-code #regist-select").selectedIndex].value;
-                        const bank_name = form.querySelector("#bank-name").value;
-                        const owner_name = form.querySelector("#owner-name").value;
+                        const bank_name = form.querySelector("#regist-bank-name").value;
+                        const owner_name = form.querySelector("#regist-owner-name").value;
 
                         var data = new FormData();
 
@@ -248,7 +278,7 @@
                     });
 
                     form.appendChild(name_div);
-                    form.appendChild(id_div);
+                    form.appendChild(user_id_div);
                     form.appendChild(reg_no_div);
                     form.appendChild(account_no_div);
                     form.appendChild(bank_code_wrapper_div);
@@ -301,6 +331,136 @@
                     regist_creator_bank_code.selectFirst();
                     popup_regist.open();
                 });
+
+                // 크리에이터 수정
+                const popup_editor = new Popup("크리에이터 수정");
+                // 실제 팝업창에 그려질 form 문 작성
+                popup_editor.init(function(popup) {
+                    const form = document.createElement("form");
+                    form.id = "creator-editor";
+                    form.style.display = "flex";
+                    form.style.flexDirection = "column";
+                    form.style.alignItems = "center";
+                    form.style.padding = "0px 30px";
+
+                    // 번호
+                    const id_div = document.createElement("div");
+                    id_div.style.marginTop = "45px";
+                    const id_label = document.createElement("div");
+                    id_label.innerText = "번호";
+                    id_label.classList.add("popup-label");
+                    const id = document.createElement("input");
+                    id.id = "editor-creator-id";
+                    id.classList.add("popup-input");
+                    id.setAttribute("name", "id");
+                    id.setAttribute("autocomplete", "off");
+                    id.readOnly = true;
+                    id_div.appendChild(id_label);
+                    id_div.appendChild(id);
+
+                    // 이름
+                    const name_div = document.createElement("div");
+                    name_div.style.marginTop = "20px";
+                    const name_label = document.createElement("div");
+                    name_label.innerText = "이름";
+                    name_label.classList.add("popup-label");
+                    const name = document.createElement("input");
+                    name.id = "editor-creator-name";
+                    name.classList.add("popup-input");
+                    name.setAttribute("name", "creatorName");
+                    name.setAttribute("autocomplete", "off");
+                    name_div.appendChild(name_label);
+                    name_div.appendChild(name);
+
+                    // 계정
+                    const user_id_div = document.createElement("div");
+                    user_id_div.style.marginTop = "20px";
+                    const user_id_label = document.createElement("div");
+                    user_id_label.innerText = "아이디";
+                    user_id_label.classList.add("popup-label");
+                    const user_id = document.createElement("input");
+                    user_id.id = "editor-user-id";
+                    user_id.classList.add("popup-input");
+                    user_id.setAttribute("name", "userId");
+                    user_id.setAttribute("autocomplete", "off");
+                    user_id_div.appendChild(user_id_label);
+                    user_id_div.appendChild(user_id);
+
+                    // 주민등록번호
+                    const reg_no_div = document.createElement("div");
+                    reg_no_div.style.marginTop = "20px";
+                    const reg_no_label = document.createElement("div");
+                    reg_no_label.innerText = "주민등록번호";
+                    reg_no_label.classList.add("popup-label");
+                    const reg_no = document.createElement("input");
+                    reg_no.id = "editor-reg-no";
+                    reg_no.classList.add("popup-input");
+                    // reg_no.type = "number";
+                    reg_no.setAttribute("name", "regNo");
+                    reg_no.setAttribute("autocomplete", "off");
+                    reg_no.setAttribute("placeholder", "'-' 없이 숫자만 입력");
+                    reg_no_div.appendChild(reg_no_label);
+                    reg_no_div.appendChild(reg_no);
+
+                    // 버튼
+                    const submit_btn = document.createElement("div");
+                    submit_btn.innerText = "완료";
+                    submit_btn.classList.add("popup-button");
+                    submit_btn.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        // 하나씩 파싱해서 데이터 저장
+                        const form = document.querySelector("#creator-editor");
+                        const creator_id = form.querySelector("#editor-creator-id").value;
+                        const creator_name = form.querySelector("#editor-creator-name").value;
+                        const user_id = form.querySelector("#editor-user-id").value;
+                        const reg_no = form.querySelector("#editor-reg-no").value;
+
+                        var data = new FormData();
+
+                        if(creator_id !== "") {
+                            data.append("id", creator_id);
+                        }
+                        if(creator_name !== "") {
+                            data.append("creatorName", creator_name);
+                        }
+                        if(user_id !== "") {
+                            data.append("userId", user_id);
+                        }
+                        if(reg_no !== "") {
+                            data.append("regNo", reg_no);
+                        }
+
+                        sendEditor(data);
+                    });
+
+                    form.appendChild(id_div);
+                    form.appendChild(name_div);
+                    form.appendChild(user_id_div);
+                    form.appendChild(reg_no_div);
+                    form.appendChild(submit_btn);
+
+                    popup.appendChild(form);
+                });
+
+                // 데이터 전송
+                function sendEditor(data) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function(e) {
+                        if (xhr.readyState == 4) {
+                            if (xhr.status == 200) {
+                                const result = JSON.parse(xhr.responseText);
+                                const data = result.result;
+                                popup_editor.close();
+                                table.body("page=0", bodydata);
+                                alert("수정에 성공하였습니다.");
+                            } else {
+                                alert("수정에 실패하였습니다.");
+                            }
+                        }
+                    }
+                    xhr.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreator", true);
+                    xhr.send(data);
+                }
             }
         </script>
     </head>
@@ -376,6 +536,7 @@
                         <div class="column">번호</div>
                         <div class="column">아이디</div>
                         <div class="column">이름</div>
+                        <div class="column">주민등록번호</div>
                         <div class="column">관리</div>
                     </div>
                     <div id="ac-table-body" class="ac-table-body">

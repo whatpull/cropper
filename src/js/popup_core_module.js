@@ -21,7 +21,7 @@ Popup.prototype.init = function(form) {
     this.popup = document.createElement("div");
     this.popup.classList.add("popup-wrapper");
     this.popup.addEventListener("click", function(e) {
-        e.stopPropagation();
+        // e.stopPropagation();
     });
 
     // head

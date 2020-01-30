@@ -18,8 +18,8 @@
         <link rel="stylesheet" type="text/css" href="./css/cropper.css" />
 
         <!-- 셀렉트박스 모듈 -->
-        <!-- <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
-        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" /> -->
+        <script type="text/javascript" src="./js/selectbox_core_module.js"></script>
+        <link rel="stylesheet" type="text/css" href="./css/selectbox.css" />
 
         <!-- 테이블 모듈 -->
         <script type="text/javascript" src="./js/table_core_module.js"></script>
@@ -38,6 +38,9 @@
 
                 common.menu();
                 common.expander();
+
+                // 셀렉트 박스
+                let editor_option_status;
 
                 palette_color = {
                     color01: "#ffffff",
@@ -137,24 +140,28 @@
                         edit_btn.addEventListener("click", function(e) {
                             e.preventDefault();
 
-                            const form = document.querySelector("#option-editor");
-                            form.querySelector("#editor-option-id").value = option.id;
-                            form.querySelector("#editor-option-name1").value = option.optionName1;
-                            form.querySelector("#editor-option-name2").value = option.optionName2;
-                            form.querySelector("#editor-option-cost").value = option.cost;
-                            form.querySelector("#editor-option-price").value = option.price;
-                            form.querySelector("#editor-option-image-path").value = option.imagePath;
-                            form.querySelector("#editor-option-mock-filling").value = option.mockFilling;
-                            form.querySelector("#editor-option-mock-height").value = option.mockHeight;
-                            form.querySelector("#editor-option-mock-width").value = option.mockWidth;
-                            form.querySelector("#editor-option-mock-top").value = option.mockTop;
-                            form.querySelector("#editor-option-mock-left").value = option.mockLeft;
-                            form.querySelector("#editor-option-mock-image-array").value = option.mockupImage.join();
-                            form.querySelector("#editor-option-status").value = option.status;
+                            const optionId = this.getAttribute("data-id");
+                            for(option of options) {
+                                if(option.id == optionId) {
+                                    const form = document.querySelector("#option-editor");
+                                    form.querySelector("#editor-option-id").value = option.id;
+                                    form.querySelector("#editor-option-name1").value = option.optionName1;
+                                    form.querySelector("#editor-option-name2").value = option.optionName2;
+                                    form.querySelector("#editor-option-cost").value = option.cost;
+                                    form.querySelector("#editor-option-price").value = option.price;
+                                    form.querySelector("#editor-option-image-path").value = option.imagePath;
+                                    form.querySelector("#editor-option-mock-filling").value = option.mockFilling;
+                                    form.querySelector("#editor-option-mock-height").value = option.mockHeight;
+                                    form.querySelector("#editor-option-mock-width").value = option.mockWidth;
+                                    form.querySelector("#editor-option-mock-top").value = option.mockTop;
+                                    form.querySelector("#editor-option-mock-left").value = option.mockLeft;
+                                    form.querySelector("#editor-option-mock-image-array").value = option.mockupImage.join();
+                                    editor_option_status.select(option.status);
+                                }
+                            }
 
                             // 수정버튼
                             popup_editor.open();
-                            console.log(temp.getParam());
                         });
                         const target = temp.getTarget();
 
@@ -1227,18 +1234,45 @@
                     // end_date_div.appendChild(end_date);
 
                     // 상태
-                    const status_div = document.createElement("div");
-                    status_div.style.marginTop = "20px";
+                    // const status_div = document.createElement("div");
+                    // status_div.style.marginTop = "20px";
+                    // const status_label = document.createElement("div");
+                    // status_label.innerText = "사용여부(Y, N) : ";
+                    // status_label.classList.add("popup-label");
+                    // const status = document.createElement("input");
+                    // status.id = "editor-option-status";
+                    // status.classList.add("popup-input");
+                    // status.setAttribute("name", "status");
+                    // status.setAttribute("autocomplete", "off");
+                    // status_div.appendChild(status_label);
+                    // status_div.appendChild(status);
+
+                    // 상태
+                    const status_wrapper_div = document.createElement("div");
+                    status_wrapper_div.style.marginTop = "20px";
                     const status_label = document.createElement("div");
-                    status_label.innerText = "사용여부(Y, N) : ";
+                    status_label.innerText = "상태";                    
                     status_label.classList.add("popup-label");
-                    const status = document.createElement("input");
-                    status.id = "editor-option-status";
-                    status.classList.add("popup-input");
-                    status.setAttribute("name", "status");
-                    status.setAttribute("autocomplete", "off");
-                    status_div.appendChild(status_label);
-                    status_div.appendChild(status);
+                    const status_div = document.createElement("div");
+                    status_div.classList.add("ac-selector", "editor-selectbox-option-status");
+                    status_div.style.width = "520px";
+                    const status_select = document.createElement("select");
+                    status_select.id = "editor-select";
+                    const status_option_default = document.createElement("option");
+                    status_option_default.value = "";
+                    status_option_default.innerText = "상태";
+                    const status_option_y = document.createElement("option");
+                    status_option_y.value = "Y";
+                    status_option_y.innerText = "Y";
+                    const status_option_n = document.createElement("option");
+                    status_option_n.value = "N";
+                    status_option_n.innerText = "N";
+                    status_select.appendChild(status_option_default);
+                    status_select.appendChild(status_option_y);
+                    status_select.appendChild(status_option_n);
+                    status_div.appendChild(status_select);
+                    status_wrapper_div.appendChild(status_label);
+                    status_wrapper_div.appendChild(status_div);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
@@ -1263,7 +1297,7 @@
                         const mock_image_array = form.querySelector("#editor-option-mock-image-array").value.split(",");
                         // const start_date = form.querySelector("#editor-start-date").value;
                         // const end_date = form.querySelector("#editor-end-date").value;
-                        const option_status = form.querySelector("#editor-option-status").value;
+                        const option_status = form.querySelector(".editor-selectbox-option-status #editor-select").options[form.querySelector(".editor-selectbox-option-status #editor-select").selectedIndex].value;
 
                         var data = new FormData();
 
@@ -1363,10 +1397,14 @@
                     form.appendChild(mock_filling_div);
                     // form.appendChild(start_date_div);
                     // form.appendChild(end_date_div);
-                    form.appendChild(status_div);
+                    form.appendChild(status_wrapper_div);
                     form.appendChild(submit_btn);
 
                     popup.appendChild(form);
+
+                    // [셀렉트 박스] 생성
+                    editor_option_status = new SelectBox("editor-selectbox-option-status", function(value) {}, "normal");
+                    editor_option_status.init(undefined, undefined, true, "input");
 
                     // [서비스] 옵션 이미지 업로드
                     function optionImageUpload(data) {
@@ -1686,8 +1724,8 @@
                     <div class="package">
                         <!-- <div id="package-thumbnail" class="thumbnail"></div> -->
                         <div class="package-data">
-                            <div id="package-creator" class="creator"></div>
                             <div id="package-name" class="name"></div>
+                            <div id="package-creator" class="creator"></div>
                         </div>
                         <div class="price">
                             <div>

@@ -28,6 +28,10 @@
     flex: 1;
 }
 
+.ac-table-head .column:nth-child(5) {
+    flex: 1;
+}
+
 /* [table] body */
 .ac-table-body .ac-table-row .ac-table-column:nth-child(1) {
     flex: 1;
@@ -42,5 +46,9 @@
 }
 
 .ac-table-body .ac-table-row .ac-table-column:nth-child(4) {
+    flex: 1;
+}
+
+.ac-table-body .ac-table-row .ac-table-column:nth-child(5) {
     flex: 1;
 }
