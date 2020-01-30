@@ -99,7 +99,7 @@ function Cropper(data_set, edit_image, palette_color) {
     // [이벤트] 윈도우 리사이즈
     window.onresize = function() {
         // 팔레트 닫기
-        pickr.hide();
+        this.pickr.hide();
 
         if(typeof this.edit_div === "object") {
             // [좌표] 상대좌표 가운데 정렬
@@ -430,6 +430,8 @@ Cropper.prototype._handlePalette = function() {
             '#54b689',
             '#a093d6',
             '#7bb2e3',
+            '#66dfe9',
+            '#fcf299',
             '#d3424a'
         ],
         components: {

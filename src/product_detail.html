@@ -453,19 +453,19 @@
                     // start_date_div.appendChild(start_date);
 
                     // 가격 종료일
-                    const end_date_div = document.createElement("div");
-                    end_date_div.style.marginTop = "20px";
-                    const end_date_label = document.createElement("div");
-                    end_date_label.innerText = "가격 종료일";
-                    end_date_label.classList.add("popup-label");
-                    const end_date = document.createElement("input");
-                    end_date.id = "editor-end-date";
-                    end_date.type = "datetime-local";
-                    end_date.classList.add("popup-input");
-                    end_date.setAttribute("name", "endDate");
-                    end_date.setAttribute("autocomplete", "off");
-                    end_date_div.appendChild(end_date_label);
-                    end_date_div.appendChild(end_date);
+                    // const end_date_div = document.createElement("div");
+                    // end_date_div.style.marginTop = "20px";
+                    // const end_date_label = document.createElement("div");
+                    // end_date_label.innerText = "가격 종료일";
+                    // end_date_label.classList.add("popup-label");
+                    // const end_date = document.createElement("input");
+                    // end_date.id = "editor-end-date";
+                    // end_date.type = "datetime-local";
+                    // end_date.classList.add("popup-input");
+                    // end_date.setAttribute("name", "endDate");
+                    // end_date.setAttribute("autocomplete", "off");
+                    // end_date_div.appendChild(end_date_label);
+                    // end_date_div.appendChild(end_date);
 
                     // 버튼
                     const submit_btn = document.createElement("div");
@@ -481,7 +481,7 @@
                         const price_delivery_charge = form.querySelector("#editor-price-delivery-charge").value;
                         const price_delivery_extra_charge = form.querySelector("#editor-price-delivery-extra-charge").value;
                         // const start_date = form.querySelector("#editor-start-date").value;
-                        const end_date = form.querySelector("#editor-end-date").value;
+                        // const end_date = form.querySelector("#editor-end-date").value;
                         
                         var data = new FormData();
 
@@ -503,9 +503,9 @@
                         // if(start_date !== "") {
                         //     data.append("startDate", moment(start_date).format("YYYYMMDDHHmmss").trim());
                         // }
-                        if(end_date !== "") {
-                            data.append("endDate", moment(end_date).format("YYYYMMDDHHmmss").trim());
-                        }
+                        // if(end_date !== "") {
+                        //     data.append("endDate", moment(end_date).format("YYYYMMDDHHmmss").trim());
+                        // }
 
                         sendPrice(data);
                     });
@@ -516,7 +516,7 @@
                     form.appendChild(price_delivery_charge_div);
                     form.appendChild(price_delivery_extra_charge_div);
                     // form.appendChild(start_date_div);
-                    form.appendChild(end_date_div);
+                    // form.appendChild(end_date_div);
                     form.appendChild(submit_btn);
 
                     popup.appendChild(form);
@@ -566,7 +566,7 @@
                                 form.querySelector("#editor-price-delivery-charge").value = data.deliveryCharge;
                                 form.querySelector("#editor-price-delivery-extra-charge").value = data.deliveryExtraCharge;
                                 // form.querySelector("#editor-start-date").value = moment(data.startDate).format("YYYY-MM-DDThh:mm:ss.SSS");
-                                form.querySelector("#editor-end-date").value = moment(data.endDate).format("YYYY-MM-DDThh:mm:ss.SSS");
+                                // form.querySelector("#editor-end-date").value = moment(data.endDate).format("YYYY-MM-DDThh:mm:ss.SSS");
                             } else {
                                 console.log("xhr error");
                             }

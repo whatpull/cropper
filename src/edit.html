@@ -67,6 +67,8 @@
                     tempElem.select();
                     document.execCommand("copy");
                     document.body.removeChild(tempElem);
+
+                    alert("정보가 복사되었습니다.\n옵션 정보에 붙여넣기 해주세요.");
                 });
 
                 // [셀렉트 박스] 상품
@@ -225,6 +227,7 @@
                 </div>
             </div>
             <div class="nav">
+                <div id="select-box-dim"></div>
                 <div class="nav-body">
                     <div class="nav-body-content">
                         <div class="ac-selector selectbox-product">
@@ -254,11 +257,13 @@
                                 C(color) : <div id="ac-info-color" class="value">#</div>
                             </div>
                         </div>
-                        <div id="btn-ac-info" class="ac-info-button">
-                            정보 조회
-                        </div>
-                        <div id="btn-ac-copy" class="ac-info-button">
-                            정보 복사
+                        <div class="ac-info-button-wrapper">
+                            <div id="btn-ac-info" class="ac-info-button">
+                                정보 조회
+                            </div>
+                            <div id="btn-ac-copy" class="ac-info-button">
+                                정보 복사
+                            </div>
                         </div>
                     </div>
                 </div>

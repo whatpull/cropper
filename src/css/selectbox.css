@@ -1,8 +1,9 @@
 .ac-selector {
     position: relative;
     font-family: Arial;
-    border-radius: 5px;
-    box-shadow: 0 0 0 1px #8fd5b5 inset;
+    /* border-radius: 5px; */
+    /* box-shadow: 0 0 0 1px #8fd5b5 inset; */
+    border-bottom: 2px solid #54b689;
     font-family: NotoSansCJKkr;
     font-size: 14px;
     font-weight: normal;
@@ -11,6 +12,10 @@
     line-height: normal;
     letter-spacing: normal;
     color: #878787;
+}
+
+.ac-selector.input {
+    border-bottom: none;
 }
 
 .ac-selector select {
@@ -28,7 +33,7 @@
 .select-selected:after {
     position: absolute;
     content: "";
-    top: 20px;
+    top: 15px;
     right: 10px;
     width: 0;
     height: 0;
@@ -45,7 +50,7 @@
 .select-selected.select-arrow-active:after {
     border-color: transparent transparent #8fd5b5 transparent;
     /* transform: rotate( 180deg ); */
-    top: 12px;
+    top: 9px;
 }
 
 .select-selected.select-arrow-active.input:after {
@@ -53,17 +58,32 @@
 }
 
 /* 옵션 아이템: */
-.select-items div,.select-selected {
+.select-selected {
     font-family: NotoSansCJKkr;
     font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.3px;
+    text-align: left;
+    color: #4d4d4d;
+    padding: 9px 24px 9px 0px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.select-items div {
+    font-family: NotoSansCJKkr;
+    font-size: 12px;
     font-weight: 400;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: -0.3px;
     text-align: left;
-    color: #6c6c6c;
-    padding: 15px 24px;
+    color: #878787;
+    padding: 10px 24px;
     cursor: pointer;
     text-align: left;
 }
@@ -76,11 +96,15 @@
     border-radius: 5px;
 }
 
+.same-as-selected {
+    background-color: #f8f8f8 !important;
+}
+
 /* 옵션 아이템 랩퍼: */
 .select-items {
     position: absolute;
     background-color: #ffffff;
-    top: calc(100% - 5px);
+    top: calc(100% + 2px);
     left: 0;
     right: 0;
     z-index: 99;
@@ -95,10 +119,44 @@
 }
 
 .select-items div:not(.search-wrapper):hover, .same-as-selected {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #f8f8f8;
 }
 
 /* 검색 */
 .select-items div.search-wrapper {
     cursor: initial;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.select-items input.search-input {
+    width: calc(100% - 10px);
+    padding: 7px;
+    border: none;
+    background-color: #ecf6f0;
+    border-radius: 5px;
+    font-family: NotoSansCJKkr;
+    font-size: 14px;
+    font-weight: 400;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.3px;
+    text-align: left;
+    color: #6c6c6c;
+    position: relative;
+}
+
+.select-items div.search-wrapper::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 10px;
+    height: 10px;
+    background-image: url('../img/search-icon.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
