@@ -25,7 +25,7 @@
                 common.expander();
 
                 // const table = new Table("data/creator.json");
-                const table = new Table("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/products");
+                const table = new Table(domain + "/api/products");
                 table.body("page=0", bodydata, "status=ENABLED");
 
                 // 테이블 바디설정 태그

@@ -55,7 +55,7 @@
                             }
                         }
                     }
-                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/" + id, true);
+                    xhr.open("GET", domain + "/api/product/" + id, true);
                     xhr.send();
                 }
                 fetch(id);
@@ -356,7 +356,7 @@
                                 }
                             }
                         }
-                        xhr.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/option", true);
+                        xhr.open("PUT", domain + "/api/product/option", true);
                         xhr.send(data);
                     }
 
@@ -558,7 +558,7 @@
                             }
                         }
                     }
-                    xhr_.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/price", true);
+                    xhr_.open("PUT", domain + "/api/product/price", true);
                     xhr_.send(data);
                 }
 
@@ -592,7 +592,7 @@
                             }
                         }
                     }
-                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/" + id, true);
+                    xhr.open("GET", domain + "/api/product/" + id, true);
                     xhr.send();
                 }
             }

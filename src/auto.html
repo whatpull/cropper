@@ -24,6 +24,7 @@
 
         <script>
             window.onload = function() {
+                // 도메인 정보
                 const host = window.location.host;
 
                 common.menu();
@@ -119,7 +120,7 @@
                                 }
                             }
                         }
-                        xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packages?size=2147483647&packageOptions%5B0%5D.status=Y", true);
+                        xhr.open("GET", domain + "/api/packages?size=2147483647&packageOptions%5B0%5D.status=Y", true);
                         xhr.send();
                     });
                 }
@@ -184,7 +185,7 @@
                                 }
                             }
                         }
-                        xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + id, true);
+                        xhr.open("GET", domain + "/api/package/" + id, true);
                         xhr.send();
                     });
                 }
@@ -204,7 +205,7 @@
                     // [생성] 프리뷰
                     fetch(value);
                 });
-                creator.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators?size=2147483647", function(list, target) {
+                creator.init(domain + "/api/productCreators?size=2147483647", function(list, target) {
                     const option_default = document.createElement("option");
                     option_default.innerText = "크리에이터";
                     target.appendChild(option_default);
@@ -239,11 +240,11 @@
                                         asset_div.classList.add("active");
                                     }
 
-                                    if(host === "127.0.0.1:5500" 
-                                        || host === "localhost:5500" 
-                                        || host === "192.167.0.177:5500") {
-                                        assetPath = "/cropper/src" + assetPath;
-                                    }
+                                    // if(host === "127.0.0.1:5500" 
+                                    //     || host === "localhost:5500" 
+                                    //     || host === "192.167.0.177:5500") {
+                                    //     assetPath = "/cropper/src" + assetPath;
+                                    // }
                                     
                                     asset_div.setAttribute("data-asset", assetPath + assetFileName);
                                     asset_div.setAttribute("data-name", asset.name);
@@ -267,11 +268,11 @@
                                 if(typeof assets[0] === "object") {
                                     let assetUrl = assets[0].assetPath + assets[0].assetFileName;
                                     preview_destroy();
-                                    if(host === "127.0.0.1:5500" 
-                                        || host === "localhost:5500" 
-                                        || host === "192.167.0.177:5500") {
-                                        assetUrl = "/cropper/src" + assetUrl;
-                                    }
+                                    // if(host === "127.0.0.1:5500" 
+                                    //     || host === "localhost:5500" 
+                                    //     || host === "192.167.0.177:5500") {
+                                    //     assetUrl = "/cropper/src" + assetUrl;
+                                    // }
                                     preview(assetUrl);
                                 } 
                                 // 준비
@@ -281,7 +282,7 @@
                         }
                     }
                     // xhr.open("GET", "data/autocropper_assets.json", true);
-                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/assets?productCreatorId=" + id, true);
+                    xhr.open("GET", domain + "/api/assets?productCreatorId=" + id, true);
                     xhr.send();
                 }
 
@@ -402,7 +403,7 @@
                                 }
                             }
                         }
-                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product", true);
+                        xhr.open("POST", domain + "/api/product", true);
                         xhr.send(param);
                     });
                 }
@@ -421,7 +422,7 @@
                                 }
                             }
                         }
-                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/option", true);
+                        xhr.open("POST", domain + "/api/product/option", true);
                         xhr.send(param);
                     });
                 }
@@ -440,7 +441,7 @@
                                 }
                             }
                         }.bind(temp_productId)
-                        xhr.open("DELETE", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/product/" + productId, true);
+                        xhr.open("DELETE", domain + "/api/product/" + productId, true);
                         xhr.send();
                     });
                 }

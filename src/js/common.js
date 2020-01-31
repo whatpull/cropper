@@ -71,3 +71,7 @@ StringBuffer.prototype.append = function(str) {
 StringBuffer.prototype.toString = function() {
     return this.buffer.join("");
 };
+
+// 도메인 정보
+// let domain = "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080";
+let domain = "";

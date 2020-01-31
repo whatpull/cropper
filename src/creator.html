@@ -32,7 +32,7 @@
                 let regist_creator_bank_code;
                 
                 // const table = new Table("data/creator.json");
-                const table = new Table("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreators");
+                const table = new Table(domain + "/api/productCreators");
                 table.body("page=0", bodydata);
 
                 // 테이블 바디설정 태그
@@ -289,7 +289,7 @@
                     popup.appendChild(form);
 
                     regist_creator_bank_code = new SelectBox("regist-selectbox-bank-code", function(value) {});
-                    regist_creator_bank_code.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/code/bank", function(list, target) {
+                    regist_creator_bank_code.init(domain + "/api/code/bank", function(list, target) {
                         const option_default = document.createElement("option");
                         option_default.innerText = "은행코드";
                         target.appendChild(option_default);
@@ -321,7 +321,7 @@
                             }
                         }
                     }
-                    xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreator", true);
+                    xhr.open("POST", domain + "/api/productCreator", true);
                     xhr.send(data);
                 }
 
@@ -458,7 +458,7 @@
                             }
                         }
                     }
-                    xhr.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/productCreator", true);
+                    xhr.open("PUT", domain + "/api/productCreator", true);
                     xhr.send(data);
                 }
             }

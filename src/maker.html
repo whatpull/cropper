@@ -29,7 +29,7 @@
                 common.expander();
 
                 // const table = new Table("data/creator.json");
-                const table = new Table("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreators");
+                const table = new Table(domain + "/api/packageCreators");
                 table.body("page=0", bodydata);
 
                 function bodydata(item, target) {
@@ -298,7 +298,7 @@
                                 }
                             }
                         }
-                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreator", true);
+                        xhr.open("POST", domain + "/api/packageCreator", true);
                         xhr.send(data);
                     }
 
@@ -526,7 +526,7 @@
                                 }
                             }
                         }
-                        xhr.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreator", true);
+                        xhr.open("PUT", domain + "/api/packageCreator", true);
                         xhr.send(data);
                     }
 

@@ -564,36 +564,51 @@ Cropper.prototype._handleAssetDraw = function() {
         this.upload_img.id = "upload-img";
         this.upload_img.width = 0;
         this.upload_img.onload = function() {
-            // [비율]
-            let ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
+            if(this.canvas_worker != null) {
+                // [비율]
+                let ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
+        
+                const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
+                let width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
+                let height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
+        
+                // [축소]
+                // let scale_down = 1;
+                // if(this.canvas_worker.width > this.canvas_worker.scrollWidth) {
+                //     scale_down = (this.canvas_worker.scrollWidth / this.canvas_worker.width);
+                //     width_ratio = width_ratio * scale_down;
+                //     height_ratio = height_ratio * scale_down;
+                // }
     
-            const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
-            let width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
-            let height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
-    
-            // [축소]
-            let scale_down = 1;
-            if(this.canvas_worker.width > this.canvas_worker.scrollWidth) {
-                scale_down = (this.canvas_worker.scrollWidth / this.canvas_worker.width);
-                width_ratio = width_ratio * scale_down;
-                height_ratio = height_ratio * scale_down;
+                // [축소]
+                let scale_down = 1;
+                let scale_up = 1;
+                if(this.canvas_worker.width < this.upload_img.naturalWidth) {
+                    scale_down = (this.upload_img.naturalWidth / this.canvas_worker.width);
+                    width_ratio = width_ratio * scale_down;
+                    height_ratio = height_ratio * scale_down;
+                } else {
+                    // scale_down = 1 / (this.canvas_worker.width / this.upload_img.naturalWidth);
+                    // width_ratio = width_ratio * scale_down;
+                    // height_ratio = height_ratio * scale_down;
+                }
+        
+                // [저장]
+                // _handleSave();
+                const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
+                const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
+        
+                this.edit_image.top = this.edit_image.top <= 0 ? centerY : this.edit_image.top * scale_down * scale_up;
+                this.edit_image.left = this.edit_image.left <= 0 ? centerX : this.edit_image.left * scale_down * scale_up;
+                this.edit_image.width = width_ratio;
+                this.edit_image.height = height_ratio;
+        
+                // [모드 변환]
+                this.context_worker.globalCompositeOperation = "source-atop";
+                this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
+                
+                this._handleEffectDraw(this.data_set.effect_img);
             }
-    
-            // [저장]
-            // _handleSave();
-            const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
-            const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
-    
-            this.edit_image.top = this.edit_image.top <= 0 ? centerY : this.edit_image.top * scale_down;
-            this.edit_image.left = this.edit_image.left <= 0 ? centerX : this.edit_image.left * scale_down;
-            this.edit_image.width = width_ratio;
-            this.edit_image.height = height_ratio;
-    
-            // [모드 변환]
-            this.context_worker.globalCompositeOperation = "source-atop";
-            this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
-            
-            this._handleEffectDraw(this.data_set.effect_img);
         }.bind(this);
         this.upload_img.src = this.data_set.asset_img;
     }
@@ -607,13 +622,15 @@ Cropper.prototype._handleEffectDraw = function(url) {
         this.effect_img.id = "effect-img";
         this.effect_img.width = 0;
         this.effect_img.onload = function() {
-            const centerX = (this.canvas_worker.scrollWidth/2) - (this.canvas_worker.scrollWidth/2);
-            const centerY = (this.canvas_worker.scrollHeight/2) - (this.canvas_worker.scrollHeight/2);
+            if(this.canvas_worker != null) {
+                const centerX = (this.canvas_worker.scrollWidth/2) - (this.canvas_worker.scrollWidth/2);
+                const centerY = (this.canvas_worker.scrollHeight/2) - (this.canvas_worker.scrollHeight/2);
+                
+                this.context_worker.globalCompositeOperation = "source-over";
+                this.context_worker.drawImage(this.effect_img, centerX, centerY, this.effect_img.naturalWidth, this.effect_img.naturalHeight);
             
-            this.context_worker.globalCompositeOperation = "source-over";
-            this.context_worker.drawImage(this.effect_img, centerX, centerY, this.effect_img.naturalWidth, this.effect_img.naturalHeight);
-        
-            this._handleComposeImage();
+                this._handleComposeImage();
+            }
         }.bind(this);
         this.effect_img.src = url;
     } else {
@@ -1020,11 +1037,13 @@ Cropper.prototype._handleComposeImage = function() {
     this.composed_img.id = "composed-img";
     this.composed_img.width = 0;
     this.composed_img.onload = function() {
-        const centerX = (this.canvas.scrollWidth/2) - (this.canvas.scrollWidth/2);
-        const centerY = (this.canvas.scrollHeight/2) - (this.canvas.scrollHeight/2);
-
-        this.context.globalCompositeOperation = "lighter";
-        this.context.drawImage(this.composed_img, centerX, centerY, this.composed_img.naturalWidth, this.composed_img.naturalHeight);
+        if(this.canvas != null) {
+            const centerX = (this.canvas.scrollWidth/2) - (this.canvas.scrollWidth/2);
+            const centerY = (this.canvas.scrollHeight/2) - (this.canvas.scrollHeight/2);
+            
+            this.context.globalCompositeOperation = "lighter";
+            this.context.drawImage(this.composed_img, centerX, centerY, this.composed_img.naturalWidth, this.composed_img.naturalHeight);
+        }
     }.bind(this);
     this.composed_img.src = data;
 }

@@ -35,7 +35,7 @@
                 let regist_package_creator;
                 // let editor_package_creator;
 
-                const table = new Table("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packages");
+                const table = new Table(domain + "/api/packages");
                 table.body("page=0", bodydata);
 
                 function bodydata(item, target) {
@@ -290,8 +290,6 @@
                         // const start_date = form.querySelector("#regist-start-date").value;
                         const end_date = form.querySelector("#regist-end-date").value;
 
-                        console.log(package_creator);
-
                         var data = new FormData();
 
                         if(package_name !== "") {
@@ -341,7 +339,7 @@
                                 }
                             }
                         }
-                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package", true);
+                        xhr.open("POST", domain + "/api/package", true);
                         xhr.send(data);
                     }
 
@@ -359,7 +357,7 @@
                     popup.appendChild(form);
                     
                     regist_package_creator = new SelectBox("regist-selectbox-package-creator", function(value) {});
-                    regist_package_creator.init("http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/packageCreators?size=2147483647", function(list, target) {
+                    regist_package_creator.init(domain + "/api/packageCreators?size=2147483647", function(list, target) {
                         const option_default = document.createElement("option");
                         option_default.innerText = "제조사";
                         target.appendChild(option_default);
@@ -570,7 +568,7 @@
                                 }
                             }
                         }
-                        xhr.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package", true);
+                        xhr.open("PUT", domain + "/api/package", true);
                         xhr.send(data);
                     }
 

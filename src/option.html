@@ -68,7 +68,7 @@
                             }
                         }
                     }
-                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + id, true);
+                    xhr.open("GET", domain + "/api/package/" + id, true);
                     xhr.send();
                 }
                 fetch(id);
@@ -77,8 +77,10 @@
                 function parsing(data) {
                     document.querySelector("#package-name").innerText = data.name;
                     document.querySelector("#package-creator").innerText = data.packageCreator.name;
-                    document.querySelector("#package-cost").innerText = common.numberWithCommas(data.packagePrice.cost) + "원";
-                    document.querySelector("#package-price").innerText = common.numberWithCommas(data.packagePrice.price) + "원";
+                    if(data.packagePrice != null) {
+                        document.querySelector("#package-cost").innerText = common.numberWithCommas(data.packagePrice.cost) + "원";
+                        document.querySelector("#package-price").innerText = common.numberWithCommas(data.packagePrice.price) + "원";
+                    }
 
                     const option_list = document.querySelector("#option-list");
                     option_list.innerHTML = "";
@@ -715,7 +717,7 @@
                                 }
                             }
                         }
-                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/option", true);
+                        xhr.open("POST", domain + "/api/package/option", true);
                         xhr.send(data);
                     }
 
@@ -763,7 +765,7 @@
                                 }
                             }
                         }
-                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/upload/packageOptions", true);
+                        xhr.open("POST", domain + "/api/upload/packageOptions", true);
                         xhr.send(data);
                     }
                 });
@@ -1376,7 +1378,7 @@
                                 }
                             }
                         }
-                        xhr.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/option", true);
+                        xhr.open("PUT", domain + "/api/package/option", true);
                         xhr.send(data);
                     }
 
@@ -1430,7 +1432,7 @@
                                 }
                             }
                         }
-                        xhr.open("POST", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/upload/packageOptions", true);
+                        xhr.open("POST", domain + "/api/upload/packageOptions", true);
                         xhr.send(data);
                     }
                 });
@@ -1618,7 +1620,7 @@
                             }
                         }
                     }
-                    xhr_.open("PUT", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/price", true);
+                    xhr_.open("PUT", domain + "/api/package/price", true);
                     xhr_.send(data);
                 }
 
@@ -1640,7 +1642,7 @@
                                 const data = result.result.packagePrice;
 
                                 const form = document.querySelector("#price-editor");
-                                form.querySelector("#editor-package-id").value = data.packageId;
+                                form.querySelector("#editor-package-id").value = result.result.id;
                                 form.querySelector("#editor-price-cost").value = data.cost;
                                 form.querySelector("#editor-package-price").value = data.price;
                                 form.querySelector("#editor-price-delivery-charge").value = data.deliveryCharge;
@@ -1652,7 +1654,7 @@
                             }
                         }
                     }
-                    xhr.open("GET", "http://ec2-52-79-159-121.ap-northeast-2.compute.amazonaws.com:8080/api/package/" + id, true);
+                    xhr.open("GET", domain + "/api/package/" + id, true);
                     xhr.send();
                 }
             }
