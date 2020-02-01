@@ -125,7 +125,7 @@ Cropper.prototype.init = function() {
     if(this.data_set.mode === "autopacking") {
         // visibility = "hidden";
         mode_title = "PREVIEW";
-        canvas_style_length = typeof this.data_set.canvas_size == "undefined" ? "600px" : this.data_set.canvas_size;
+        canvas_style_length = typeof this.data_set.canvas_size == "undefined" ? "300px" : this.data_set.canvas_size;
     } else if (this.data_set.mode === "editor") {
         visibility = "inital";
         mode_title = "EDITOR";
@@ -143,7 +143,7 @@ Cropper.prototype.init = function() {
         this.target.style.border = "1px solid #e2e2e2";
         this.target.style.alignItems = "flex-start";
     } else if (this.data_set.mode === "editor") {
-        this.target.style.backgroundColor = "#f4f4f4";
+        // this.target.style.backgroundColor = "#f4f4f4";
     }
     this.target.classList.add("cropper");
     document.querySelector(".editor").appendChild(this.target);
@@ -565,47 +565,26 @@ Cropper.prototype._handleAssetDraw = function() {
         this.upload_img.width = 0;
         this.upload_img.onload = function() {
             if(this.canvas_worker != null) {
-                // [비율]
-                let ratio = (this.canvas_worker.width / this.canvas_worker.scrollWidth);
-        
-                const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
-                let width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
-                let height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
-        
-                // [축소]
-                // let scale_down = 1;
-                // if(this.canvas_worker.width > this.canvas_worker.scrollWidth) {
-                //     scale_down = (this.canvas_worker.scrollWidth / this.canvas_worker.width);
-                //     width_ratio = width_ratio * scale_down;
-                //     height_ratio = height_ratio * scale_down;
-                // }
-    
-                // [축소]
-                let scale_down = 1;
-                let scale_up = 1;
-                if(this.canvas_worker.width < this.upload_img.naturalWidth) {
-                    scale_down = (this.upload_img.naturalWidth / this.canvas_worker.width);
-                    width_ratio = width_ratio * scale_down;
-                    height_ratio = height_ratio * scale_down;
-                } else {
-                    // scale_down = 1 / (this.canvas_worker.width / this.upload_img.naturalWidth);
-                    // width_ratio = width_ratio * scale_down;
-                    // height_ratio = height_ratio * scale_down;
+                let ratio_asset = 1;
+                if(this.canvas_worker.width == this.upload_img.naturalWidth) { // 가로세로 정비율
+                    width_ratio = this.edit_image.width * ratio_asset;
+                    height_ratio = this.edit_image.height * ratio_asset;
+                } else { // 가로세로 비율이 다른 경우
+                    width_ratio = this.upload_img.naturalWidth > this.upload_img.naturalHeight ? this.edit_image.width : this.edit_image.width * (this.upload_img.naturalWidth/this.upload_img.naturalHeight);
+                    height_ratio = this.upload_img.naturalHeight > this.upload_img.naturalWidth ? this.edit_image.height : this.edit_image.height * (this.upload_img.naturalHeight/this.upload_img.naturalWidth);
                 }
         
-                // [저장]
-                // _handleSave();
-                const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
-                const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
+                const centerX = (this.canvas_worker.width/2) - (width_ratio/2);
+                const centerY = (this.canvas_worker.height/2) - (height_ratio/2);
         
-                this.edit_image.top = this.edit_image.top <= 0 ? centerY : this.edit_image.top * scale_down * scale_up;
-                this.edit_image.left = this.edit_image.left <= 0 ? centerX : this.edit_image.left * scale_down * scale_up;
+                this.edit_image.top = this.edit_image.top <= 0 ? centerY : this.edit_image.top;
+                this.edit_image.left = this.edit_image.left <= 0 ? centerX : this.edit_image.left;
                 this.edit_image.width = width_ratio;
                 this.edit_image.height = height_ratio;
         
                 // [모드 변환]
                 this.context_worker.globalCompositeOperation = "source-atop";
-                this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
+                this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio_asset, this.edit_image.top * ratio_asset, this.edit_image.width * ratio_asset, this.edit_image.height * ratio_asset);
                 
                 this._handleEffectDraw(this.data_set.effect_img);
             }
