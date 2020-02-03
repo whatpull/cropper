@@ -636,16 +636,18 @@ Cropper.prototype._handleDraw = function(e) {
                 this.upload_img = new Image;
                 this.upload_img.onload = function() {
                     // [비율] - 소수점 차이가 심한 경우 제대로 된 비율 계산이 어렵다. 왠만하면 캔버스와 해상도는 정사이즈 배율
-                    const ratio =  (this.canvas_worker.width / this.canvas_worker.scrollWidth);
-
-                    const pop_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.upload_img.naturalHeight / this.upload_img.naturalWidth) : (this.upload_img.naturalWidth / this.upload_img.naturalHeight);
-                    const width_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? this.edit_image.width : (this.edit_image.width * pop_ratio);
-                    const height_ratio = (this.upload_img.naturalWidth / this.upload_img.naturalHeight) > 1 ? (this.edit_image.height * pop_ratio) : this.edit_image.height;
+                    let ratio_asset = 1;
+                    if(this.canvas_worker.width == this.upload_img.naturalWidth) { // 가로세로 정비율
+                        width_ratio = this.edit_image.width * ratio_asset;
+                        height_ratio = this.edit_image.height * ratio_asset;
+                    } else { // 가로세로 비율이 다른 경우
+                        width_ratio = this.upload_img.naturalWidth > this.upload_img.naturalHeight ? this.edit_image.width : this.edit_image.width * (this.upload_img.naturalWidth/this.upload_img.naturalHeight);
+                        height_ratio = this.upload_img.naturalHeight > this.upload_img.naturalWidth ? this.edit_image.height : this.edit_image.height * (this.upload_img.naturalHeight/this.upload_img.naturalWidth);
+                    }
 
                     // [저장]
-                    // _handleSave();
-                    const centerX = (this.canvas_worker.scrollWidth/2) - (width_ratio/2);
-                    const centerY = (this.canvas_worker.scrollHeight/2) - (height_ratio/2);
+                    const centerX = (this.canvas_worker.width/2) - (width_ratio/2);
+                    const centerY = (this.canvas_worker.height/2) - (height_ratio/2);
 
                     this.edit_image.top = this.edit_image.top === 0 ? centerY : this.edit_image.top;
                     this.edit_image.left = this.edit_image.left === 0 ? centerX : this.edit_image.left;
@@ -654,7 +656,7 @@ Cropper.prototype._handleDraw = function(e) {
 
                     // [모드 변환]
                     this.context_worker.globalCompositeOperation = "source-atop";
-                    this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio, this.edit_image.top * ratio, this.edit_image.width * ratio, this.edit_image.height * ratio);
+                    this.context_worker.drawImage(this.upload_img, this.edit_image.left * ratio_asset, this.edit_image.top * ratio_asset, this.edit_image.width * ratio_asset, this.edit_image.height * ratio_asset);
 
                     // [효과 영역]
                     this._handleEffectDraw(this.data_set.effect_img);
